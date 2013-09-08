@@ -1,0 +1,249 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     10443,        240]
+NotebookOptionsPosition[     10199,        227]
+NotebookOutlinePosition[     10542,        242]
+CellTagsIndexPosition[     10499,        239]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"GRAM", " ", "SCHMIDT"}], "-", "ORTHOGONALISIERUNGSVERFAHREN"}], 
+   " ", "*)"}], " ", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Autor", ":", " ", 
+    RowBox[{"Patrick", " ", "Vogt"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"Datum", ":", " ", 
+    RowBox[{"11.04", ".2013"}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{"nach", ":", " ", 
+    RowBox[{
+     RowBox[{"beliebiges", " ", "Lineare", " ", "Algebra"}], "-", "Buch"}]}], 
+   " ", "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", "EINGABEDATEN", " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"B", ":", " ", 
+     RowBox[{"Basis", " ", "mit", " ", "b_", "1"}]}], ",", "...", ",", 
+    RowBox[{"b_n", " ", "als", " ", "Zeilenvektoren"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"B", " ", "=", " ", "\[IndentingNewLine]", 
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "2"}], "}"}], ",", " ", 
+       RowBox[{"(*", " ", 
+        RowBox[{"b_", "1"}], " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"3", ",", "4"}], "}"}]}], "    ", 
+      RowBox[{"(*", " ", 
+       RowBox[{"b_", "2"}], " ", "*)"}], "\[IndentingNewLine]", "}"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"n", ":", " ", 
+     RowBox[{"Anzahl", " ", "der", " ", "Basisvektoren"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"n", " ", "=", " ", 
+     RowBox[{"Length", "[", "B", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{"GSB", ":", " ", 
+     RowBox[{
+      RowBox[{
+      "Liste", " ", "zur", " ", "Speicherung", " ", "der", " ", "Gram", " ", 
+       "Schmidt"}], "-", 
+      RowBox[{"orthogonalisierten", " ", "Basis"}]}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"GSB", "=", " ", 
+     RowBox[{"List", "[", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", "VERARBEITUNG", " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "der", " ", "erste", " ", "Basisvektor", " ", "b_", "1", " ", "wird", " ",
+      "\[UDoubleDot]bernommen"}], " ", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"AppendTo", "[", 
+     RowBox[{"GSB", ",", " ", 
+      RowBox[{"B", "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], "]"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "\[ADoubleDot]u\[SZ]ere", " ", "Schleife", " ", "f\[UDoubleDot]r", " ", 
+     "Orthogonalisierung", " ", "des", " ", 
+     RowBox[{"i", ".", " ", "Basisvektors"}]}], " ", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"i", "=", "2"}], ",", 
+      RowBox[{"i", "\[LessEqual]", "n"}], ",", 
+      RowBox[{"i", "=", 
+       RowBox[{"i", "+", "1"}]}], ",", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", " ", 
+       RowBox[{"b_i:", " ", 
+        RowBox[{"i", ".", " ", "Basisvektor"}]}], " ", "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"bi", "=", 
+        RowBox[{"B", "[", 
+         RowBox[{"[", "i", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{"o_i:", " ", 
+         RowBox[{"i", ".", " ", "orthogonalisierter"}], " ", "Basisvektor"}], 
+        " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"oi", "=", "bi"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+         RowBox[{
+         "innere", " ", "Schleife", " ", "f\[UDoubleDot]r", " ", "die", " ", 
+          "Subtraktion", " ", "der", " ", "1"}], ",", "...", ",", 
+         RowBox[{"j", " ", "<", " ", 
+          RowBox[{"i", " ", "orthogonalisierten", " ", "Basisvektoren"}]}]}], 
+        " ", "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"For", "[", 
+        RowBox[{
+         RowBox[{"j", "=", "1"}], ",", 
+         RowBox[{"j", "<", "i"}], ",", 
+         RowBox[{"j", "=", 
+          RowBox[{"j", "+", "1"}]}], ",", "\[IndentingNewLine]", 
+         "\[IndentingNewLine]", 
+         RowBox[{"(*", " ", 
+          RowBox[{
+           RowBox[{"o_j:", " ", 
+            RowBox[{"j", ".", " ", "Gram"}], " ", "Schmidt"}], "-", 
+           RowBox[{"orthogonalisierter", " ", "Basisvektor"}]}], " ", "*)"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"oj", "=", 
+           RowBox[{"GSB", "[", 
+            RowBox[{"[", "j", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+            RowBox[{"Berechnung", " ", "des", " ", "Gram", " ", "Schmidt"}], 
+            "-", 
+            RowBox[{"Koeffizienten", " ", "my_ij"}]}], " ", "*)"}], 
+          "\[IndentingNewLine]", 
+          RowBox[{"myij", " ", "=", " ", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"bi", " ", ".", "  ", "oj"}], ")"}], "/", 
+            RowBox[{"(", 
+             RowBox[{"oj", " ", ".", " ", "oj"}], ")"}]}]}], ";", 
+          "\[IndentingNewLine]", "\[IndentingNewLine]", 
+          RowBox[{"(*", " ", 
+           RowBox[{
+            RowBox[{"Erzeugung", " ", "vom", " ", 
+             RowBox[{"i", ".", " ", "Gram"}], " ", "Schmidt"}], "-", 
+            "Basisvektor"}], " ", "*)"}], "\[IndentingNewLine]", 
+          RowBox[{"oi", " ", "=", " ", 
+           RowBox[{"oi", " ", "-", " ", 
+            RowBox[{"(", 
+             RowBox[{"myij", "*", "oj"}], ")"}]}]}], ";"}]}], 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}], ";", " ", 
+       RowBox[{"(*", " ", 
+        RowBox[{"End", " ", "For"}], " ", "*)"}], "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", " ", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"i", ".", " ", "Gram"}], " ", "Schmidt"}], "-", 
+         RowBox[{
+         "Basisvektor", " ", "in", " ", "die", " ", "Liste", " ", "der", " ", 
+          "Gram", " ", "Schmidt"}], "-", 
+         RowBox[{"Basis", " ", "\[UDoubleDot]bernehmen"}]}], " ", "*)"}], 
+       "\[IndentingNewLine]", 
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"GSB", ",", "oi"}], "]"}], ";"}]}], "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", "]"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"End", " ", "For"}], " ", "*)"}], "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", "AUSGABE", " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{"Gram", " ", "Schmidt"}], "-", "Orthogonalbasis"}], " ", "*)"}],
+     "\[IndentingNewLine]", "GSB"}]}]}]], "Input",
+ CellChangeTimes->{{3.5739942473277073`*^9, 3.573994308243352*^9}, {
+   3.573994339732441*^9, 3.5739944557543178`*^9}, {3.5739948281532936`*^9, 
+   3.5739948329599094`*^9}, {3.5739949159845037`*^9, 3.573995030412227*^9}, {
+   3.5739952213066597`*^9, 3.5739953209054174`*^9}, {3.5739954179149055`*^9, 
+   3.5739955044289465`*^9}, {3.5739958931231346`*^9, 
+   3.5739960450052433`*^9}, {3.573996245518936*^9, 3.5739963263906717`*^9}, {
+   3.57399645060058*^9, 3.573996488709464*^9}, {3.5739965964052725`*^9, 
+   3.5739967807545385`*^9}, {3.5739968430855284`*^9, 3.573996904398442*^9}, {
+   3.573996973175205*^9, 3.5739970152976074`*^9}, {3.5739971339168997`*^9, 
+   3.573997140993808*^9}, {3.5739972435288343`*^9, 3.5739972721215076`*^9}, {
+   3.5739973953052883`*^9, 3.573997418864257*^9}, {3.5739975864974985`*^9, 
+   3.5739975866485167`*^9}, {3.573997858468364*^9, 3.5739978744244213`*^9}, {
+   3.573997905146351*^9, 3.5739979116192317`*^9}, {3.573998046024419*^9, 
+   3.5739981008714457`*^9}, {3.5739981569666424`*^9, 3.573998248017085*^9}, {
+   3.57399856576482*^9, 3.5739985918271646`*^9}, {3.574020032517057*^9, 
+   3.574020051288442*^9}, {3.574020202501648*^9, 3.5740202227212143`*^9}, {
+   3.5740202547482815`*^9, 3.5740202847351246`*^9}, {3.5740203281612234`*^9, 
+   3.574020331881693*^9}, {3.5740204031317296`*^9, 3.5740205299688053`*^9}, {
+   3.5740206183550625`*^9, 3.574020618527064*^9}, {3.574020650999158*^9, 
+   3.574020658439103*^9}, {3.5740208345834737`*^9, 3.57402092832693*^9}, {
+   3.5740209965416064`*^9, 3.5740210143508587`*^9}, {3.5740212034030657`*^9, 
+   3.574021377994954*^9}, {3.574021408098822*^9, 3.574021677928314*^9}, {
+   3.5740217481022296`*^9, 3.5740218283824143`*^9}, {3.5740218600814133`*^9, 
+   3.5740219906249924`*^9}, {3.5740220282417717`*^9, 
+   3.5740221859036245`*^9}, {3.5740222262157526`*^9, 3.574022233615712*^9}, {
+   3.574022421909997*^9, 3.574022436709915*^9}, {3.5745911907713737`*^9, 
+   3.574591246386535*^9}, {3.574591331795642*^9, 3.57459137784956*^9}, {
+   3.574591418349778*^9, 3.5745914903774614`*^9}, {3.574661047225663*^9, 
+   3.574661068709637*^9}, {3.5746637917724996`*^9, 3.574663796226113*^9}, {
+   3.5746648174661803`*^9, 3.5746648230358467`*^9}, {3.574665326530658*^9, 
+   3.5746653542662277`*^9}, {3.574683264985512*^9, 3.5746832668917565`*^9}, {
+   3.5746863342260103`*^9, 3.574686342418066*^9}, {3.5746864491788125`*^9, 
+   3.574686456165712*^9}, {3.5746864975980864`*^9, 3.574686597739601*^9}, {
+   3.574686754496793*^9, 3.5746868194771757`*^9}, {3.5746868687825146`*^9, 
+   3.574687050643289*^9}, {3.574687094743964*^9, 3.5746871373874664`*^9}, 
+   3.5746871991854553`*^9, {3.5746874204385796`*^9, 3.5746874456407824`*^9}, {
+   3.574687738471243*^9, 3.574687749116623*^9}, {3.5746877809387145`*^9, 
+   3.5746877994701*^9}, {3.574696048132948*^9, 3.574696055366881*^9}}]
+},
+WindowSize->{1424, 763},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (November 7, 2010)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 9638, 205, 1032, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
