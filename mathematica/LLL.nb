@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     35070,        784]
-NotebookOptionsPosition[     34684,        768]
-NotebookOutlinePosition[     35168,        786]
-CellTagsIndexPosition[     35125,        783]
+NotebookDataLength[     32397,        732]
+NotebookOptionsPosition[     32007,        716]
+NotebookOutlinePosition[     32495,        734]
+CellTagsIndexPosition[     32452,        731]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -55,83 +55,30 @@ Cell[BoxData[
   "\[IndentingNewLine]", "\[IndentingNewLine]", 
   RowBox[{"(*", " ", "EINGABEDATEN", " ", "*)"}], "\[IndentingNewLine]", 
   RowBox[{"(*", " ", 
-   RowBox[{
-    RowBox[{"base", ":", " ", 
-     RowBox[{"Basis", " ", "mit", " ", "b_", "1"}]}], ",", "...", ",", 
-    RowBox[{"b_n", " ", "als", " ", "Zeilenvektoren"}]}], " ", "*)"}], 
-  "\[IndentingNewLine]", 
+   RowBox[{"n", ":", " ", 
+    RowBox[{
+    "Anzahl", " ", "der", " ", "Basisvektoren", " ", "des", " ", 
+     "vollstaendigen", " ", "Gitters"}]}], " ", "*)"}], "\[IndentingNewLine]", 
   RowBox[{
    RowBox[{
-    RowBox[{"base", "=", 
-     RowBox[{"{", "\[IndentingNewLine]", "  ", 
-      RowBox[{
-       RowBox[{"{", 
-        RowBox[{
-        "100", ",", "   ", "0", ",", "  ", "0", ",", "  ", "0", ",", "     ", 
-         "0", ",", "   ", "0", ",", "   ", "0", ",", "  ", "0", ",", "  ", 
-         "0", ",", "  ", "0", ",", "  ", "0"}], "}"}], ",", 
-       "\[IndentingNewLine]", "  ", 
-       RowBox[{"{", 
-        RowBox[{
-        "101", ",", "50", ",", "10", ",", "  ", "0", ",", "     ", "0", ",", 
-         "   ", "0", ",", "   ", "0", ",", "  ", "0", ",", "  ", "0", ",", 
-         "  ", "0", ",", "  ", "0"}], "}"}], ",", "\[IndentingNewLine]", "  ", 
-       RowBox[{"{", "  ", 
-        RowBox[{
-        "50", ",", "10", ",", "20", ",", "30", ",", "     ", "0", ",", "   ", 
-         "0", ",", "   ", "0", ",", "  ", "0", ",", "  ", "0", ",", "  ", "0",
-          ",", "  ", "0"}], "}"}], ",", "\[IndentingNewLine]", "  ", 
-       RowBox[{"{", "  ", 
-        RowBox[{
-        "10", ",", "20", ",", "10", ",", "10", ",", "100", ",", "   ", "0", 
-         ",", "   ", "0", ",", "  ", "0", ",", "  ", "0", ",", "  ", "0", ",",
-          "  ", "0"}], "}"}], ",", "\[IndentingNewLine]", "  ", 
-       RowBox[{"{", 
-        RowBox[{
-        "200", ",", "10", ",", "  ", "5", ",", "  ", "1", ",", "   ", "90", 
-         ",", "99", ",", "   ", "0", ",", "  ", "0", ",", "  ", "0", ",", 
-         "  ", "0", ",", "  ", "0"}], "}"}], ",", "\[IndentingNewLine]", "  ", 
-       RowBox[{"{", "     ", 
-        RowBox[{
-        "1", ",", "  ", "2", ",", "  ", "3", ",", "  ", "4", ",", "     ", 
-         "5", ",", "   ", "6", ",", "   ", "7", ",", "  ", "0", ",", "  ", 
-         "0", ",", "  ", "0", ",", "  ", "0"}], "}"}], ",", 
-       "\[IndentingNewLine]", "  ", 
-       RowBox[{"{", 
-        RowBox[{
-        "100", ",", "99", ",", "98", ",", "97", ",", "   ", "96", ",", "95", 
-         ",", "94", ",", "93", ",", "  ", "0", ",", "  ", "0", ",", "  ", 
-         "0"}], "}"}], ",", "\[IndentingNewLine]", "  ", 
-       RowBox[{"{", "     ", 
-        RowBox[{
-        "1", ",", "  ", "2", ",", "  ", "3", ",", "   ", "4", ",", "     ", 
-         "5", ",", "  ", "6", ",", "   ", "7", ",", "  ", "8", ",", "  ", "9",
-          ",", "  ", "0", ",", "  ", "0"}], "}"}], ",", "\[IndentingNewLine]",
-        "  ", 
-       RowBox[{"{", "     ", 
-        RowBox[{
-        "1", ",", "  ", "2", ",", "  ", "3", ",", "   ", "4", ",", "     ", 
-         "5", ",", "  ", "6", ",", "   ", "7", ",", "  ", "8", ",", "  ", "9",
-          ",", "10", ",", "  ", "0"}], "}"}], ",", "\[IndentingNewLine]", 
-       "  ", 
-       RowBox[{"{", 
-        RowBox[{
-        "100", ",", "  ", "1", ",", "99", ",", "   ", "2", ",", "   ", "98", 
-         ",", "  ", "3", ",", "97", ",", "  ", "4", ",", "96", ",", "  ", "5",
-          ",", "95"}], "}"}], ",", "\[IndentingNewLine]", "  ", 
-       RowBox[{"{", "  ", 
-        RowBox[{
-        "99", ",", "   ", "1", ",", "  ", "0", ",", "  ", "0", ",", "     ", 
-         "0", ",", "   ", "0", ",", "   ", "0", ",", "  ", "0", ",", "  ", 
-         "0", ",", "  ", "0", ",", "  ", "0"}], "}"}]}], 
-      "\[IndentingNewLine]", "}"}]}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{"n", "=", "20"}], ";"}], "\[IndentingNewLine]", 
    RowBox[{"(*", " ", 
-    RowBox[{"n", ":", " ", 
-     RowBox[{"Anzahl", " ", "der", " ", "Basisvektoren"}]}], " ", "*)"}], 
+    RowBox[{
+     RowBox[{"base", ":", " ", 
+      RowBox[{"Basis", " ", "mit", " ", "b_", "1"}]}], ",", "...", ",", 
+     RowBox[{"b_n", " ", "als", " ", "Zeilenvektoren"}]}], " ", "*)"}], 
    "\[IndentingNewLine]", 
    RowBox[{
-    RowBox[{"n", "=", 
-     RowBox[{"Length", "[", "base", "]"}]}], ";"}], "\[IndentingNewLine]", 
+    RowBox[{"base", " ", "=", " ", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"Random", "[", 
+        RowBox[{"Integer", ",", " ", 
+         RowBox[{"{", 
+          RowBox[{"1", ",", "10"}], "}"}]}], "]"}], ",", " ", 
+       RowBox[{"{", "n", "}"}], ",", 
+       RowBox[{"{", "n", "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
    RowBox[{"(*", " ", 
     RowBox[{
     "Laufvariable", " ", "i", " ", "fuer", " ", "den", " ", "zu", " ", 
@@ -540,15 +487,15 @@ Cell[BoxData[
         "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}], ";"}]}], " ", 
      RowBox[{"(*", " ", 
       RowBox[{"End", " ", "If"}], " ", "*)"}], "\[IndentingNewLine]", 
-     "\[IndentingNewLine]", "]"}], ";"}], " ", 
-   RowBox[{"(*", " ", 
-    RowBox[{"End", " ", "While"}], " ", "*)"}], "\[IndentingNewLine]", 
-   "\[IndentingNewLine]", 
-   RowBox[{"(*", " ", "AUSGABE", " ", "*)"}], "\[IndentingNewLine]", 
-   RowBox[{"(*", " ", 
-    RowBox[{"LLL", "-", 
-     RowBox[{"reduzierte", " ", "Basis", " ", "base"}]}], " ", "*)"}], 
-   "\[IndentingNewLine]", "base", "\n", 
+     "\[IndentingNewLine]", "]"}], ";", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{"End", " ", "While"}], " ", "*)"}], "\[IndentingNewLine]", 
+    "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", "AUSGABE", " ", "*)"}], "\[IndentingNewLine]", 
+    RowBox[{"(*", " ", 
+     RowBox[{"LLL", "-", 
+      RowBox[{"reduzierte", " ", "Basis", " ", "base"}]}], " ", "*)"}], 
+    "\[IndentingNewLine]", "base"}], "\n", 
    RowBox[{"(*", " ", 
     RowBox[{"Ueberpruefung", " ", "der", " ", "Laengenreduziertheit"}], " ", 
     "*)"}], "\[IndentingNewLine]", 
@@ -592,7 +539,7 @@ Cell[BoxData[
              "\"\<my_\>\"", ",", "i", ",", "\"\<,\>\"", ",", "j", ",", 
               "\"\< erfuellt nicht die Laengenreduziertheit.\>\""}], "]"}]}], 
            "]"}]}]}], "\[IndentingNewLine]", "]"}], ";"}]}], 
-     "\[IndentingNewLine]", "]"}], ";"}], "\[IndentingNewLine]", "\n", 
+     "\[IndentingNewLine]", "]"}], ";"}], "\n", "\[IndentingNewLine]", 
    RowBox[{"(*", " ", 
     RowBox[{
      RowBox[{"Ueberpruefung", " ", "der", " ", "Lovasz"}], "-", 
@@ -764,10 +711,11 @@ Cell[BoxData[
    3.5748348794606776`*^9, 3.574834925400483*^9}, 3.5748350141207128`*^9, {
    3.574919031310647*^9, 3.5749190496249504`*^9}, {3.5750048839456263`*^9, 
    3.57500488506478*^9}, {3.5876346525759554`*^9, 3.587634657188219*^9}, {
-   3.5876347591100483`*^9, 3.5876347680755615`*^9}}]
+   3.5876347591100483`*^9, 3.5876347680755615`*^9}, {3.587635109078066*^9, 
+   3.587635250233139*^9}, {3.5876355423328466`*^9, 3.587635676544523*^9}}]
 },
 WindowSize->{1424, 763},
-WindowMargins->{{0, Automatic}, {Automatic, 0}},
+WindowMargins->{{Automatic, -10}, {-19, Automatic}},
 PrintingCopies->1,
 PrintingPageRange->{Automatic, Automatic},
 PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
@@ -785,7 +733,7 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[557, 20, 34123, 746, 3212, "Input"]
+Cell[557, 20, 31446, 694, 2992, "Input"]
 }
 ]
 *)
