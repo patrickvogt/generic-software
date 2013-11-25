@@ -6,7 +6,13 @@ package net.patrickvogt.pinkball.level;
 
 import java.awt.Color;
 
-import net.patrickvogt.pinkball.geom.*;
+import net.patrickvogt.pinkball.geom.Ball;
+import net.patrickvogt.pinkball.geom.BlackHole;
+import net.patrickvogt.pinkball.geom.BlowUpBlock;
+import net.patrickvogt.pinkball.geom.OutputHole;
+import net.patrickvogt.pinkball.geom.ShrinkingBlock;
+
+
 
 /**
  * implementiert das 3. Level bzw. fuellt die LevelContent-Liste mit den entsprechenden 
@@ -24,7 +30,7 @@ public class Level3 extends Level {
 	public Level3() {
 		this.add(new OutputHole(this.getGridCoordinate(0, 0), 4*this.getGridWidth()));
 		for(int i=0; i<3; i++) {
-			this.add(new Ball(4*this.getGridWidth()));
+			this.add(new Ball(4.0f*this.getGridWidth()));
 		}
 		this.add(new BlowUpBlock(this.getGridCoordinate(16, 14), 2*this.getGridWidth(), Color.BLUE));
 		this.add(new BlowUpBlock(this.getGridCoordinate(22, 14), 2*this.getGridWidth(), Color.BLUE));

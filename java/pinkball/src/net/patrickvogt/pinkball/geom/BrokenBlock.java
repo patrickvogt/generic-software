@@ -1,13 +1,17 @@
 package net.patrickvogt.pinkball.geom;
 
+import java.awt.Color;
+
+
+import net.patrickvogt.pinkball.painter.IPainter;
+import net.patrickvogt.pinkball.vector.Coordinate;
+import net.patrickvogt.pinkball.vector.Dimension2D;
+
 /*
  * BrokenBlock.java
  */
 
-import java.awt.*;
 
-import net.patrickvogt.pinkball.vector.*;
-import net.patrickvogt.pinkball.exceptions.*;
 
 /**
  * implementiert eine poroesen Block, der durch eine Kollision mit einer gleichfarbigen Kugel
@@ -45,7 +49,7 @@ public class BrokenBlock extends GeometricObject {
 	 * @param _myColor die Farbe des zu erzeugenden Objekts
 	 * 
 	 */
-	public BrokenBlock(double _x, double _y, double _width, Color _myColor) {
+	public BrokenBlock(float _x, float _y, float _width, Color _myColor) {
 		//oberen Konstruktor aufrufen
 		this(new Coordinate(_x,_y), new Dimension2D(_width,_width), _myColor);
 	}
@@ -60,43 +64,14 @@ public class BrokenBlock extends GeometricObject {
 	 * @param _width die Weite (gleichzeitig Hoehe) des zu erzeugenden Objekts
 	 * 
 	 */
-	public BrokenBlock(double _x, double _y, double _width) {
+	public BrokenBlock(float _x, float _y, float _width) {
 		this(new Coordinate(_x,_y), new Dimension2D(_width,_width), Color.GRAY);
 	}
 	
-	/**
-	 * zeichnet das Objekt auf dem uebergebenen Graphik-Kontext
-	 * 
-	 * @param g der Graphik-Kontext auf dem das Objekt gezeichnet werden soll
-	 * 
-	 */
-	@Override 
-	public void paintMeTo(Graphics g) {
-		//farbiges Quadrat zeichnen
-		g.setColor(this.getColor());
-		g.fillRect((int) this.getPosition().getX(), (int) this.getPosition().getY(), 
-				(int) this.getDimension().getWidth(), (int) this.getDimension().getHeight());
-		//schwarze Kontur zeichnen
-		g.setColor(Color.BLACK);
-		g.drawRect((int) this.getPosition().getX(), (int) this.getPosition().getY(), 
-				(int) this.getDimension().getWidth(), (int) this.getDimension().getHeight());
-		
-		//passendes X ueber dem farbigen Quadrat zeichnen -> X unterscheidet BrokenBlock von SolidBlock
-		if(this.getColor()!=Color.BLACK) {
-			g.setColor(Color.BLACK);	
-		}
-		else {
-			g.setColor(Color.WHITE);
-		}
-        g.drawLine((int) this.getPosition().getX(),
-				(int) (this.getPosition().getY()+this.getDimension().getHeight()), 
-				(int) (this.getPosition().getX()+this.getDimension().getWidth()),
-				(int)  this.getPosition().getY());
-		g.drawLine((int) this.getPosition().getX(),
-				(int)  this.getPosition().getY(),
-				(int) (this.getPosition().getX()+this.getDimension().getWidth()),
-				(int) (this.getPosition().getY()+this.getDimension().getHeight()));
-	}
+	public void paint(IPainter p)
+    {
+        p.paint(this);
+    }
 	
 	/**
 	 * reagiert auf eine Kollision zwischen <code>BrokenBlock</code> und <code>BlackHole</code>
@@ -107,7 +82,7 @@ public class BrokenBlock extends GeometricObject {
 	 * 
 	 */
 	@Override
-	public void handleCollision(GeometricObject that) throws DestroyThatException {
+	public void handleCollision(GeometricObject that)  {
 		//ist that eine Kugel? (nur Kugeln koennen sich im Spiel bewegen)
 		if(that instanceof Ball) {
 			//feststellen, ob die Kugel mit einer horizontalen oder mit einer vertikalen
@@ -163,7 +138,7 @@ public class BrokenBlock extends GeometricObject {
 				//WENN ja DANN muss das this-Objekt (der BrokenBlock) vom Spielfeld geloescht werden
 				
 				//werfe eine DestroyThatException mit dem this-Objekt
-				throw new DestroyThatException(this, false);
+//				throw new DestroyThatException(this, false);
 			}
 		}
 	}

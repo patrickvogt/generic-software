@@ -4,10 +4,15 @@ package net.patrickvogt.pinkball.level;
  * Level.java
  */
 
-import java.util.*;
+
+
+import java.util.LinkedList;
+import java.util.List;
 
 import net.patrickvogt.pinkball.geom.GeometricObject;
-import net.patrickvogt.pinkball.vector.*;
+import net.patrickvogt.pinkball.vector.Coordinate;
+import net.patrickvogt.pinkball.vector.Dimension2D;
+
 
 /**
  * implementiert eine Klasse die den LevelContent in einer generischen <code>List</code> abspeichern kann
@@ -21,7 +26,7 @@ public class Level {
 	/**
 	 * Konstante welche die Weite und Hoehe der Gitterfelder beschreibt
 	 */
-	private final double myGridWidth=20;
+	private final float myGridWidth=20.0f;
 	
 	/**
 	 * speichert alle Inhalte eines Levels
@@ -94,7 +99,7 @@ public class Level {
 	 * @return Weite/Hoehe der Gitterfelder im Level
 	 * 
 	 */
-	protected double getGridWidth() {
+	protected float getGridWidth() {
 		return(this.myGridWidth);
 	}
 }

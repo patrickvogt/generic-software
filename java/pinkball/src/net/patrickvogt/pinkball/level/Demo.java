@@ -6,7 +6,11 @@ package net.patrickvogt.pinkball.level;
 
 import java.awt.Color;
 
-import net.patrickvogt.pinkball.geom.*;
+
+
+
+import net.patrickvogt.pinkball.geom.Ball;
+import net.patrickvogt.pinkball.geom.OutputHole;
 import net.patrickvogt.pinkball.vector.Dimension2D;
 
 /**

@@ -6,7 +6,17 @@ package net.patrickvogt.pinkball.level;
 
 import java.awt.Color;
 
-import net.patrickvogt.pinkball.geom.*;
+
+
+
+
+
+
+import net.patrickvogt.pinkball.geom.Ball;
+import net.patrickvogt.pinkball.geom.BlackHole;
+import net.patrickvogt.pinkball.geom.OutputHole;
+import net.patrickvogt.pinkball.geom.PaintedLine;
+import net.patrickvogt.pinkball.geom.SelectiveWall;
 import net.patrickvogt.pinkball.vector.Dimension2D;
 
 /**
@@ -25,6 +35,10 @@ public class Level2 extends Level {
 	public Level2() {
 		Dimension2D d = this.getDefaultGridDimension();
 		this.add(new OutputHole(this.getGridCoordinate(0, 0), d));
+		PaintedLine pl =new PaintedLine();
+		pl.addPoint(100, 100);
+		pl.addPoint(500, 100);
+		this.add(pl);
 		for(int i=0; i<6; i++) {
 			if(i%2==0) {
 				this.add(new Ball(d));
@@ -43,6 +57,8 @@ public class Level2 extends Level {
 						this.getGridWidth()/2, 2*this.getGridWidth(), Color.ORANGE));
 			}
 		}
+		this.add(new SelectiveWall(this.getGridCoordinate(10, 10), 
+                2*this.getGridWidth(), this.getGridWidth()/2, Color.ORANGE));
 		this.add(new BlackHole(this.getGridCoordinate(36, 3), d, Color.ORANGE));
 		this.add(new BlackHole(this.getGridCoordinate(36, 23), d, Color.BLUE));
 	}

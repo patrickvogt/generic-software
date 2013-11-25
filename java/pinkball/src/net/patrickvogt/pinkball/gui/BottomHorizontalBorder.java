@@ -1,15 +1,17 @@
 package net.patrickvogt.pinkball.gui;
 
+import java.awt.Dimension;
+import java.util.LinkedList;
+
+import javax.swing.JPanel;
+
+import net.patrickvogt.pinkball.geom.GeometricObject;
+import net.patrickvogt.pinkball.geom.SolidBlock;
+
 /*
  * BottomHorizontalBorder.java
  */
 
-import javax.swing.*;
-import java.util.*;
-import java.awt.*;
-
-import net.patrickvogt.pinkball.geom.*;
-import net.patrickvogt.pinkball.util.Paintable;
 
 /**
  * implementiert eine Unterklasse von JPanel welche den unteren horizontalen Rand des Hauptfensters beschreibt
@@ -64,15 +66,15 @@ public class BottomHorizontalBorder extends JPanel {
 		return(new Dimension(this.WIDTH, this.HEIGHT));
 	}
 	
-	/**
-	 * zeichnet alle Komponenten in der myObjects-Liste auf dem uebergeben Graphik-Kontext
-	 */
-	@Override
-    public void paintComponent(Graphics g) {  
-		//fuer jedes Element in der myObjects-Liste
-        for(Paintable that:this.myObjects) {
-        	//zeichne dich selbst auf dem uebergebenen Graphik-Kontext
-            that.paintMeTo(g);
-        }
-    }
+//	/**
+//	 * zeichnet alle Komponenten in der myObjects-Liste auf dem uebergeben Graphik-Kontext
+//	 */
+//	@Override
+//    public void paintComponent(Graphics g) {  
+//		//fuer jedes Element in der myObjects-Liste
+//        for(Paintable that:this.myObjects) {
+//        	//zeichne dich selbst auf dem uebergebenen Graphik-Kontext
+//            that.paintMeTo(g);
+//        }
+//    }
 }

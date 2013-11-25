@@ -1,14 +1,19 @@
 package net.patrickvogt.pinkball.geom;
 
+import java.awt.Color;
+
+
+import net.patrickvogt.pinkball.painter.IPaintable;
+import net.patrickvogt.pinkball.painter.IPainter;
+import net.patrickvogt.pinkball.util.Touchable;
+import net.patrickvogt.pinkball.vector.Coordinate;
+import net.patrickvogt.pinkball.vector.Dimension2D;
+import net.patrickvogt.pinkball.vector.Speed;
+
 /*
  * GeometricObject.java
  */
 
-import java.awt.*;
-
-import net.patrickvogt.pinkball.util.*;
-import net.patrickvogt.pinkball.vector.*;
-import net.patrickvogt.pinkball.exceptions.*;
 
 /**
  * <p>implementiert eine Oberklasse, von der alle geometrischen Objekte spaeter erben sollen.</p>
@@ -17,7 +22,7 @@ import net.patrickvogt.pinkball.exceptions.*;
  *
  */
 //GeometricObject implementiert die Schnittstellen Paintable, Touchsble und Moveable
-public class GeometricObject implements Paintable, Touchable, Moveable {
+public abstract class GeometricObject implements IPaintable, Touchable {
 	
 	/**
 	 * beschreibt die Koordinate der linken oberen Ecke der BoundingBox
@@ -55,7 +60,7 @@ public class GeometricObject implements Paintable, Touchable, Moveable {
 		this.myDimension=_myDimension;
 		this.myColor=_myColor;
 		//alle Objekte mit der Geschwindigkeit 0 (beide Richtungen) initialisieren
-		this.mySpeed=new Speed(0.0,0.0);
+		this.mySpeed=new Speed(0.0f,0.0f);
 	}
 	
 	/**
@@ -70,7 +75,7 @@ public class GeometricObject implements Paintable, Touchable, Moveable {
 	 * @param _height die Hoehe des Objekts
 	 * 
 	 */
-	public GeometricObject(double _x, double _y, double _width, double _height) {
+	public GeometricObject(float _x, float _y, float _width, float _height) {
 		//oberen Konstrukor aufrufen
 		this(new Coordinate(_x,_y), new Dimension2D(_width,_height), Color.GRAY);
 	}
@@ -83,6 +88,26 @@ public class GeometricObject implements Paintable, Touchable, Moveable {
 	 */
 	public Coordinate getPosition() {
 		return(this.myPosition);
+	}
+	
+	public float getX()
+	{
+	    return this.myPosition.getX();
+	}
+	
+	public int getXAsInt()
+	{
+	    return this.myPosition.getXAsInt();
+	}
+	
+	public float getY()
+	{
+	    return this.myPosition.getY();
+	}
+	
+	public int getYAsInt()
+	{
+	    return this.myPosition.getYAsInt();
 	}
 	
 	/**
@@ -105,6 +130,26 @@ public class GeometricObject implements Paintable, Touchable, Moveable {
 	public Dimension2D getDimension() {
 		return(this.myDimension);
 	}
+	
+	   public float getWidth()
+	    {
+	        return this.myDimension.getWidth();
+	    }
+	    
+	    public int getWidthAsInt()
+	    {
+	        return this.myDimension.getWidthAsInt();
+	    }
+	    
+	    public float getHeight()
+	    {
+	        return this.myDimension.getHeight();
+	    }
+	    
+	    public int getHeightAsInt()
+	    {
+	        return this.myDimension.getHeightAsInt();
+	    }
 	
 	/**
 	 * Zugriffsmethode um die Dimension des Objekts auf den uebergebenen Wert zu setzen
@@ -163,17 +208,11 @@ public class GeometricObject implements Paintable, Touchable, Moveable {
 	 * 
 	 */
 	public Coordinate getCenter() {
-		return(new Coordinate(this.getPosition().getX()+this.getDimension().getWidth()/2,
-				this.getPosition().getY()+this.getDimension().getHeight()/2));
+		return(new Coordinate(this.getPosition().getX()+this.getDimension().getWidth()/2.0f,
+				this.getPosition().getY()+this.getDimension().getHeight()/2.0f));
 	}
 	
-	/**
-	 * <p>zeichnet das aktuelle Objekt.</p>
-	 * <p>Diese Methode wird von den Unterklassen individuell ueberschrieben</p>
-	 */
-	public void paintMeTo(Graphics g) {
-		
-	}
+	public abstract void paint(IPainter p);
 	
 	/**
 	 * ueberprueft, ob das Objekt den Rand des Spielfed derzeit beruehrt oder sich schon ueber den Rand
@@ -192,16 +231,7 @@ public class GeometricObject implements Paintable, Touchable, Moveable {
 	 * <p>soll auf eine Beruehrung zweier Objekte angemessen reagieren. </p>
 	 * <p>Diese Methode wird von den Unterklassen individuell ueberschrieben</p>
 	 */
-	public void handleCollision(GeometricObject that) 
-		throws GameOverException, DestroyThatException {
-		
-	}
-	
-	/**
-	 * leere Bewegungsmethode. Diese Methode wird (wenn sich die jeweiligen Objekte bewegen sollen)
-	 * individuell von den Unterklasse ueberschrieben
-	 */
-	public void move() {
+	public void handleCollision(GeometricObject that)  {
 		
 	}
 	
@@ -225,16 +255,10 @@ public class GeometricObject implements Paintable, Touchable, Moveable {
 	 * 
 	 */
 	public boolean hasWithin(Coordinate p) {
-        if(p.getX() >= this.getPosition().getX() 
-        		&& p.getX() <= (this.getPosition().getX()+this.getDimension().getWidth()) 
+        return p.getX() >= this.getPosition().getX() 
+        		&& p.getX() <= this.getPosition().getX()+this.getDimension().getWidth() 
         		&& p.getY() >= this.getPosition().getY() 
-        		&& p.getY() <= (this.getPosition().getY()+this.getDimension().getHeight())) {
-            
-        	return(true);
-        }
-        else {
-            return(false);
-        }
+        		&& p.getY() <= (this.getPosition().getY()+this.getDimension().getHeight()); 
     }
 	
 	/**
@@ -299,5 +323,6 @@ public class GeometricObject implements Paintable, Touchable, Moveable {
 			//2 nicht bewegte Objekte koennen sich nicht beruehren
 			return(false);
 		}
+
 	}
 }

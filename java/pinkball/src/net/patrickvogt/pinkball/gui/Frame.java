@@ -1,23 +1,31 @@
 package net.patrickvogt.pinkball.gui;
 
-/*
- * Frame.java
- */
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.KeyStroke;
 
-import net.patrickvogt.pinkball.exceptions.*;
-import net.patrickvogt.pinkball.level.*;
+import net.patrickvogt.pinkball.level.Demo;
+import net.patrickvogt.pinkball.level.Level;
+import net.patrickvogt.pinkball.level.Level1;
+import net.patrickvogt.pinkball.level.Level2;
+import net.patrickvogt.pinkball.level.Level3;
+import net.patrickvogt.pinkball.level.Level4;
+import net.patrickvogt.pinkball.level.Level5;
+import net.patrickvogt.pinkball.util.PropertiesProvider;
 
-/**
- * implementiert einen Frame, in dem das Spielfeld, Menueleiste, HeadUpDisplay (Score und Zeit) etc.
- * angezeigt werden soll
- * 
- * @author Patrick Vogt
- *
- */
 public class Frame extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
@@ -35,22 +43,19 @@ public class Frame extends JFrame {
     /**
      * beschreibt die Verzoegerungszeit (in ms) des Timers
      */
-    private final int delay=30;
+    private final int delay=16;
     
     /**
      * beschreibt die Breite/Hoehe der Randsteine an der linken, oberen, rechten und unteren Seite
      */
-	private final int borderStoneWidth=25;
+//	private final int borderStoneWidth=25;
     
-	/**
-	 * beschreibt die aktuelle Punktzahl des Spielers
-	 */
-    private int myScore=0;
+	
     
     /**
      * beschreibt das HeadUpDisplay, in dem die Zeit und der Score angezeigt werden
      */
-    private HeadUpDisplay hud;
+//    private HeadUpDisplay hud;
     
     /**
      * Spielfeld in dem alle LevelInhalte gezeichnet werden sollen
@@ -63,20 +68,18 @@ public class Frame extends JFrame {
 	private javax.swing.Timer timer;
 	
 	/**
-	 * beschreibt, in welchem Level sich der SPieler gerade befindet
-	 */
-	private int currentLevel=1;
-	
-	/**
 	 * erzeugt eine neue Instanz von <code>Frame</code> und initialisiert diesen
 	 */
 	public Frame() {
 		//Kontruktor der Oberklasse mit dem String der HeadLeiste aufrufen
 		super("PInkBall");
 		//FrameContent (Level, Board, Timer, Score) intialisieren
+		this.b = new Board(new Level1().getLevelContent(), WIDTH, HEIGHT);
+		this.b.init();
 		this.init();
-		//fuege dem Frame mein KeyListener hinzu
-		this.addKeyListener(new MyKeyListener());
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(screenSize.width/2-this.getSize().width/2, screenSize.height/2-this.getSize().height/2);
 	}
 	
 	/**
@@ -84,66 +87,67 @@ public class Frame extends JFrame {
 	 * <p>(Board, Timer, Score werden geloescht und neu initialisiert)</p>
 	 */
 	public void reinit() {
-		//nulle den Score
-		this.myScore=0;
-		//loesche das Board
-		this.b.setVisible(false);
-		this.b=null;
+		b.init();
 		//loesche das HeadUpDisplay
-		this.hud.setVisible(false);
-		this.hud=null;
+//		this.hud.setVisible(false);
+//		this.hud=null;
 		//loesche den Timer
-		if(this.timer!=null && this.timer.isRunning()) {
-			this.timer.stop();
-		}
-		this.timer=null;
+		this.destroyTimer();
 		//reinitialisiere den FrameInhalt
 		this.init();
+	}
+	
+	public void continueTimer()
+	{
+	    if(null != this.timer)
+	    {
+	        if(!this.timer.isRunning())
+	        {
+	            this.timer.start();
+	        }
+	    }
+	}
+	
+	public void stopTimer()
+	{
+	    if(null != this.timer)
+        {
+            if(this.timer.isRunning())
+            {
+                this.timer.stop();
+            }
+        }
+	}
+	
+	public void destroyTimer()
+	{
+	    this.stopTimer();
+	    this.timer = null;
 	}
 	
 	/**
 	 * initialisiert den Frame mit den aktuellen Einstellungen, Level etc.
 	 */
 	public void init() {
-		Level thisLevel;
 		
-		//Welches Level soll gespielt werden
-		switch(this.currentLevel) {
-			case 0: thisLevel = new Demo(); break;
-			case 1: thisLevel = new Level1(); break;
-			case 2: thisLevel = new Level2(); break;
-			case 3: thisLevel = new Level3(); break;
-			case 4: thisLevel = new Level4(); break;
-			case 5: thisLevel = new Level5(); break;
-			default: thisLevel = new Level1(); break;
-		}
-		//Neues Board mit dem LevelCOntent des aktuellen Levels erzeugen
-		this.b = new Board(thisLevel.getLevelContent(), this.WIDTH, this.HEIGHT);
 		//Neues HeadUpDisplay (Uhr und Punktestand) erzeugen
-		this.hud = new HeadUpDisplay(this.WIDTH+2*this.borderStoneWidth, this.borderStoneWidth, this.delay);
+		//this.hud = new HeadUpDisplay(this.WIDTH+2*this.borderStoneWidth, this.borderStoneWidth, this.delay);
 			
 		//Neuen timer erzeugen mit dem angegeben Delay (in ms) und dem folgenden AcionListener
 		this.timer = new javax.swing.Timer(this.delay, new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	try {
+//                System.out.println("hallo");
+            	
             		//Board bzw. dessen Inhalt auf Kollision pruefen
             		b.checkCollision();
-            	}
-            	catch(NextLevelException e) {
-            		//fange eine eventuell geworfene NextLevelException
-            		if(currentLevel<5) {
-            			//Wenn nicht Level 5 dann erhoehe den LevelCounter um 1
-            			currentLevel++;
-            		}
-            		else {
-            			//Wenn auch Level 5 geschafft wurde, dann setze den LevelCounter auf 0
-            			//Spieler bekommt als Belohnung die MassCollisionDemo zu sehen
-            			currentLevel=0;
-            		}
-            		//reinitialisere den Inhalt des Frame neu
-            		reinit();
-            	}
-            	catch(GameOverException e) {
+            		//bewege alle Elemente einen Schritt weiter (abhaengig vom Speed-Vektor im jeweiligen GeometricObject)
+                    b.moveObjects();
+                    //zeichne das Spielfeld neu
+                    b.repaint();
+                    //zeichne das HeadUpDisplay neu -> damit Score und Zeitanzeige aktualisiert werden
+//                  hud.repaint();
+            	
+            	if(b.isGameOver()) {
             		//fange eine eventuell geworfene GameOverException
             		
             		//zeige dem Spieler den GameOverDialog
@@ -151,22 +155,8 @@ public class Frame extends JFrame {
             		//beende das Spiel
        				endGame();
             	}
-            	catch(RaiseScoreException e) {
-            		//fange eine eventuell geworfene RaiseScoreException
-            		
-            		//loesche die Elemente, die nun nicht mehr zum Spiel gehoeren
-            		b.emptyDestroyThat();
-            		//erhoehe den Score um 20 Punkte
-            		myScore=myScore+20;
-            		//aktualisiere den Score im HeadUpDisplay
-            		hud.setScore(myScore);
-            	}
-            	//bewege alle Elemente einen Schritt weiter (abhaengig vom Speed-Vektor im jeweiligen GeometricObject)
-	        	b.moveObjects();
-	        	//zeichne das Spielfeld neu
-	            b.repaint();
-	            //zeichne das HeadUpDisplay neu -> damit Score und Zeitanzeige aktualisiert werden
-	            hud.repaint();
+            	
+            	
             }  
         });
 		//fuege dem Frame meine MenueLeiste hinzu
@@ -175,14 +165,14 @@ public class Frame extends JFrame {
 		//setze das Layout auf BorderLayout und fuelle dann die 5 Teile des Layouts
 		this.setLayout(new BorderLayout());
 		//oben -> HeadUpDisplay
-		this.add(this.hud, BorderLayout.NORTH);
+//		this.add(this.hud, BorderLayout.NORTH);
 		//rechts -> Vertikaler Rand aus mehreren grauen Steinen
-		this.add(new RightVerticalBorder(this.HEIGHT, this.borderStoneWidth), BorderLayout.EAST);
-		//unten -> Horizontaler Rand aus mehreren grauen Steinen
-		this.add(new BottomHorizontalBorder(this.WIDTH+2*this.borderStoneWidth, this.borderStoneWidth), BorderLayout.SOUTH);
-		//links -> Vertikaler Rand aus mehreren grauen Steinen
-		this.add(new LeftVerticalBorder(this.HEIGHT, this.borderStoneWidth), BorderLayout.WEST);
-		//mitte -> Spielfeld
+//		this.add(new RightVerticalBorder(this.HEIGHT, this.borderStoneWidth), BorderLayout.EAST);
+//		//unten -> Horizontaler Rand aus mehreren grauen Steinen
+//		this.add(new BottomHorizontalBorder(this.WIDTH+2*this.borderStoneWidth, this.borderStoneWidth), BorderLayout.SOUTH);
+//		//links -> Vertikaler Rand aus mehreren grauen Steinen
+//		this.add(new LeftVerticalBorder(this.HEIGHT, this.borderStoneWidth), BorderLayout.WEST);
+//		//mitte -> Spielfeld
 		this.add(this.b, BorderLayout.CENTER);
 		
 		//Groesse soll nicht veraenderbar sein
@@ -199,29 +189,15 @@ public class Frame extends JFrame {
 	}
 	
 	/**
-	 * Zugriffsmethode um den Timer des Frames zu bekommen
-	 * 
-	 * @return den Timer des Frames
-	 * 
-	 */
-	public javax.swing.Timer getTimer() {
-		return(this.timer);
-	}
-	
-	/**
 	 * reagiert auf die Aktion 'Pausuere das Spiel'
 	 */
 	public void reactOnPauseGame() {
-		//gibt es noch einen Timer
-		if(this.getTimer()!=null) {
-			//WENN dieser aktiv ist
-        	if(this.getTimer().isRunning()) {
-        		//DANN stoppe den Timer
-        		this.getTimer().stop();
+		if(null != this.timer) {
+        	if(this.timer.isRunning()) {
+        		this.timer.stop();
         	}
         	else {
-        		//ANDERNFALLS aktiviere den Timer wieder
-        		this.getTimer().start();
+        		this.timer.start();
         	}
     	}
 	}
@@ -230,51 +206,48 @@ public class Frame extends JFrame {
 	 * beendet das Spiel indem der Timer gestoppt und auf <code>null</code> gesetzt wird
 	 */
 	public void endGame() {
-		//Gibt es noch einen Timer AND laeuft dieser noch
-		if(timer!= null && timer.isRunning()) {
-			//WENN ja DANN stoppe den Timer und setzt ihn auf null
-			timer.stop();
-			timer=null;
-		}
+		this.destroyTimer();
 	}
 	
 	/**
 	 * erzeugt ein neuen GameOverDialog und setzt diesen direkt auf <code>visible</code>
 	 */
 	public void showGameOverDialog() {
-		new GameOverDialog(this.WIDTH+2*this.borderStoneWidth, 
-				this.HEIGHT+2*this.borderStoneWidth).setVisible(true);
+	    PropertiesProvider pp = PropertiesProvider.getInstance();
+	    
+	    final String game_over_title = pp.get("game_over_title", "Game Over");
+	    final String game_over_msg = pp.get("game_over_msg", "A ball entered a hole of the wrong colour.");
+	    
+	    JOptionPane.showMessageDialog(this, game_over_msg, game_over_title, JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	/**
 	 * erzeugt eine neue AboutBox und setzt diese direkt auf <code>visible</code>
 	 */
 	public void showAboutBox() {
-		new AboutBox(WIDTH+2*borderStoneWidth, 
-				HEIGHT+2*borderStoneWidth).setVisible(true);
+        PropertiesProvider pp = PropertiesProvider.getInstance();
+        
+        final String about_title = pp.get("about_title", "About");
+        final String author_label = pp.get("author_label", "Author");
+        final String website_label = pp.get("website_label", "Website");
+        final String description_label = pp.get("description_label", "Description");
+        final StringBuffer sb = new StringBuffer();
+        
+        sb.append("<html><body>");
+        sb.append(author_label);
+        sb.append(": Patrick Vogt<br />");
+        sb.append(website_label);
+        sb.append(": <a href=\"http://patrickvogt.net\">http://patrickvogt.net</a><br />");
+        sb.append(description_label);
+        sb.append(": &Pi;nkBall<br /></body></html>");
+
+        if(timer!=null)
+            {this.timer.stop();}
+	    JOptionPane.showMessageDialog(this, sb.toString(), 
+	            about_title, JOptionPane.INFORMATION_MESSAGE);
+	    if(timer!=null)
+        {this.timer.start();}
     }
-	
-	/**
-	 * interne Klasse, die einen KeyListener implementiert	 * 
-	 * 
-	 * @author Patrick Vogt
-	 *
-	 */
-	//MyKeyListener ist eine Unterklasse von KeyAdapter
-	private class MyKeyListener extends KeyAdapter {
-		@Override
-		public void keyPressed(KeyEvent evt) {
-			if(evt.getKeyCode() == KeyEvent.VK_P) {
-				//bei 'P'-Tastendruck entweder Spiel pausieren oder
-				//Spiel aus dem PauseZustand wieder 'entpausieren'
-				reactOnPauseGame();
-			}
-			else if(evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				//bei ESC-Tastendruck -> Spiel beenden
-				System.exit(0);
-			}
-		}
-	}
 	
 	/**
 	 * interne Klasse die eine Menueleiste implementiert, mit der das Spiel konfigueriert werden kann
@@ -293,138 +266,145 @@ public class Frame extends JFrame {
 		public MyMenuBar() {
 			super();
 			
-			//Game-Menue erzeugen mit den entsprechenden Items und
-			//den entsprechenden ActionCommands
-		    JMenu gameMenu = new JMenu("Game");
-		    JMenuItem newGameItem = new JMenuItem("New");
-		    gameMenu.add(newGameItem);
-		    newGameItem.setActionCommand("NEW");
-		    JMenuItem pauseGameItem = new JMenuItem("Pause (P)");
-		    gameMenu.add(pauseGameItem);
-		    pauseGameItem.setActionCommand("PAUSE");
-		    JMenuItem quitGameItem = new JMenuItem("Quit (ESC)");
-		    gameMenu.add(quitGameItem);
-		    quitGameItem.setActionCommand("QUIT");
-		    //Game-Menu der Menueleiste hinzufuegen
-		    this.add(gameMenu);
+            MyMenuActionListener ml = new MyMenuActionListener();   
 			
-		    //Level-Menue erzeugen mit den entsprechenden Items und
-			//den entsprechenden ActionCommands
-		    JMenu levelMenu = new JMenu("Level");
-		    JMenuItem demo = new JMenuItem("Demo");
-	        levelMenu.add(demo);
-	        demo.setActionCommand("DEMO");
-	        JMenuItem level1 = new JMenuItem("Level 1");
-	        levelMenu.add(level1);
-	        level1.setActionCommand("NEW");
-	        JMenuItem level2 = new JMenuItem("Level 2");
-	        levelMenu.add(level2);
-	        level2.setActionCommand("LEVEL2");
-	        JMenuItem level3 = new JMenuItem("Level 3");
-	        levelMenu.add(level3);
-	        level3.setActionCommand("LEVEL3");
-	        JMenuItem level4 = new JMenuItem("Level 4");
-	        levelMenu.add(level4);
-	        level4.setActionCommand("LEVEL4");
-	        JMenuItem level5 = new JMenuItem("Level 5");
-	        levelMenu.add(level5);
-	        level5.setActionCommand("LEVEL5");
-	        //Level-Menue der Menueleiste hinzufuegen
-	        this.add(levelMenu);
+		    JMenu menu = new JMenu(PropertiesProvider.getInstance().get("main_menu", "Main"));
+		    menu.setMnemonic(KeyEvent.VK_I);
 		    
-	        //Help-Menue erzeugen mit den entsprechenden Items und
-			//den entsprechenden ActionCommands
-	        JMenu helpMenu = new JMenu("Help");
-	        JMenuItem aboutItem = new JMenuItem("About");
-	        helpMenu.add(aboutItem);
-	        aboutItem.setActionCommand("ABOUT");
-	        //Help-Menue der Menueleiste hinzufuegen
-	        this.add(helpMenu);
+		    JMenuItem menuItem = new JMenuItem(PropertiesProvider.getInstance().get("new_menu_item", "New"));
+		    menuItem.setActionCommand("NEW");
+		    menuItem.setMnemonic(KeyEvent.VK_N);
+		    menuItem.setAccelerator(KeyStroke.getKeyStroke(
+		            KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+	        menuItem.addActionListener(ml);
+	        menu.add(menuItem);
 	        
-	        //MyMenuActionListener erzeugen und den entsprechenden Items hinzufuegen
-	        MyMenuActionListener ml = new MyMenuActionListener();	        
-	        newGameItem.addActionListener(ml);
-	        pauseGameItem.addActionListener(ml);
-	        quitGameItem.addActionListener(ml);
-	        demo.addActionListener(ml);
-	        level1.addActionListener(ml);
-	        level2.addActionListener(ml);
-	        level3.addActionListener(ml);
-	        level4.addActionListener(ml);
-	        level5.addActionListener(ml);
-	        aboutItem.addActionListener(ml);
+		    JCheckBoxMenuItem cbMenuItem = new JCheckBoxMenuItem(PropertiesProvider.getInstance().get("pause_menu_item", "Pause"));
+		    cbMenuItem.setActionCommand("PAUSE");
+		    cbMenuItem.setMnemonic(KeyEvent.VK_P);
+		    cbMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.getKeyText(KeyEvent.VK_P)));
+		    cbMenuItem.addActionListener(ml);
+	        menu.add(cbMenuItem);
+
+		    menuItem = new JMenuItem(PropertiesProvider.getInstance().get("exit_menu_item", "Exit"));
+		    menuItem.setActionCommand("EXIT");
+		    menuItem.setMnemonic(KeyEvent.VK_E);
+		    menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_F4, ActionEvent.ALT_MASK));
+		    menuItem.addActionListener(ml);
+		    menu.add(menuItem);
+		    this.add(menu);
+			
+		    menu = new JMenu(PropertiesProvider.getInstance().get("level_menu", "Level"));
+		    menu.setMnemonic(KeyEvent.VK_L);
+		    
+		    ButtonGroup level_group = new ButtonGroup();
+
+		    JRadioButtonMenuItem rbMenuItem = new JRadioButtonMenuItem(PropertiesProvider.getInstance().get("demo_menu_item", "Demo"));
+		    rbMenuItem.setActionCommand("DEMO");
+		    rbMenuItem.setMnemonic(KeyEvent.VK_D);
+		    rbMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+		    rbMenuItem.addActionListener(ml);
+		    level_group.add(rbMenuItem);
+	        menu.add(rbMenuItem);
+	        
+	        menu.addSeparator();
+	        
+	        rbMenuItem = new JRadioButtonMenuItem(PropertiesProvider.getInstance().get("level1_menu_item", "Level 1"));
+	        rbMenuItem.setActionCommand("NEW");
+	        rbMenuItem.setMnemonic(KeyEvent.VK_1);
+	        rbMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_1, ActionEvent.CTRL_MASK));
+	        rbMenuItem.addActionListener(ml);
+	        level_group.add(rbMenuItem);
+	        menu.add(rbMenuItem);
+            
+	        rbMenuItem = new JRadioButtonMenuItem(PropertiesProvider.getInstance().get("level2_menu_item", "Level 2"));
+	        rbMenuItem.setActionCommand("LEVEL2");
+	        rbMenuItem.setMnemonic(KeyEvent.VK_2);
+	        rbMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_2, ActionEvent.CTRL_MASK));
+	        rbMenuItem.addActionListener(ml);
+	        level_group.add(rbMenuItem);
+            menu.add(rbMenuItem);
+
+            rbMenuItem = new JRadioButtonMenuItem(PropertiesProvider.getInstance().get("level3_menu_item", "Level 3"));
+            rbMenuItem.setActionCommand("LEVEL3");
+            rbMenuItem.setMnemonic(KeyEvent.VK_3);
+            rbMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_3, ActionEvent.CTRL_MASK));
+            rbMenuItem.addActionListener(ml);
+            level_group.add(rbMenuItem);
+            menu.add(rbMenuItem);
+	  
+            rbMenuItem = new JRadioButtonMenuItem(PropertiesProvider.getInstance().get("level4_menu_item", "Level 4"));
+            rbMenuItem.setActionCommand("LEVEL4");
+            rbMenuItem.setMnemonic(KeyEvent.VK_4);
+            rbMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_4, ActionEvent.CTRL_MASK));
+            rbMenuItem.addActionListener(ml);
+            level_group.add(rbMenuItem);
+            menu.add(rbMenuItem);
+
+            rbMenuItem = new JRadioButtonMenuItem(PropertiesProvider.getInstance().get("level5_menu_item", "Level 5"));
+            rbMenuItem.setActionCommand("LEVEL5");
+            rbMenuItem.setMnemonic(KeyEvent.VK_5);
+            rbMenuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_5, ActionEvent.CTRL_MASK));
+            rbMenuItem.addActionListener(ml);
+            level_group.add(rbMenuItem);
+            menu.add(rbMenuItem);
+	        this.add(menu);
+
+	        menu = new JMenu(PropertiesProvider.getInstance().get("help_menu", "Help"));
+	        menu.setMnemonic(KeyEvent.VK_H);
+	        
+	        menuItem = new JMenuItem(PropertiesProvider.getInstance().get("about_menu_item", "About"));
+	        menuItem.setActionCommand("ABOUT");
+            menuItem.setMnemonic(KeyEvent.VK_B);
+            menuItem.setAccelerator(KeyStroke.getKeyStroke(
+                    KeyEvent.VK_B, ActionEvent.CTRL_MASK));
+            menuItem.addActionListener(ml);
+            menu.add(menuItem);
+            this.add(menu);
 		}
 		
-		/**
-		 * interne Klasse, die einen MenuActionListener implementiert,
-		 * der auf die verschiedenen Items in der MenuBar unterschiedlich reagieren soll
-		 * 
-		 * @author Patrick Vogt
-		 *
-		 */
 		public class MyMenuActionListener implements ActionListener {
-	       
-			/**
-	         * reagiert auf Klicks in der Menueleiste
-	         */
+
 			@Override
 	        public void actionPerformed(ActionEvent evt) {
 	        	if(evt.getActionCommand().equals("DEMO")) {
-	        		//WENN 'Demo' angeklickt wurde,
-	        		//DANN starte die Demo
-	            	currentLevel=0;
-	            	//reInitialisiere das Board fuer das neue Level
+	            	Frame.this.b = new Board(new Demo().getLevelContent(), 800,  600);
 	            	reinit();
 	            }
 	        	if(evt.getActionCommand().equals("NEW")) {
-	        		//WENN 'New' angeklickt wurde,
-	        		//DANN starte Level1
-	            	currentLevel=1;
-	            	//reInitialisiere das Board fuer das neue Level
+	                  Frame.this.b = new Board(new Level1().getLevelContent(), WIDTH,  HEIGHT);
 	            	reinit();
 	            }
 	            if(evt.getActionCommand().equals("LEVEL2")) {
-	            	//WENN 'Level 2' angeklickt wurde,
-	        		//DANN starte Level2
-	            	currentLevel=2;
-	            	//reInitialisiere das Board fuer das neue Level
+	                  Frame.this.b = new Board(new Level2().getLevelContent(), WIDTH,  HEIGHT);
 	            	reinit();
 	            }
 	            if(evt.getActionCommand().equals("LEVEL3")) {
-	            	//WENN 'Level 3' angeklickt wurde,
-	        		//DANN starte Level3
-	            	currentLevel=3;
-	            	//reInitialisiere das Board fuer das neue Level
+	                  Frame.this.b = new Board(new Level3().getLevelContent(), WIDTH,  HEIGHT);
 	            	reinit();
 	            }
 	            if(evt.getActionCommand().equals("LEVEL4")) {
-	            	//WENN 'Level 4' angeklickt wurde,
-	        		//DANN starte Level4
-	            	currentLevel=4;
-	            	//reInitialisiere das Board fuer das neue Level
+	                  Frame.this.b = new Board(new Level4().getLevelContent(), WIDTH,  HEIGHT);
 	            	reinit();
 	            }
 	            if(evt.getActionCommand().equals("LEVEL5")) {
-	            	//WENN 'Level 5' angeklickt wurde,
-	        		//DANN starte Level5
-	            	currentLevel=5;
-	            	//reInitialisiere das Board fuer das neue Level
+	                  Frame.this.b = new Board(new Level5().getLevelContent(), WIDTH,  HEIGHT);
 	            	reinit();
 	            }
 	            if(evt.getActionCommand().equals("PAUSE")) {
-	            	//WENN 'Pause' angeklickt wurde,
-	        		//DANN reagiere auf diese Pausierung mit der Funktion
-	            	//reactOnPauseGame (Diese Funktion entscheidet, ob 'paused' oder 'continued' wird)
 	            	reactOnPauseGame();
 	            }
-	            if(evt.getActionCommand().equals("QUIT")) {
-	            	//WENN 'Quit' angeklickt wurde,
-	        		//DANN beende das Spiel
+	            if(evt.getActionCommand().equals("EXIT")) {
 	            	System.exit(0);
 	            }
 	            if(evt.getActionCommand().equals("ABOUT")) {
-	            	//WENN 'About' angeklickt wurde,
-	        		//DANN zeige die AboutBox
 	            	showAboutBox();
 	            }
 	        }

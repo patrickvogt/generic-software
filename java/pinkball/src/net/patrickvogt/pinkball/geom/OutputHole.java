@@ -1,12 +1,16 @@
 package net.patrickvogt.pinkball.geom;
 
+import java.awt.Color;
+
+import net.patrickvogt.pinkball.painter.IPainter;
+import net.patrickvogt.pinkball.vector.Coordinate;
+import net.patrickvogt.pinkball.vector.Dimension2D;
+
 /*
  * OutputHole.java
  */
 
-import java.awt.*;
 
-import net.patrickvogt.pinkball.vector.*;
 
 /**
  * implementiert ein Loch, aus dem alle Kugeln, die zum LevelContent gehoeren 
@@ -41,7 +45,7 @@ public class OutputHole extends GeometricObject {
 	 * @param _width die Weite (gleichzeitig Hoehe) des zu erzeugenden Objekts
 	 * 
 	 */
-	public OutputHole(double _x, double _y, double _width) {
+	public OutputHole(float _x, float _y, float _width) {
 		//oberen Konstruktor aufrufen
 		this(new Coordinate(_x,_y), new Dimension2D(_width,_width));
 	}
@@ -54,46 +58,15 @@ public class OutputHole extends GeometricObject {
 	 * @param _width Weite (gleichzeitig Hoehe) des zu erzeugenden Objekts
 	 * 
 	 */
-	public OutputHole(Coordinate _myPosition, double _width) {
+	public OutputHole(Coordinate _myPosition, float _width) {
 		//oberen Konstruktor aufrufen
 		this(_myPosition, new Dimension2D(_width,_width));
 	}
 	
-	/**
-	 * zeichnet das Objekt auf dem uebergebenen Graphik-Kontext
-	 * 
-	 * @param g der Graphik-Kontext, auf dem das Objekt gezeichnet werden soll
-	 * 
-	 */
-	@Override
-	public void paintMeTo(Graphics g) {
-		//graue Kontur zeichnen
-		g.setColor(Color.GRAY);
-		g.drawRect((int) this.getPosition().getX(), 
-				(int) this.getPosition().getY(), 
-				(int) this.getDimension().getWidth(), 
-				(int) this.getDimension().getHeight());
-		//mittig, kleines und farbiges OutputHole zeichnen
-		g.setColor(this.getColor());
-		g.fillOval((int) (this.getPosition().getX()+0.375*this.getDimension().getWidth()+1), 
-				(int) (this.getPosition().getY()+0.375*this.getDimension().getHeight()+1), 
-				(int) (0.25*this.getDimension().getWidth()), 
-				(int) (0.25*this.getDimension().getHeight()));
-		//vier kleine Kuegelchen an den vier Ecken zeichnen
-		g.setColor(Color.RED);
-		g.fillOval((int) (this.getPosition().getX()-3), 
-				(int) (this.getPosition().getY()-3), 
-						6, 6);
-		g.fillOval((int) (this.getPosition().getX()+this.getDimension().getWidth()-3), 
-				(int) (this.getPosition().getY()-3), 
-						6, 6);
-		g.fillOval((int) (this.getPosition().getX()-3), 
-				(int) (this.getPosition().getY()+this.getDimension().getHeight()-3), 
-						6, 6);
-		g.fillOval((int) (this.getPosition().getX()+this.getDimension().getWidth()-3), 
-				(int) (this.getPosition().getY()+this.getDimension().getHeight()-3), 
-						6, 6);
-	}
+	public void paint(IPainter p)
+    {
+        p.paint(this);
+    }
 	
 	/**
 	 * prueft, ob einer der SpielInhalte das OutputHole verdeckt/blockiert
@@ -109,7 +82,7 @@ public class OutputHole extends GeometricObject {
 			//nur Kugeln sind beweglich -> nur Kugeln koennen das OutputHole blockieren
 			if(that instanceof Ball) {
 				//beruehrt eines der Objekte das OutputHole
-				if(this.touches(that)) {
+				if(false /*&& this.touches(that)*/) {
 					//WENN ja DANN ist OutPutHole blockiert
 					_isBlocked=_isBlocked||true;
 				}

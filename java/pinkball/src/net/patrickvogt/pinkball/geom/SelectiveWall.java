@@ -1,12 +1,15 @@
 package net.patrickvogt.pinkball.geom;
 
+import java.awt.Color;
+
+import net.patrickvogt.pinkball.painter.IPainter;
+import net.patrickvogt.pinkball.vector.Coordinate;
+import net.patrickvogt.pinkball.vector.Dimension2D;
+
 /*
  * SelectiveWall.java
  */
 
-import java.awt.*;
-
-import net.patrickvogt.pinkball.vector.*;
 
 /**
  * implementiert eine selektive Wand, die eine Farbe besitzt und nur von entsprechenden Kugeln
@@ -46,7 +49,7 @@ public class SelectiveWall extends GeometricObject {
 	 * @param _height
 	 * 
 	 */
-	public SelectiveWall(double _x, double _y, double _width, double _height) {
+	public SelectiveWall(float _x, float _y, float _width, float _height) {
 		//oberen Konstruktor aufrufen
 		this(new Coordinate(_x,_y), new Dimension2D(_width,_height), Color.GRAY);
 	}
@@ -63,7 +66,7 @@ public class SelectiveWall extends GeometricObject {
 	 * @param _myColor die Farbe des zu erzeugenden Objekts
 	 * 
 	 */
-	public SelectiveWall(Coordinate _myPosition, double _width, double _height, Color _myColor) {
+	public SelectiveWall(Coordinate _myPosition, float _width, float _height, Color _myColor) {
 		//oberen Kosntruktor
 		this(_myPosition, new Dimension2D(_width,_height), _myColor);
 	}
@@ -82,54 +85,15 @@ public class SelectiveWall extends GeometricObject {
 	 * @param _myColor die Farbe, die das zu erzeugende Objekt besitzen soll
 	 * 
 	 */
-	public SelectiveWall(double _x, double _y, double _width, double _height, Color _myColor) {
+	public SelectiveWall(float _x, float _y, float _width, float _height, Color _myColor) {
 		//oberen Kontruktor aufrufen
 		this(new Coordinate(_x,_y), new Dimension2D(_width,_height), _myColor);
 	}
 	
-	/**
-	 * zeichnet das Objekt auf dem uebergebenen Graphik-Kontext
-	 * 
-	 * @param g der Graphik-Kontext, auf dem das Objekt gezeichnet werden soll
-	 */
-	@Override
-	public void paintMeTo(Graphics g) {
-		//erst graues Rechteck zeichnen
-		g.setColor(Color.GRAY);
-		g.fillRect((int) this.getPosition().getX(), (int) this.getPosition().getY(),
-				(int) this.getDimension().getWidth(), (int) this.getDimension().getHeight());
-		//dann mit der jeweiligen Farbe ein kleineres Rechtek ins groessere Recheck zeichnen
-		g.setColor(this.getColor());
-		if(this.getDimension().getHeight()>this.getDimension().getWidth()) {
-			//selektive Wand steht vertikal
-			g.fillRect((int) this.getPosition().getX(), 
-				(int) (this.getPosition().getY()+0.25*this.getDimension().getHeight()+0.5),
-				(int)  this.getDimension().getWidth(), 
-				(int) (this.getDimension().getHeight()-0.5*this.getDimension().getHeight()));
-			//Kontur des kleineren Rechtecks zeichnen
-			g.setColor(Color.BLACK);
-			g.drawRect((int) this.getPosition().getX(), 
-					(int) (this.getPosition().getY()+0.25*this.getDimension().getHeight()+0.5),
-					(int)  this.getDimension().getWidth(), 
-					(int) (this.getDimension().getHeight()-0.5*this.getDimension().getHeight()));
-		}
-		else {
-			//selektive Wand liegt horizontal
-			g.fillRect((int) (this.getPosition().getX()+0.25*this.getDimension().getWidth()+0.5), 
-				(int)  this.getPosition().getY(),
-				(int) (this.getDimension().getWidth()-0.5*this.getDimension().getWidth()), 
-				(int)  this.getDimension().getHeight());
-			//Kontur des kleineren Rechtecks zeichnen
-			g.setColor(Color.BLACK);
-			g.drawRect((int) (this.getPosition().getX()+0.25*this.getDimension().getWidth()+0.5), 
-					(int)  this.getPosition().getY(),
-					(int) (this.getDimension().getWidth()-0.5*this.getDimension().getWidth()), 
-					(int)  this.getDimension().getHeight());
-		}
-		//Kontur des groesseren Rechtecks zeichnen
-		g.drawRect((int) this.getPosition().getX(), (int) this.getPosition().getY(),
-				(int) this.getDimension().getWidth(), (int) this.getDimension().getHeight());
-	}
+	public void paint(IPainter p)
+    {
+        p.paint(this);
+    }
 	
 	/**
 	 * reagiert auf eine Kollision zwischen <code>SelectiveWall</code> und <code>Ball</code>

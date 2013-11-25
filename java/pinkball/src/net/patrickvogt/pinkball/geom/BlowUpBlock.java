@@ -1,12 +1,15 @@
 package net.patrickvogt.pinkball.geom;
 
+import java.awt.Color;
+
+import net.patrickvogt.pinkball.painter.IPainter;
+import net.patrickvogt.pinkball.vector.Coordinate;
+import net.patrickvogt.pinkball.vector.Dimension2D;
+
 /*
  * BlowUpBlock.java
  */
 
-import java.awt.*;
-
-import net.patrickvogt.pinkball.vector.*;
 
 /**
  * implementiert einen Spielstein der alle Kugeln die darueberrollen aufblaest/vergroessert
@@ -42,7 +45,7 @@ public class BlowUpBlock extends GeometricObject {
 	 * @param _width die Weite (gleichzeitig Hoehe) des zu erzeugenden Objekts
 	 * 
 	 */
-	public BlowUpBlock(double _x, double _y, double _width) {
+	public BlowUpBlock(float _x, float _y, float _width) {
 		//oberen Konstruktor aufrufen
 		this(new Coordinate(_x,_y), new Dimension2D(_width,_width), Color.GRAY);
 	}
@@ -57,7 +60,7 @@ public class BlowUpBlock extends GeometricObject {
 	 * @param _myColor die Farbe des zu erzeugenden Objekts
 	 * 
 	 */
-	public BlowUpBlock(Coordinate _myPosition, double _width, Color _myColor) {
+	public BlowUpBlock(Coordinate _myPosition, float _width, Color _myColor) {
 		//oberen Konstruktor aufrufen
 		this(_myPosition, new Dimension2D(_width,_width), _myColor);
 	}
@@ -74,34 +77,15 @@ public class BlowUpBlock extends GeometricObject {
 	 * @param _myColor die Farbe des zu erzeugenden Objekts
 	 * 
 	 */
-	public BlowUpBlock(double _x, double _y, double _width, Color _myColor) {
+	public BlowUpBlock(float _x, float _y, float _width, Color _myColor) {
 		//oberen Konstruktor aufrufen
 		this(new Coordinate(_x,_y), new Dimension2D(_width,_width), _myColor);
 	}
 	
-	/**
-	 * zeichnet das Objekt auf den uebergebenen Graphik-Kontext
-	 * 
-	 * @param g der Graphik-Kontext, auf dem das Objekt gezeichnet werden soll
-	 * 
-	 */
-	@Override
-	public void paintMeTo(Graphics g) {
-		//farbiges Quadrat zeichnen
-		g.setColor(this.getColor());
-		g.fillRect((int) this.getPosition().getX(), (int) this.getPosition().getY(), 
-				(int) this.getDimension().getWidth(), (int) this.getDimension().getHeight());
-		//weissen Kreis zeichnen
-		g.setColor(Color.WHITE);
-		g.fillOval((int) this.getPosition().getX(), (int) this.getPosition().getY(), 
-				(int) this.getDimension().getWidth()+1, (int) this.getDimension().getHeight()+1);
-		//Konturen des Kreis und des Quadrats zeichnen
-		g.setColor(Color.BLACK);
-		g.drawOval((int) this.getPosition().getX(), (int) this.getPosition().getY(), 
-				(int) this.getDimension().getWidth(), (int) this.getDimension().getHeight());
-		g.drawRect((int) this.getPosition().getX(), (int) this.getPosition().getY(), 
-				(int) this.getDimension().getWidth(), (int) this.getDimension().getHeight());
-	}
+	public void paint(IPainter p)
+    {
+        p.paint(this);
+    }
 	
 	/**
 	 * reagiert auf eine Kollision zwischen <code>BlowUpBlock</code> und Kugel
@@ -119,7 +103,7 @@ public class BlowUpBlock extends GeometricObject {
 				//(das anderthalbfache des BlowUpBlocks)
 				if(((Ball)that).getDiameter()<1.5*this.getDimension().getWidth()) {
 					//WENN ja DANN vergoessere den Durchmesser der Kugel
-					((Ball)that).setDiameter(((Ball)that).getDiameter()*1.01);
+					((Ball)that).setDiameter(((Ball)that).getDiameter()*1.01f);
 				}
 			}
 		}

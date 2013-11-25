@@ -1,15 +1,17 @@
 package net.patrickvogt.pinkball.gui;
 
+import java.awt.Dimension;
+import java.util.LinkedList;
+
+import javax.swing.JPanel;
+
+import net.patrickvogt.pinkball.geom.GeometricObject;
+import net.patrickvogt.pinkball.geom.SolidBlock;
+
 /*
  * LeftVerticalBorder.java
  */
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
-
-import net.patrickvogt.pinkball.geom.*;
-import net.patrickvogt.pinkball.util.Paintable;
 
 /**
  * implementiert eine Unterklasse von JPanel welche den linken vertikalen Rand des Hauptfensters beschreibt
@@ -63,14 +65,14 @@ public class LeftVerticalBorder extends JPanel {
 		return(new Dimension(this.WIDTH, this.HEIGHT));
 	}
 	
-	/**
-	 * zeichnet alle Komponenten in der myObjects-Liste auf dem uebergeben Graphik-Kontext
-	 */
-	@Override
-    public void paintComponent(Graphics g) {  
-		g.clearRect(0, 0, this.WIDTH, this.HEIGHT);
-        for(Paintable that:this.myObjects) {
-            that.paintMeTo(g);
-        }
-    }
+//	/**
+//	 * zeichnet alle Komponenten in der myObjects-Liste auf dem uebergeben Graphik-Kontext
+//	 */
+//	@Override
+//    public void paintComponent(Graphics g) {  
+//		g.clearRect(0, 0, this.WIDTH, this.HEIGHT);
+//        for(Paintable that:this.myObjects) {
+//            that.paintMeTo(g);
+//        }
+//    }
 }

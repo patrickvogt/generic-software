@@ -1,12 +1,16 @@
 package net.patrickvogt.pinkball.geom;
 
+import java.awt.Color;
+
+import net.patrickvogt.pinkball.painter.IPainter;
+import net.patrickvogt.pinkball.vector.Coordinate;
+import net.patrickvogt.pinkball.vector.Dimension2D;
+
 /*
  * ShrinkingBlock.java
  */
 
-import java.awt.*;
 
-import net.patrickvogt.pinkball.vector.*;
 
 /**
  * implementiert einen SpielStein, der die Kugeln bis zu einer bestimmten Groesse schrumpfen laesst
@@ -41,7 +45,7 @@ public class ShrinkingBlock extends GeometricObject {
 	 * @param _width die Weite (gleichzeitig Hoehe) des zu erzeugenden Objekts
 	 * 
 	 */
-	public ShrinkingBlock(double _x, double _y, double _width) {
+	public ShrinkingBlock(float _x, float _y, float _width) {
 		this(new Coordinate(_x,_y), new Dimension2D(_width,_width), Color.GRAY);
 	}
 	
@@ -55,7 +59,7 @@ public class ShrinkingBlock extends GeometricObject {
 	 * @param _myColor die Farbe des zu erzeugenden Objekts
 	 * 
 	 */
-	public ShrinkingBlock(Coordinate _myPosition, double _width, Color _myColor) {
+	public ShrinkingBlock(Coordinate _myPosition, float _width, Color _myColor) {
 		this(_myPosition, new Dimension2D(_width,_width), _myColor);
 	}
 	
@@ -71,36 +75,15 @@ public class ShrinkingBlock extends GeometricObject {
 	 * @param _myColor die Farbe des zu erzeugenden Objekts
 	 * 
 	 */
-	public ShrinkingBlock(double _x, double _y, double _width, Color _myColor) {
+	public ShrinkingBlock(float _x, float _y, float _width, Color _myColor) {
 		//oberen Konstruktor aufrufen
 		this(new Coordinate(_x,_y), new Dimension2D(_width,_width), _myColor);
 	}
 	
-	/**
-	 * zeichnet das Objekt auf dem uebergebenen Graphik-Kontext
-	 * 
-	 * @param g der Graphik-Kontext auf dem das Objekt gezeichnet werden soll
-	 * 
-	 */
-	@Override
-	public void paintMeTo(Graphics g) {
-		//farbiges Quadrat zeichnen
-		g.setColor(this.getColor());
-		g.fillRect((int) this.getPosition().getX(), (int) this.getPosition().getY(), 
-				(int) this.getDimension().getWidth(), (int) this.getDimension().getHeight());
-		//mittig weissen Kreis zeichnen
-		g.setColor(Color.WHITE);
-		g.fillOval((int) (this.getPosition().getX()+0.25*this.getDimension().getWidth()), 
-				(int) (this.getPosition().getY()+0.25*this.getDimension().getHeight()), 
-				(int) this.getDimension().getWidth()/2, (int) this.getDimension().getHeight()/2);
-		//Konturen von Kreis und Quadrat zeichnen
-		g.setColor(Color.BLACK);
-		g.drawOval((int) (this.getPosition().getX()+0.25*this.getDimension().getWidth()), 
-				(int) (this.getPosition().getY()+0.25*this.getDimension().getHeight()), 
-				(int) this.getDimension().getWidth()/2-1, (int) this.getDimension().getHeight()/2-1);
-		g.drawRect((int) this.getPosition().getX(), (int) this.getPosition().getY(), 
-				(int) this.getDimension().getWidth(), (int) this.getDimension().getHeight());
-	}
+	public void paint(IPainter p)
+    {
+        p.paint(this);
+    }
 	
 	/**
 	 * reagiert auf eine Kollision zwischen <code>ShrinkingBlock</code> und <code>Ball</code>
@@ -118,7 +101,7 @@ public class ShrinkingBlock extends GeometricObject {
 				//ist der Durchmesser der Kugel groesser als die Haelfte des ShrinkingBlocks?
 				if(((Ball)that).getDiameter()>0.5*this.getDimension().getWidth()) {
 					//WENN ja DANN verkleine den Durchmesser ein bisschen
-					((Ball)that).setDiameter(((Ball)that).getDiameter()*0.99);
+					((Ball)that).setDiameter(((Ball)that).getDiameter()*0.99f);
 				}
 			}
 		}
