@@ -1,11 +1,9 @@
-package net.patrickvogt.pinkball.painter;
+package net.patrickvogt.pinkball.test;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
 
 import net.patrickvogt.pinkball.geom.Ball;
 import net.patrickvogt.pinkball.geom.BlackHole;
@@ -16,33 +14,34 @@ import net.patrickvogt.pinkball.geom.PaintedLine;
 import net.patrickvogt.pinkball.geom.SelectiveWall;
 import net.patrickvogt.pinkball.geom.ShrinkBlock;
 import net.patrickvogt.pinkball.geom.SolidBlock;
+import net.patrickvogt.pinkball.painter.IPainter;
 
-public final class StandardPainter implements IPainter
+public final class DebugPainter implements IPainter
 {
     private static IPainter _instance = null;
     private Graphics _g = null;
 
-    private StandardPainter()
+    private static final int _VECTOR_LENGTH_STRETCH = 50;
+    private static final int _VECTOR_ARRAY_HEAD_SIZE = 4;
+
+    private DebugPainter()
     {
         super();
     }
 
     public final static IPainter getInstance()
     {
-        if(null == StandardPainter._instance)
+        if(null == DebugPainter._instance)
         {
-            StandardPainter._instance = new StandardPainter();
+            DebugPainter._instance = new DebugPainter();
         }
-        return StandardPainter._instance;
+        return DebugPainter._instance;
     }
 
     @Override
     public final void setGraphicsContext(final Graphics __g)
     {
         this._g = __g;
-        ((Graphics2D)this._g).setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING, 
-                RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
     @Override
@@ -51,11 +50,28 @@ public final class StandardPainter implements IPainter
         final int x = __b.getXAsInt();
         final int y = __b.getYAsInt();
         final int width = __b.getWidthAsInt();
+        final int cx = __b.getCenterXAsInt();
+        final int cy = __b.getCenterYAsInt();
+        final float dx = __b.getDX() * DebugPainter._VECTOR_LENGTH_STRETCH;
+        final float dy = __b.getDY() * DebugPainter._VECTOR_LENGTH_STRETCH;
+        float angle = (float)Math.atan2(dy, dx);
+        int length = (int) Math.sqrt(dx * dx + dy * dy);
 
         this._g.setColor(__b.getColor());
         this._g.fillOval(x, y, width, width);
         this._g.setColor(Color.black);
         this._g.drawOval(x, y, width, width);
+
+        Graphics2D g = (Graphics2D) this._g.create();
+        AffineTransform at = AffineTransform.getTranslateInstance(cx, cy);
+        at.concatenate(AffineTransform.getRotateInstance(angle));
+        g.transform(at);
+
+        g.drawLine(0, 0, length, 0);
+        g.fillPolygon(
+                new int[]{ length, length - DebugPainter._VECTOR_ARRAY_HEAD_SIZE, length - DebugPainter._VECTOR_ARRAY_HEAD_SIZE, length }, 
+                new int[]{ 0, -DebugPainter._VECTOR_ARRAY_HEAD_SIZE, DebugPainter._VECTOR_ARRAY_HEAD_SIZE, 0 }, 4);
+
     }
 
     @Override
@@ -77,8 +93,7 @@ public final class StandardPainter implements IPainter
         this._g.fillRect(x_out, y_out, width_out, height_out);
         this._g.setColor(Color.black);
         this._g.drawRect(x_out, y_out, width_out, height_out);
-
-        this._g.fillOval(x, y, width+1, height+1);
+        this._g.fillOval(x, y, width, height);
     }
 
     @Override
@@ -143,8 +158,6 @@ public final class StandardPainter implements IPainter
         this._g.setColor(__oh.getColor());
         this._g.fillOval(x + width / 4, y + width / 4, width / 2, width / 2);
 
-        this._g.setColor(Color.black);
-        this._g.drawRect(x_left+diameter/2, y_top+diameter/2, x_right-x_left, y_bottom-y_top);
         this._g.setColor(Color.red);
         this._g.fillOval(x_left, y_top, diameter, diameter);
         this._g.fillOval(x_right, y_top, diameter, diameter);
@@ -158,17 +171,14 @@ public final class StandardPainter implements IPainter
         final int numPoints = __pl.getNumPoints();
         final int[] xPoints = new int[numPoints];
         final int[] yPoints = new int[numPoints];
-        final Graphics2D g2d = ((java.awt.Graphics2D) this._g);
-        final Stroke s = g2d.getStroke();
 
         __pl.getPointsAsIntArrays(xPoints, yPoints);
 
         this._g.setColor(Color.black);
-        g2d.setStroke(new BasicStroke(4.0f));
+
         this._g.drawPolyline(xPoints, yPoints,
                 (xPoints.length > yPoints.length) ? yPoints.length
                         : xPoints.length);
-        g2d.setStroke(s);
     }
 
     @Override

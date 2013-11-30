@@ -3,9 +3,9 @@ package net.patrickvogt.pinkball.geom;
 import java.awt.Color;
 
 
+
 import net.patrickvogt.pinkball.painter.IPainter;
-import net.patrickvogt.pinkball.vector.Coordinate;
-import net.patrickvogt.pinkball.vector.Dimension2D;
+import net.patrickvogt.pinkball.vector.Vector;
 
 /*
  * BrokenBlock.java
@@ -32,41 +32,10 @@ public class BrokenBlock extends GeometricObject {
 	 * @param _myColor die Farbe des zu erzeugenden Objekts
 	 * 
 	 */
-	public BrokenBlock(Coordinate _myPosition, Dimension2D _myDimension, Color _myColor) {
-		//super-Konstruktor von GeometricObject aufrufen
-		super(_myPosition, _myDimension, _myColor);
-	}
+	public BrokenBlock(float __pos_x, float __pos_y, float __width, float __height, Color __color) {
+        super(new Vector(__pos_x,__pos_y), new Vector(__width,__height), __color);
+    }
 	
-	/**
-	 * erzeugt eine neue Instanz von <code>BrokenBlock</code>
-	 * 
-	 * @param _x die x-Position des zu erzeugenden Objekts
-	 * 
-	 * @param _y die y-Position des zu erzeugenden Objekts
-	 * 
-	 * @param _width die Weite (gleichzeitig Hoehe) des zu erzeugenden Objekts
-	 * 
-	 * @param _myColor die Farbe des zu erzeugenden Objekts
-	 * 
-	 */
-	public BrokenBlock(float _x, float _y, float _width, Color _myColor) {
-		//oberen Konstruktor aufrufen
-		this(new Coordinate(_x,_y), new Dimension2D(_width,_width), _myColor);
-	}
-	
-	/**
-	 * erzeugt eine neue Instanz von <code>BrokenBlock</code>
-	 * 
-	 * @param _x die x-Position des zu erzeugenden Objekts
-	 * 
-	 * @param _y die y-Position des zu erzeugenden Objekts
-	 * 
-	 * @param _width die Weite (gleichzeitig Hoehe) des zu erzeugenden Objekts
-	 * 
-	 */
-	public BrokenBlock(float _x, float _y, float _width) {
-		this(new Coordinate(_x,_y), new Dimension2D(_width,_width), Color.GRAY);
-	}
 	
 	public void paint(IPainter p)
     {
@@ -82,64 +51,62 @@ public class BrokenBlock extends GeometricObject {
 	 * 
 	 */
 	@Override
-	public void handleCollision(GeometricObject that)  {
+	public GeometricObject handleCollision(GeometricObject that)  {
 		//ist that eine Kugel? (nur Kugeln koennen sich im Spiel bewegen)
 		if(that instanceof Ball) {
 			//feststellen, ob die Kugel mit einer horizontalen oder mit einer vertikalen
 			//Seite kollidiert ist
-			double diffX = that.getCenter().getX()-this.getCenter().getX();
-	       	double diffY = that.getCenter().getY()-this.getCenter().getY();
+			double diffX = that.getCenterX()-this.getCenterX();
+	       	double diffY = that.getCenterY()-this.getCenterY();
 	       	
 	       	if(Math.max(Math.abs(diffX), Math.abs(diffY))==Math.abs(diffX)) {
 	       		//Kugel kollidiert mit einer vertikalen Seite der Wand
-	       		if(diffX>0 && that.getSpeed().getDX()<0) {
+	       		if(diffX>0 && that.speed.getX()<0) {
 	       			//that.getSpeed().getDX()<0 soll dafuer sorgen, dass sich die Kugel
 	       			//komplett aus dem this-Objekt herausbewegt
 	       			
 	       			//Kugel kollidiert mit rechter Seite
 	       			
 	       			//Geschwindigkeit in x-Richtung umdrehen
-	       			that.getSpeed().setDX(-1*that.getSpeed().getDX());
+	       		 that.speed = new Vector(-that.speed.getX(), that.speed.getY());
 	       		}
-	       		else if(diffX<0 && that.getSpeed().getDX()>0) {
+	       		else if(diffX<0 && that.speed.getX()>0) {
 	       			//that.getSpeed().getDX()>0 soll dafuer sorgen, dass sich die Kugel
 	       			//komplett aus dem this-Objekt herausbewegt
 	       			
 	       			//Kugel kollidiert mit linker Seite
 	       			
 	       			//Geschwindigkeit in x-Richtung umdrehen
-	       			that.getSpeed().setDX(-1*that.getSpeed().getDX());
+	       		 that.speed = new Vector(-that.speed.getX(), that.speed.getY());
 	       		}
 	       	}
 	       	else {
 	       		//Kugel kollidiert mit einer horizontalen Seite der Wand
-	       		if(diffY>0 && that.getSpeed().getDY()<0) {
+	       		if(diffY>0 && that.speed.getY()<0) {
 	       			//that.getSpeed().getDY()<0 soll dafuer sorgen, dass sich die Kugel
 	       			//komplett aus dem this-Objekt herausbewegt
 	       			
 	       			//Kugel kollidiert mit der unteren Seite
 	       			
 	       			//Geschwindigkeit in y-Richtung umdrehen
-	       			that.getSpeed().setDY(-1*that.getSpeed().getDY());
+	       		 that.speed = new Vector(that.speed.getX(), -that.speed.getY());
 	       		}
-	       		else if(diffY<0 && that.getSpeed().getDY()>0) {
+	       		else if(diffY<0 && that.speed.getY()>0) {
 	       			//that.getSpeed().getDY()>0 soll dafuer sorgen, dass sich die Kugel
 	       			//komplett aus dem this-Objekt herausbewegt
 	       			
 	       			//Kugel kollidiert mit der oberen Seite
 	       			
 	       			//Geschwindigkeit in y-Richtung umdrehen
-	       			that.getSpeed().setDY(-1*that.getSpeed().getDY());
+	       		    that.speed = new Vector(that.speed.getX(), -that.speed.getY());
 	       		}
 	       	}
 		
 	       	//Haben Kugel und BrokenBlock die gleiche Farbe?
 			if(this.getColor()==Color.GRAY || this.getColor()==that.getColor()) {
-				//WENN ja DANN muss das this-Objekt (der BrokenBlock) vom Spielfeld geloescht werden
-				
-				//werfe eine DestroyThatException mit dem this-Objekt
-//				throw new DestroyThatException(this, false);
+				return this;
 			}
 		}
+		return null;
 	}
 }

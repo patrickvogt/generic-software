@@ -2,9 +2,9 @@ package net.patrickvogt.pinkball.geom;
 
 import java.awt.Color;
 
+import net.patrickvogt.pinkball.excpetion.GameOverException;
 import net.patrickvogt.pinkball.painter.IPainter;
-import net.patrickvogt.pinkball.vector.Coordinate;
-import net.patrickvogt.pinkball.vector.Dimension2D;
+import net.patrickvogt.pinkball.vector.Vector;
 
 /*
  * OutputHole.java
@@ -30,38 +30,10 @@ public class OutputHole extends GeometricObject {
 	 * @param _myDimension die Dimension des zu erzeugenden Objekts
 	 * 
 	 */
-	public OutputHole(Coordinate _myPosition, Dimension2D _myDimension) {
-		//super-Konstruktor (von GeometricObject) aufrufen
-		super(_myPosition, _myDimension, Color.BLACK);
+	public OutputHole(float __pos_x, float __pos_y, float __width, float __height) {
+		super(new Vector(__pos_x,__pos_y), new Vector(__width,__height), Color.BLACK);
 	}
 	
-	/**
-	 * erzeugt eine neue Instanz von <code>OutputHole</code>
-	 * 
-	 * @param _x x-Position des zu erzeugenden Objekts
-	 * 
-	 * @param _y y-Position des zu erzeugenden Objekts
-	 * 
-	 * @param _width die Weite (gleichzeitig Hoehe) des zu erzeugenden Objekts
-	 * 
-	 */
-	public OutputHole(float _x, float _y, float _width) {
-		//oberen Konstruktor aufrufen
-		this(new Coordinate(_x,_y), new Dimension2D(_width,_width));
-	}
-	
-	/**
-	 * erzeugt eine neue Instanz von <code>OutputHole</code>
-	 * 
-	 * @param _myPosition Koordinate (linkere obere Ecke) des zu erzeugenden Objekts
-	 * 
-	 * @param _width Weite (gleichzeitig Hoehe) des zu erzeugenden Objekts
-	 * 
-	 */
-	public OutputHole(Coordinate _myPosition, float _width) {
-		//oberen Konstruktor aufrufen
-		this(_myPosition, new Dimension2D(_width,_width));
-	}
 	
 	public void paint(IPainter p)
     {
@@ -76,18 +48,24 @@ public class OutputHole extends GeometricObject {
 	 * @return ob einer der SpielInhalte das OutputHole blockiert
 	 * 
 	 */
-	public boolean isBlocked(java.util.List<GeometricObject> myObjects) {
+	public boolean isBlocked(java.util.List<Ball> myObjects) {
 		boolean _isBlocked=false;
-		for(GeometricObject that:myObjects) {
-			//nur Kugeln sind beweglich -> nur Kugeln koennen das OutputHole blockieren
-			if(that instanceof Ball) {
+		for(Ball that:myObjects) {
 				//beruehrt eines der Objekte das OutputHole
-				if(false /*&& this.touches(that)*/) {
+				if(this.touches(that)) {
 					//WENN ja DANN ist OutPutHole blockiert
 					_isBlocked=_isBlocked||true;
 				}
 			}
-		}
+		
 		return(_isBlocked);
 	}
+
+
+    @Override
+    public GeometricObject handleCollision(GeometricObject that)
+            throws GameOverException
+    {
+        return null;
+    }
 }

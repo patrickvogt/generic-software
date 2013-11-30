@@ -5,8 +5,7 @@ import java.util.List;
 
 import net.patrickvogt.pinkball.gui.Board;
 import net.patrickvogt.pinkball.painter.IPainter;
-import net.patrickvogt.pinkball.vector.Coordinate;
-import net.patrickvogt.pinkball.vector.Speed;
+import net.patrickvogt.pinkball.vector.Vector;
 
 public class PaintedLine extends GeometricObject
 {
@@ -15,7 +14,7 @@ public class PaintedLine extends GeometricObject
      * eigentliche Linie, die spaeter zum zeichnen und fuer die
      * Beruehrungsfunktion benoetigt wird
      */
-    private List<Coordinate> line = new ArrayList<Coordinate>();
+    private List<Vector> line = new ArrayList<Vector>();
 
     // /**
     // * speichert den Beruehrpunkt zwischen Linie und Kugel
@@ -23,8 +22,8 @@ public class PaintedLine extends GeometricObject
     // */
     private int lastTouchPoint;
 
-    private Coordinate touchSegmentStart = null;
-    private Coordinate touchSegmentEnd = null;
+    private Vector touchSegmentStart = null;
+    private Vector touchSegmentEnd = null;
 
     public PaintedLine()
     {
@@ -33,11 +32,11 @@ public class PaintedLine extends GeometricObject
 
     }
 
-    public void getPoints(final int[] xPoints, final int[] yPoints)
+    public void getPointsAsIntArrays(final int[] xPoints, final int[] yPoints)
     {
         int i = 0;
 
-        for(Coordinate c : this.line)
+        for(Vector c : this.line)
         {
             xPoints[i] = c.getXAsInt();
             yPoints[i] = c.getYAsInt();
@@ -48,7 +47,7 @@ public class PaintedLine extends GeometricObject
 
     public void addPoint(int x, int y)
     {
-        this.line.add(new Coordinate(x, y));
+        this.line.add(new Vector(x, y));
     }
 
     public void paint(IPainter p)
@@ -74,15 +73,15 @@ public class PaintedLine extends GeometricObject
             for(int i = 0; i < (this.line.size() - 1); i = i + 1)
             {
                 // http://stackoverflow.com/questions/1073336/circle-line-collision-detection
-                Coordinate c_i = this.line.get(i);
-                Coordinate c_i_1 = this.line.get(i + 1);
+                Vector c_i = this.line.get(i);
+                Vector c_i_1 = this.line.get(i + 1);
 
                 float r = that.getWidth() / 2;
 
                 float dx = c_i_1.getX() - c_i.getX();
                 float dy = c_i_1.getY() - c_i.getY();
-                float fx = c_i.getX() - that.getCenter().getX();
-                float fy = c_i.getY() - that.getCenter().getY();
+                float fx = c_i.getX() - that.getCenterX();
+                float fy = c_i.getY() - that.getCenterY();
 
                 float a = dx * dx + dy * dy;
                 float b = 2.0f * (fx * dx + fy * dy);
@@ -108,13 +107,13 @@ public class PaintedLine extends GeometricObject
                         
                         if(this.line.size() > 0 && that.hasWithin(this.line.get(0)))
                         {
-                           Coordinate v = this.line.get(0);
-                           Coordinate w = that.getCenter();
-                           float vx = that.getSpeed().getDX();
-                           float vy = that.getSpeed().getDY();
-                           float that_length = that.getSpeed().length();
+                           Vector v = this.line.get(0);
+                           Vector w = new Vector(that.getCenterX(), that.getCenterY());
+                           float vx = that.speed.getX();
+                           float vy = that.speed.getY();
+                           float that_length = that.speed.getLength();
                            
-                           Speed s = new Speed(v.getX()-w.getX(), v.getY()-w.getY());
+                           Vector s = new Vector(v.getX()-w.getX(), v.getY()-w.getY());
                            
                            nx = this.line.get(1).getX()-this.line.get(0).getX();
                            ny = this.line.get(1).getY()-this.line.get(0).getY();
@@ -124,8 +123,8 @@ public class PaintedLine extends GeometricObject
                            nx = nx / n_length;
                            ny = ny / n_length;
 
-                           double dot_v_n = s.getDX() * nx
-                                   + s.getDY() * ny;
+                           double dot_v_n = s.getX() * nx
+                                   + s.getY() * ny;
                            
 //                           if(-0.05 < dot_v_n && dot_v_n < 0.05)
 //                           {
@@ -142,9 +141,9 @@ public class PaintedLine extends GeometricObject
                            double delta_vx = 2 * dot_v_n * nx;
                            double delta_vy = 2 * dot_v_n * ny;
 
-                           that.getSpeed().sub(s);
-                           that.getSpeed().normalize();
-                           that.getSpeed().mult(that_length);
+                           that.speed.sub(s);
+                           that.speed.normalize();
+                           that.speed.mult(that_length);
 
                            
 //                           that.setSpeed(new Speed(vx, vy));
@@ -155,13 +154,13 @@ public class PaintedLine extends GeometricObject
                         }
                         if(this.line.size() > 0 && that.hasWithin(this.line.get(this.line.size()-1)))
                         {
-                            Coordinate v = this.line.get(this.line.size()-1);
-                            Coordinate w = that.getCenter();
-                            float vx = that.getSpeed().getDX();
-                            float vy = that.getSpeed().getDY();
-                            float that_length = that.getSpeed().length();
+                            Vector v = this.line.get(this.line.size()-1);
+                            Vector w = new Vector(that.getCenterX(), that.getCenterY());
+                            float vx = that.speed.getX();
+                            float vy = that.speed.getY();
+                            float that_length = that.speed.getLength();
                             
-                            Speed s = new Speed(v.getX()-w.getX(), v.getY()-w.getY());
+                            Vector s = new Vector(v.getX()-w.getX(), v.getY()-w.getY());
                             
                             nx = this.line.get(this.line.size()-1).getX()-this.line.get(this.line.size()-2).getX();
                             ny = this.line.get(this.line.size()-1).getY()-this.line.get(this.line.size()-2).getY();
@@ -171,8 +170,8 @@ public class PaintedLine extends GeometricObject
                             nx = nx / n_length;
                             ny = ny / n_length;
 
-                            double dot_v_n = s.getDX() * nx
-                                    + s.getDY() * ny;
+                            double dot_v_n = s.getX() * nx
+                                    + s.getY() * ny;
                             
 //                            if(-0.05 < dot_v_n && dot_v_n < 0.05)
 //                            {
@@ -189,9 +188,9 @@ public class PaintedLine extends GeometricObject
                             double delta_vx = 2 * dot_v_n * nx;
                             double delta_vy = 2 * dot_v_n * ny;
 
-                            that.getSpeed().sub(s);
-                            that.getSpeed().normalize();
-                            that.getSpeed().mult(that_length);
+                            that.speed.sub(s);
+                            that.speed.normalize();
+                            that.speed.mult(that_length);
 
                             
 //                            that.setSpeed(new Speed(vx, vy));
@@ -205,15 +204,15 @@ public class PaintedLine extends GeometricObject
                         nx = nx / n_length;
                         ny = ny / n_length;
 
-                        double dot_v_n = that.getSpeed().getDX() * nx
-                                + that.getSpeed().getDY() * ny;
+                        double dot_v_n = that.speed.getX() * nx
+                                + that.speed.getY() * ny;
 
                         double delta_vx = 2 * dot_v_n * nx;
                         double delta_vy = 2 * dot_v_n * ny;
 
-                        that.setSpeed(new Speed((float) (that.getSpeed()
-                                .getDX() - delta_vx), (float) (that.getSpeed()
-                                .getDY() - delta_vy)));
+                        that.speed = new Vector((float) (that.speed
+                                .getX() - delta_vx), (float) (that.speed
+                                .getY() - delta_vy));
 
                         ((Ball) that).move();
                         
@@ -236,6 +235,7 @@ public class PaintedLine extends GeometricObject
      * 
      * @param that
      *            das Objekt, welches das this-Objekt (die Linie) beruehrt
+     * @return 
      * 
      * @throws DestroyThatException
      *             wenn die Linie mit einer Kugel kollidiert ist und nun die
@@ -243,9 +243,9 @@ public class PaintedLine extends GeometricObject
      * 
      */
     @Override
-    public void handleCollision(GeometricObject that)
+    public GeometricObject handleCollision(GeometricObject that)
     {
-        
+        return null;
 
     }
 

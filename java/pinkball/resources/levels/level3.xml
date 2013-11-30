@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level width="40" height="30">
+    <balls>
+        <ball diameter="3" colour="blue" />
+        <ball diameter="3" colour="blue" />
+        <ball diameter="3" colour="blue" />
+    </balls>
+    <level-content>
+        <output-hole position="(1,1)" width="3" height="3" />
+        <blow-up-block position="(16,14)" width="2" height="2" colour="blue"/>
+        <blow-up-block position="(22,14)" width="2" height="2" colour="blue"/>
+        <shrink-block position="(19,11)" width="2" height="2" colour="blue"/>
+        <shrink-block position="(19,17)" width="2" height="2" colour="blue"/>
+        <black-hole position="(19,14)" width="2" height="2" colour="blue" />
+    </level-content>
+</level>

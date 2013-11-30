@@ -1,4 +1,4 @@
-package net.patrickvogt.pinkball.junit;
+package net.patrickvogt.pinkball.test.junit;
 
 import org.junit.Before;
 import org.junit.Ignore;

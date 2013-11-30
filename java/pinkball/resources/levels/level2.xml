@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level width="40" height="30">
+    <balls>
+        <ball diameter="1" colour="blue" />
+        <ball diameter="1" colour="orange" />
+        <ball diameter="1" colour="blue" />
+        <ball diameter="1" colour="orange" />
+        <ball diameter="1" colour="blue" />
+        <ball diameter="1" colour="orange" />
+    </balls>
+    <level-content>
+        <output-hole position="(1,1)" width="1" height="1" />
+        <selective-wall position="(18,0)" width="0.5f" height="2" colour="blue"/>
+        <selective-wall position="(19,2)" width="0.5f" height="2" colour="orange"/>
+        <selective-wall position="(18,4)" width="0.5f" height="2" colour="blue"/>
+        <selective-wall position="(19,6)" width="0.5f" height="2" colour="orange"/>
+        <selective-wall position="(18,8)" width="0.5f" height="2" colour="blue"/>   
+        <selective-wall position="(19,10)" width="0.5f" height="2" colour="orange"/>
+        <selective-wall position="(18,12)" width="0.5f" height="2" colour="blue"/>
+        <selective-wall position="(19,14)" width="0.5f" height="2" colour="orange"/>
+        <selective-wall position="(18,16)" width="0.5f" height="2" colour="blue"/>
+        <selective-wall position="(19,18)" width="0.5f" height="2" colour="orange"/>
+        <selective-wall position="(18,20)" width="0.5f" height="2" colour="blue"/>
+        <selective-wall position="(19,22)" width="0.5f" height="2" colour="orange"/>
+        <selective-wall position="(18,24)" width="0.5f" height="2" colour="blue"/>
+        <selective-wall position="(19,26)" width="0.5f" height="2" colour="orange"/>
+        <selective-wall position="(18,28)" width="0.5f" height="2" colour="blue"/>
+        <black-hole position="(36,6)" width="1" height="1" colour="orange" />
+        <black-hole position="(36,23)" width="1" height="1" colour="blue" />
+    </level-content>
+</level>

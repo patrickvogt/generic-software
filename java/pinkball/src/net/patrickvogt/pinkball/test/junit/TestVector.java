@@ -1,20 +1,20 @@
-package net.patrickvogt.pinkball.junit;
+package net.patrickvogt.pinkball.test.junit;
 
-import net.patrickvogt.pinkball.vector.Dimension2D;
+import net.patrickvogt.pinkball.vector.Vector;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestDimension2D
+public class TestVector
 {
-    private Dimension2D tmp1 = null;
+    private Vector tmp1 = null;
     
     @Before
     public void setUp()
     {
-        this.tmp1 = new Dimension2D(1.0f, 10.0f);
+        this.tmp1 = new Vector(1.0f, 10.0f);
     }
     
     @After
@@ -26,22 +26,22 @@ public class TestDimension2D
     @Test
     public void test0()
     {        
-        Assert.assertEquals(1.0f, this.tmp1.getWidth(), TestConstants.delta);
-        Assert.assertEquals(10.0f, this.tmp1.getHeight(), TestConstants.delta);
+        Assert.assertEquals(1.0f, this.tmp1.getX(), TestConstants.delta);
+        Assert.assertEquals(10.0f, this.tmp1.getY(), TestConstants.delta);
     }
     
     @Test
     public void test1()
     {
         
-        Assert.assertEquals(1.0f, tmp1.getWidth(), TestConstants.delta);
-        Assert.assertEquals(10.0f, tmp1.getHeight(), TestConstants.delta);
+        Assert.assertEquals(1.0f, tmp1.getX(), TestConstants.delta);
+        Assert.assertEquals(10.0f, tmp1.getY(), TestConstants.delta);
     }
     
     @Test
     public void test2()
     {
-        Dimension2D tmp2 = new Dimension2D(tmp1);
+        Vector tmp2 = new Vector(tmp1);
         
         Assert.assertTrue(tmp1.equals(tmp2));
     }
@@ -49,7 +49,7 @@ public class TestDimension2D
     @Test
     public void test3()
     {
-        Dimension2D tmp2 = new Dimension2D(tmp1);
+        Vector tmp2 = new Vector(tmp1);
         
         Assert.assertTrue(tmp2.equals(tmp1));
     }
@@ -64,7 +64,7 @@ public class TestDimension2D
     @Test
     public void test5()
     {
-        Dimension2D tmp2 = new Dimension2D(1.1f, 10.0f);
+        Vector tmp2 = new Vector(1.1f, 10.0f);
         
         Assert.assertFalse(tmp2.equals(tmp1));
     }
@@ -72,7 +72,7 @@ public class TestDimension2D
     @Test
     public void test6()
     {
-        Dimension2D tmp2 = new Dimension2D(1.1f, 10.0f);
+        Vector tmp2 = new Vector(1.1f, 10.0f);
         
         Assert.assertFalse(tmp1.equals(tmp2));
     }

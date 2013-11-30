@@ -3,8 +3,7 @@ package net.patrickvogt.pinkball.geom;
 import java.awt.Color;
 
 import net.patrickvogt.pinkball.painter.IPainter;
-import net.patrickvogt.pinkball.vector.Coordinate;
-import net.patrickvogt.pinkball.vector.Dimension2D;
+import net.patrickvogt.pinkball.vector.Vector;
 
 /*
  * SolidBlock.java
@@ -31,7 +30,7 @@ public class SolidBlock extends GeometricObject {
 	 * @param _myColor die Farbe des zu erzeugenden Objekts
 	 * 
 	 */
-	public SolidBlock(Coordinate _myPosition, Dimension2D _myDimension, Color _myColor) {
+	public SolidBlock(Vector _myPosition, Vector _myDimension, Color _myColor) {
 		//super-Konstruktor (von GeometricObject) aufrufen
 		super(_myPosition, _myDimension, _myColor);
 	}
@@ -46,9 +45,9 @@ public class SolidBlock extends GeometricObject {
 	 * @param _width die Weite (gleichzeitig Hoehe) des zu erzeugenden Objekts
 	 * 
 	 */
-	public SolidBlock(float _x, float _y, float _width) {
+	public SolidBlock(float _x, float _y, float _width, float _height, Color colour) {
 		//oberen Konstruktor aufrufen
-		this(new Coordinate(_x,_y), new Dimension2D(_width,_width), Color.GRAY);
+		this(new Vector(_x,_y), new Vector(_width,_height), colour);
 	}
 	
 	/**
@@ -65,7 +64,7 @@ public class SolidBlock extends GeometricObject {
 	 */
 	public SolidBlock(float _x, float _y, float _width, Color _myColor) {
 		//oberen Konstruktor aufrufen
-		this(new Coordinate(_x,_y), new Dimension2D(_width,_width), _myColor);
+		this(new Vector(_x,_y), new Vector(_width,_width), _myColor);
 	}
 	
 	public void paint(IPainter p)
@@ -79,54 +78,54 @@ public class SolidBlock extends GeometricObject {
 	 * @param that das Objekt, welches das this Objekt beruehrt
 	 */
 	@Override
-	public void handleCollision(GeometricObject that) {
+	public GeometricObject handleCollision(GeometricObject that) {
 		//ist that eine Kugel? (Nur Kugeln koennen sich im Spiel bewegen)
 		if(that instanceof Ball) {
 			//feststellen, ob die Kugel mit einer horizontalen oder mit einer vertikalen
 			//Seite kollidiert ist
-			double diffX = that.getCenter().getX()-this.getCenter().getX();
-	       	double diffY = that.getCenter().getY()-this.getCenter().getY();
+			double diffX = that.getCenterX()-this.getCenterX();
+	       	double diffY = that.getCenterY()-this.getCenterY();
 
 	       	if(Math.max(Math.abs(diffX), Math.abs(diffY))==Math.abs(diffX)) {
 	       		//Kugel kollidiert mit einer vertikalen Seite
-	       		if(diffX>0 && that.getSpeed().getDX()<0) {
+	       		if(diffX>0 && that.speed.getX()<0) {
 	       			//that.getSpeed().getDX()<0 soll dafuer sorgen, dass sich die Kugel
 	       			//komplett aus dem this-Objekt herausbewegt
 	       			
 	       			//Kugel kollidiert mit rechter Seite
 	       			
 	       			//Geschwindigkeit in x-Richtung umdrehen
-	       			that.getSpeed().setDX(-1*that.getSpeed().getDX());
+	       		    that.speed = new Vector(-1*that.speed.getX(), that.speed.getY());
 	       		}
-	       		else if(diffX<0 && that.getSpeed().getDX()>0) {
+	       		else if(diffX<0 && that.speed.getX()>0) {
 	       			//that.getSpeed().getDX()>0 soll dafuer sorgen, dass sich die Kugel
 	       			//komplett aus dem this-Objekt herausbewegt
 	       			
 	       			//Kugel kollidiert mit linken Seite
 	       			
 	       			//Geschwindigkeit in x-Richtung umdrehen
-	       			that.getSpeed().setDX(-1*that.getSpeed().getDX());
+	       		 that.speed = new Vector(-that.speed.getX(), that.speed.getY());
 	       		}
 	       	}
 	       	else {
 	       		//Kugel kollidiert mit einer horizontalen Seite
-	       		if(diffY>0 && that.getSpeed().getDY()<0) {
+	       		if(diffY>0 && that.speed.getY()<0) {
 	       			//that.getSpeed().getDY()<0 soll dafuer sorgen, dass sich die Kugel
 	       			//komplett aus dem this-Objekt herausbewegt
 	       			
 	       			//Kugel kollidiert mit unteren Seite
 	       			
 	       			//Geschwindigkeit in y-Richtung umdrehen
-	       			that.getSpeed().setDY(-1*that.getSpeed().getDY());
+	       		    that.speed = new Vector(that.speed.getX(), -that.speed.getY());
 	       		}
-	       		else if(diffY<0 && that.getSpeed().getDY()>0) {
+	       		else if(diffY<0 && that.speed.getY()>0) {
 	       			//that.getSpeed().getDY()>0 soll dafuer sorgen, dass sich die Kugel
 	       			//komplett aus dem this-Objekt herausbewegt
 	       			
 	       			//Kugel kollidiert mit oberer Seite
 	       			
 	       			//Geschwindigkeit in y-Richtung umdrehen
-	       			that.getSpeed().setDY(-1*that.getSpeed().getDY());
+	       		 that.speed = new Vector(that.speed.getX(), -that.speed.getY());
 	       		}
 	       	}
 	       	
@@ -137,5 +136,6 @@ public class SolidBlock extends GeometricObject {
 	       		that.setColor(this.getColor());
 	       	}
 		}
+		return null;
 	}
 }

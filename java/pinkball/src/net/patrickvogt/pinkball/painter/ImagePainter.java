@@ -16,7 +16,7 @@ import net.patrickvogt.pinkball.geom.BrokenBlock;
 import net.patrickvogt.pinkball.geom.OutputHole;
 import net.patrickvogt.pinkball.geom.PaintedLine;
 import net.patrickvogt.pinkball.geom.SelectiveWall;
-import net.patrickvogt.pinkball.geom.ShrinkingBlock;
+import net.patrickvogt.pinkball.geom.ShrinkBlock;
 import net.patrickvogt.pinkball.geom.SolidBlock;
 
 public final class ImagePainter implements IPainter
@@ -28,6 +28,8 @@ public final class ImagePainter implements IPainter
     
     private ImagePainter()
     {
+        super();
+        
         try {
             this._blue_ball_img = ImageIO.read(this.getClass().getResourceAsStream("/images/ball.jpg"));  
         } catch (Exception ex) {
@@ -45,59 +47,58 @@ public final class ImagePainter implements IPainter
     }
     
     @Override
-    public final void setGraphicsContext(final Graphics _g)
+    public final void setGraphicsContext(final Graphics __g)
     {
-        this._g = _g;
+        this._g = __g;
     }
     
     @Override
-    public final void paint(final Ball b)
+    public final void paint(final Ball __b)
     {
-        final Color c = b.getColor();
+        final Color c = __b.getColor();
         
         if(Color.blue == c)
         {
-            this._g.drawImage(this._blue_ball_img, b.getPosition().getXAsInt(), b.getPosition().getYAsInt(), 
-                    b.getDimension().getWidthAsInt(), b.getDimension().getHeightAsInt(), 
-                    null);
+            this._g.drawImage(this._blue_ball_img, __b.getXAsInt(), __b.getYAsInt(), 
+                    __b.getWidthAsInt(), __b.getHeightAsInt(), null);
         }
         
     }
 
     @Override
-    public final void paint(final BlackHole bh)
+    public final void paint(final BlackHole __bh)
     {
        
     }
 
     @Override
-    public final void paint(final BlowUpBlock bub)
+    public final void paint(final BlowUpBlock __bub)
     {
 
     }
 
     @Override
-    public final void paint(final BrokenBlock bb)
+    public final void paint(final BrokenBlock __bb)
     {
  
     }
 
     @Override
-    public final void paint(final OutputHole oh)
+    public final void paint(final OutputHole __oh)
     {
 
     }
 
     @Override
-    public final void paint(final PaintedLine pl)
+    public final void paint(final PaintedLine __pl)
     {
-        final int numPoints = pl.getNumPoints();
+        final int numPoints = __pl.getNumPoints();
         final int[] xPoints = new int[numPoints];
         final int[] yPoints = new int[numPoints];
-        final Graphics2D g2d = ((java.awt.Graphics2D)this._g);
+        final Graphics2D g2d = ((Graphics2D)this._g);
         final Stroke s = g2d.getStroke();
         
-        pl.getPoints(xPoints, yPoints);
+        __pl.getPointsAsIntArrays(xPoints, yPoints);
        
         this._g.setColor(Color.black);
         g2d.setStroke(new BasicStroke(4.0f));
@@ -106,19 +107,19 @@ public final class ImagePainter implements IPainter
     }
 
     @Override
-    public final void paint(final SelectiveWall sw)
+    public final void paint(final SelectiveWall __sw)
     {
 
     }
 
     @Override
-    public final void paint(final ShrinkingBlock sb)
+    public final void paint(final ShrinkBlock __sb)
     {
 
     }
 
     @Override
-    public final void paint(final SolidBlock sb)
+    public final void paint(final SolidBlock __sb)
     {
 
     }

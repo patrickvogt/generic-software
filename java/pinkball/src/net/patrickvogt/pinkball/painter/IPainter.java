@@ -9,19 +9,19 @@ import net.patrickvogt.pinkball.geom.BrokenBlock;
 import net.patrickvogt.pinkball.geom.OutputHole;
 import net.patrickvogt.pinkball.geom.PaintedLine;
 import net.patrickvogt.pinkball.geom.SelectiveWall;
-import net.patrickvogt.pinkball.geom.ShrinkingBlock;
+import net.patrickvogt.pinkball.geom.ShrinkBlock;
 import net.patrickvogt.pinkball.geom.SolidBlock;
 
 public interface IPainter
 {
-    public void setGraphicsContext(final Graphics _g);
-    public void paint(final Ball b);
-    public void paint(final BlackHole bh);
-    public void paint(final BlowUpBlock bub);
-    public void paint(final BrokenBlock bb);
-    public void paint(final OutputHole oh);
-    public void paint(final PaintedLine pl);
-    public void paint(final SelectiveWall sw);
-    public void paint(final ShrinkingBlock sb);
-    public void paint(final SolidBlock sb);
+    public void setGraphicsContext(final Graphics __g);
+    public void paint(final Ball __b);
+    public void paint(final BlackHole __bh);
+    public void paint(final BlowUpBlock __bub);
+    public void paint(final BrokenBlock __bb);
+    public void paint(final OutputHole __oh);
+    public void paint(final PaintedLine __pl);
+    public void paint(final SelectiveWall __sw);
+    public void paint(final ShrinkBlock __sb);
+    public void paint(final SolidBlock __sb);
 }

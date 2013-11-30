@@ -1,6 +1,6 @@
 package net.patrickvogt.pinkball.util;
 
-public interface Moveable
+public interface IMoveable
 {
     public void move();
 }

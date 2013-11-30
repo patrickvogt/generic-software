@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.Locale;
 import java.util.Properties;
 
-public class PropertiesProvider
+public final class PropertiesProvider
 {
     private static PropertiesProvider _instance = null;
     private Properties _properties = null;
@@ -18,18 +18,18 @@ public class PropertiesProvider
             {
                 source_path = "/langs/deutsch.lang"; 
             }
-            InputStream stream = this.getClass().getResourceAsStream(source_path);
+            final InputStream stream = this.getClass().getResourceAsStream(source_path);
             this._properties = new Properties();
             this._properties.load(stream);
             stream.close();
         }
-        catch (Exception ex)
+        catch (final Exception ex)
         {
-
+            ex.printStackTrace();
         }
     }
 
-    public static PropertiesProvider getInstance()
+    public final static PropertiesProvider getInstance()
     {
         if(null == PropertiesProvider._instance)
         {
