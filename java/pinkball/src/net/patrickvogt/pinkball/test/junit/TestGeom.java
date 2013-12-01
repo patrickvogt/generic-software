@@ -4,21 +4,24 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestGeom {
+public class TestGeom
+{
 
-	@Before
-	public void setUp()
-	{
+    @Before
+    public void setUp()
+    {
 
-	}
-	
+    }
+
     @Test
-    public void thisAlwaysPasses() {
+    public void thisAlwaysPasses()
+    {
 
     }
 
     @Test
     @Ignore
-    public void thisIsIgnored() {
+    public void thisIsIgnored()
+    {
     }
 }

@@ -4,7 +4,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({TestVector.class, TestGeom.class})
-public class TestSuite {
+@Suite.SuiteClasses(
+{ TestVector.class, TestGeom.class })
+public class TestSuite
+{
 
 }

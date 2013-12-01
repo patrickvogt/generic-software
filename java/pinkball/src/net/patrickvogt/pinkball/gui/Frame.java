@@ -25,14 +25,24 @@ public class Frame extends JFrame
         // Kontruktor der Oberklasse mit dem String der HeadLeiste aufrufen
         super("PInkBall");
         // FrameContent (Level, Board, Timer, Score) intialisieren
+
         this._board = new Board();
-        
+
+        HeadUpDisplay hud = new HeadUpDisplay(this._board.getWidth() + 2
+                * Constants.GRID_DIMENSION, Constants.GRID_DIMENSION);
+
+        this._board.setHud(hud);
+
         this.setLayout(new BorderLayout());
         this.add(this._board, BorderLayout.CENTER);
-        this.add(new HeadUpDisplay(this._board.getWidth()+2*Constants.GRID_DIMENSION,Constants.GRID_DIMENSION), BorderLayout.NORTH);
-        this.add(new Border(Constants.GRID_DIMENSION,this._board.getHeight()), BorderLayout.EAST);
-        this.add(new Border(this._board.getWidth()+2*Constants.GRID_DIMENSION,Constants.GRID_DIMENSION), BorderLayout.SOUTH);
-        this.add(new Border(Constants.GRID_DIMENSION,this._board.getHeight()), BorderLayout.WEST);
+        this.add(hud, BorderLayout.NORTH);
+        this.add(new Border(Constants.GRID_DIMENSION, this._board.getHeight()),
+                BorderLayout.EAST);
+        this.add(new Border(this._board.getWidth() + 2
+                * Constants.GRID_DIMENSION, Constants.GRID_DIMENSION),
+                BorderLayout.SOUTH);
+        this.add(new Border(Constants.GRID_DIMENSION, this._board.getHeight()),
+                BorderLayout.WEST);
 
         // this.hud = new HeadUpDisplay(this.WIDTH+2*this.borderStoneWidth,
         // this.borderStoneWidth, this.delay);
@@ -40,7 +50,7 @@ public class Frame extends JFrame
         // Neuen timer erzeugen mit dem angegeben Delay (in ms) und dem
         // folgenden AcionListener
         this.newTimer();
-        
+
         // fuege dem Frame meine MenueLeiste hinzu
         this.setJMenuBar(new MenuBar(this, this._board));
 
@@ -51,7 +61,7 @@ public class Frame extends JFrame
         // Frame soll fokusierbar sein -> wichtig bpsw. fuer die Reaktion auf
         // Tastendrucks
         this.setFocusable(true);
-        
+
         this.init();
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -61,12 +71,12 @@ public class Frame extends JFrame
 
     public void newTimer()
     {
-        if(null!=this._timer)
+        if(null != this._timer)
         {
             this._timer.stop();
             this._timer = null;
         }
-        
+
         this._timer = new javax.swing.Timer(Constants.TIMER_DELAY,
                 new ActionListener()
                 {
@@ -81,13 +91,13 @@ public class Frame extends JFrame
                         }
                         catch(final GameOverException ex)
                         {
-                            if(null!=Frame.this._timer)
+                            if(null != Frame.this._timer)
                             {
-                            // beende das Spiel
-                            Frame.this._timer.stop();
-                            Frame.this._timer = null;
-                            // zeige dem Spieler den GameOverDialog
-                            showGameOverDialog();
+                                // beende das Spiel
+                                Frame.this._timer.stop();
+                                Frame.this._timer = null;
+                                // zeige dem Spieler den GameOverDialog
+                                showGameOverDialog();
                             }
 
                         }
@@ -95,15 +105,15 @@ public class Frame extends JFrame
                     }
                 });
     }
-    
+
     /**
      * initialisiert den Frame mit den aktuellen Einstellungen, Level etc.
      */
     public void init()
     {
         // Neues HeadUpDisplay (Uhr und Punktestand) erzeugen
-this._board.init();
-        
+        this._board.init();
+
         // finde deine PreferredSize
         this.pack();
 
@@ -168,7 +178,7 @@ this._board.init();
         sb.append(description_label);
         sb.append(": &Pi;nkBall<br /></body></html>");
 
-        pauseGame();   
+        pauseGame();
         JOptionPane.showMessageDialog(this, sb.toString(), about_title,
                 JOptionPane.INFORMATION_MESSAGE);
         pauseGame();

@@ -10,7 +10,7 @@ public final class Main
     {
         try
         {
-           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
         catch(final Exception ex)
         {

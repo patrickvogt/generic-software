@@ -17,6 +17,7 @@ standardpainter = Standard-Stil
 wireframepainter = Gitternetz-Stil
 imagepainter = Bilder-Stil
 debugpainter = Analyse-Stil
+grayscalepainter = Graustufen-Stil
 antialiasing = Kantenglättung
 
 help_menu = Hilfe

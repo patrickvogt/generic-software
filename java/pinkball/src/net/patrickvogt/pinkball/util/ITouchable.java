@@ -6,5 +6,7 @@ import net.patrickvogt.pinkball.geom.GeometricObject;
 public interface ITouchable
 {
     public boolean touches(final GeometricObject __that);
-    public GeometricObject handleCollision(final GeometricObject __that) throws GameOverException;
+
+    public GeometricObject handleCollision(final GeometricObject __that)
+            throws GameOverException;
 }

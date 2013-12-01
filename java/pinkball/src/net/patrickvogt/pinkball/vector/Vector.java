@@ -27,7 +27,7 @@ public final class Vector
     {
         return this._x;
     }
-    
+
     public final int getXAsInt()
     {
         return (int) this._x;
@@ -94,17 +94,17 @@ public final class Vector
         this._x = this._x / this_length;
         this._y = this._y / this_length;
     }
-    
+
     public final void invertX()
     {
         this._x = -this._x;
     }
-    
+
     public final void invertY()
     {
         this._y = -this._y;
     }
-    
+
     public final void invertAll()
     {
         this.invertX();

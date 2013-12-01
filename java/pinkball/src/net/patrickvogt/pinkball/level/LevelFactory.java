@@ -66,7 +66,7 @@ public final class LevelFactory
         private List<GeometricObject> _level_content = null;;
         private List<Ball> _balls = null;
         private OutputHole _outputHole = null;
-        
+
         private int _width = 0;
         private int _height = 0;
 
@@ -106,22 +106,22 @@ public final class LevelFactory
         {
             return this._balls;
         }
-        
+
         public final int getWidth()
         {
             return this._width;
         }
-        
+
         public final int getHeight()
         {
             return this._height;
         }
-        
+
         final void setWidth(final int __width)
         {
             this._width = __width;
         }
-        
+
         final void setHeight(final int __height)
         {
             this._height = __height;
@@ -186,7 +186,7 @@ public final class LevelFactory
     {
         final String colourString = __n.getAttributes()
                 .getNamedItem(LevelFactory._ATTRIBUTE_COLOUR).getNodeValue();
-        
+
         final Color colour = _colour_map.get(colourString.trim());
 
         return null == colour ? Color.gray : colour;
@@ -206,8 +206,8 @@ public final class LevelFactory
         {
             width = LevelFactory.parseWidth(__n);
             height = LevelFactory.parseHeight(__n);
-            __level.setWidth((int)width);
-            __level.setHeight((int)height);
+            __level.setWidth((int) width);
+            __level.setHeight((int) height);
         }
         else if(__n.getNodeName().equals(LevelFactory._NODE_BALL))
         {

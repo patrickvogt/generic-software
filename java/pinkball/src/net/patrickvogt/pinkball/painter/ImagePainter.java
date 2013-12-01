@@ -20,20 +20,25 @@ import net.patrickvogt.pinkball.geom.ShrinkBlock;
 import net.patrickvogt.pinkball.geom.SolidBlock;
 
 public final class ImagePainter extends AbstractPainter
-{   protected static IPainter _instance = null;
+{
+    protected static IPainter _instance = null;
     private BufferedImage _blue_ball_img = null;
-    
+
     private ImagePainter()
     {
         super();
-        
-        try {
-            this._blue_ball_img = ImageIO.read(this.getClass().getResourceAsStream("/images/blue_ball.png"));  
-        } catch (final Exception ex) {
+
+        try
+        {
+            this._blue_ball_img = ImageIO.read(this.getClass()
+                    .getResourceAsStream("/images/blue_ball.png"));
+        }
+        catch(final Exception ex)
+        {
             ex.printStackTrace();
         }
     }
-    
+
     public static final IPainter getInstance()
     {
         if(null == ImagePainter._instance)
@@ -42,13 +47,13 @@ public final class ImagePainter extends AbstractPainter
         }
         return ImagePainter._instance;
     }
-    
+
     @Override
     public final void setGraphicsContext(final Graphics __g)
     {
         this._g = __g;
     }
-    
+
     @Override
     public final void paint(final Ball __b)
     {
@@ -56,13 +61,13 @@ public final class ImagePainter extends AbstractPainter
         final int x = __b.getXAsInt();
         final int y = __b.getYAsInt();
         final int width = __b.getWidthAsInt();
-        
+
         if(Color.blue == c)
         {
-            this._g.drawImage(this._blue_ball_img, x, y, 
-                    width, width, null);
+            this._g.drawImage(this._blue_ball_img, x, y, width, width, null);
         }
-        else {
+        else
+        {
             this._g.setColor(__b.getColor());
             this._g.fillOval(x, y, width, width);
             this._g.setColor(Color.black);

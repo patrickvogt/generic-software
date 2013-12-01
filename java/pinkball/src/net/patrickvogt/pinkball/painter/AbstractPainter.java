@@ -9,7 +9,7 @@ import net.patrickvogt.pinkball.util.Settings;
 public abstract class AbstractPainter implements IPainter
 {
     protected Graphics _g = null;
-    
+
     @Override
     public void toggleAntiAliasing()
     {
@@ -19,12 +19,10 @@ public abstract class AbstractPainter implements IPainter
     @Override
     public void applyAntiAliasing()
     {
-        final Object antiAliasingSetting = 
-                Settings.antiAliasingEnabled ? RenderingHints.VALUE_ANTIALIAS_ON
+        final Object antiAliasingSetting = Settings.antiAliasingEnabled ? RenderingHints.VALUE_ANTIALIAS_ON
                 : RenderingHints.VALUE_ANTIALIAS_OFF;
 
         ((Graphics2D) this._g).setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING,
-                antiAliasingSetting);
+                RenderingHints.KEY_ANTIALIASING, antiAliasingSetting);
     }
 }

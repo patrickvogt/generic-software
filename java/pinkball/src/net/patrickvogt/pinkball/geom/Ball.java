@@ -22,7 +22,7 @@ public class Ball extends GeometricObject implements IMoveable
                 __color);
 
         Vector v = new Vector((float) (Math.random()), (float) (Math.random()));
-         v.setLength(ABS_SPEED);
+        v.setLength(ABS_SPEED);
 
         this.speed = v;
     }
@@ -85,33 +85,33 @@ public class Ball extends GeometricObject implements IMoveable
 
             if(null != centerDistanceVector)
             {
-                //http://www.vobarian.com/collisions/
+                // http://www.vobarian.com/collisions/
                 Vector n = new Vector(centerDistanceVector);
                 n.normalize();
-                
+
                 Vector t = new Vector(-n.getY(), n.getX());
                 t.normalize();
-                
+
                 float this_v_n = n.dot(this.speed);
                 float this_v_t = t.dot(this.speed);
                 float that_v_n = n.dot(that.speed);
                 float that_v_t = t.dot(that.speed);
-                
+
                 float this_v_n_prime = that_v_n;
                 float that_v_n_prime = this_v_n;
-                
+
                 Vector this_n = new Vector(n);
                 Vector this_t = new Vector(t);
-                
+
                 Vector that_n = new Vector(n);
                 Vector that_t = new Vector(t);
-                
+
                 this_n.mult(this_v_n_prime);
                 this_t.mult(this_v_t);
-                
+
                 that_n.mult(that_v_n_prime);
                 that_t.mult(that_v_t);
-                
+
                 this_n.add(this_t);
                 this.speed = this_n;
                 that_n.add(that_t);
@@ -125,7 +125,6 @@ public class Ball extends GeometricObject implements IMoveable
         }
         return null;
     }
-
 
     public void checkCollisionOnBorder(int BOARD_WIDTH, int BOARD_HEIGHT)
     {
@@ -158,14 +157,13 @@ public class Ball extends GeometricObject implements IMoveable
             if(super.touches(that) && !this.getIsInBalckHole()
                     && !((Ball) that).getIsInBalckHole())
             {
-                float xx = that.getCenterX()-this.getCenterX();
-                float yy = that.getCenterY()-this.getCenterY();
-                float rr = this.getRadius()
-                        + ((Ball) that).getRadius();
+                float xx = that.getCenterX() - this.getCenterX();
+                float yy = that.getCenterY() - this.getCenterY();
+                float rr = this.getRadius() + ((Ball) that).getRadius();
 
-                if(xx*xx+yy*yy <= rr*rr)
+                if(xx * xx + yy * yy <= rr * rr)
                 {
-                    this.centerDistanceVector = new Vector(xx,yy);
+                    this.centerDistanceVector = new Vector(xx, yy);
                     return true;
                 }
                 return false;

@@ -12,6 +12,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 
+import net.patrickvogt.pinkball.painter.GrayscalePainter;
 import net.patrickvogt.pinkball.painter.ImagePainter;
 import net.patrickvogt.pinkball.painter.StandardPainter;
 import net.patrickvogt.pinkball.painter.WireFramePainter;
@@ -35,6 +36,7 @@ public final class MenuBar extends JMenuBar
     private static final String ACT_CMD_STANDARDPAINTER = "STANDARDPAINTER";
     private static final String ACT_CMD_WIREFRAMEPAINTER = "WIREFRAMEPAINTER";
     private static final String ACT_CMD_DEBUGPAINTER = "DEBUGPAINTER";
+    private static final String ACT_CMD_GRAYSCALEPAINTER = "GRAYSCALEPAINTER";
     private static final String ACT_CMD_IMAGEPAINTER = "IMAGEPAINTER";
     private static final String ACT_CMD_ANTIALIASING = "ANTIALIASING";
 
@@ -59,8 +61,7 @@ public final class MenuBar extends JMenuBar
         menuItem.addActionListener(ml);
         menu.add(menuItem);
 
-        menuItem = new JMenuItem(pp.get(
-                "pause_menu_item", "Pause"));
+        menuItem = new JMenuItem(pp.get("pause_menu_item", "Pause"));
         menuItem.setActionCommand(MenuBar.ACT_CMD_PAUSE);
         menuItem.setMnemonic(KeyEvent.VK_P);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent
@@ -80,8 +81,7 @@ public final class MenuBar extends JMenuBar
         menu = new JMenu(pp.get("level_menu", "Level"));
         menu.setMnemonic(KeyEvent.VK_L);
 
-        menuItem = new JMenuItem(pp.get(
-                "demo_menu_item", "Demo"));
+        menuItem = new JMenuItem(pp.get("demo_menu_item", "Demo"));
         menuItem.setActionCommand(MenuBar.ACT_CMD_DEMO);
         menuItem.setMnemonic(KeyEvent.VK_D);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D,
@@ -91,8 +91,8 @@ public final class MenuBar extends JMenuBar
 
         menu.addSeparator();
 
-        menuItem = new JMenuItem(PropertiesProvider.getInstance()
-                .get("level1_menu_item", "Level 1"));
+        menuItem = new JMenuItem(PropertiesProvider.getInstance().get(
+                "level1_menu_item", "Level 1"));
         menuItem.setActionCommand(MenuBar.ACT_CMD_NEW);
         menuItem.setMnemonic(KeyEvent.VK_1);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1,
@@ -100,8 +100,8 @@ public final class MenuBar extends JMenuBar
         menuItem.addActionListener(ml);
         menu.add(menuItem);
 
-        menuItem = new JMenuItem(PropertiesProvider.getInstance()
-                .get("level2_menu_item", "Level 2"));
+        menuItem = new JMenuItem(PropertiesProvider.getInstance().get(
+                "level2_menu_item", "Level 2"));
         menuItem.setActionCommand(MenuBar.ACT_CMD_LEVEL2);
         menuItem.setMnemonic(KeyEvent.VK_2);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2,
@@ -109,8 +109,8 @@ public final class MenuBar extends JMenuBar
         menuItem.addActionListener(ml);
         menu.add(menuItem);
 
-        menuItem = new JMenuItem(PropertiesProvider.getInstance()
-                .get("level3_menu_item", "Level 3"));
+        menuItem = new JMenuItem(PropertiesProvider.getInstance().get(
+                "level3_menu_item", "Level 3"));
         menuItem.setActionCommand(MenuBar.ACT_CMD_LEVEL3);
         menuItem.setMnemonic(KeyEvent.VK_3);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3,
@@ -118,8 +118,8 @@ public final class MenuBar extends JMenuBar
         menuItem.addActionListener(ml);
         menu.add(menuItem);
 
-        menuItem = new JMenuItem(PropertiesProvider.getInstance()
-                .get("level4_menu_item", "Level 4"));
+        menuItem = new JMenuItem(PropertiesProvider.getInstance().get(
+                "level4_menu_item", "Level 4"));
         menuItem.setActionCommand(MenuBar.ACT_CMD_LEVEL4);
         menuItem.setMnemonic(KeyEvent.VK_4);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4,
@@ -127,8 +127,8 @@ public final class MenuBar extends JMenuBar
         menuItem.addActionListener(ml);
         menu.add(menuItem);
 
-        menuItem = new JMenuItem(PropertiesProvider.getInstance()
-                .get("level5_menu_item", "Level 5"));
+        menuItem = new JMenuItem(PropertiesProvider.getInstance().get(
+                "level5_menu_item", "Level 5"));
         menuItem.setActionCommand(MenuBar.ACT_CMD_LEVEL5);
         menuItem.setMnemonic(KeyEvent.VK_5);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5,
@@ -142,18 +142,20 @@ public final class MenuBar extends JMenuBar
 
         ButtonGroup level_group = new ButtonGroup();
 
-        menuItem = new JRadioButtonMenuItem(pp.get("standardpainter", "Standard Style"));
+        menuItem = new JRadioButtonMenuItem(pp.get("standardpainter",
+                "Standard Style"));
         menuItem.setActionCommand(MenuBar.ACT_CMD_STANDARDPAINTER);
         menuItem.setMnemonic(KeyEvent.VK_S);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
                 ActionEvent.CTRL_MASK));
         menuItem.addActionListener(ml);
-        ((JRadioButtonMenuItem)menuItem).setSelected(true);
+        ((JRadioButtonMenuItem) menuItem).setSelected(true);
         level_group.add(menuItem);
         menu.add(menuItem);
         this.add(menu);
 
-        menuItem = new JRadioButtonMenuItem(pp.get("wireframepainter", "Wireframe Style"));
+        menuItem = new JRadioButtonMenuItem(pp.get("wireframepainter",
+                "Wireframe Style"));
         menuItem.setActionCommand(MenuBar.ACT_CMD_WIREFRAMEPAINTER);
         menuItem.setMnemonic(KeyEvent.VK_E);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E,
@@ -163,7 +165,8 @@ public final class MenuBar extends JMenuBar
         menu.add(menuItem);
         this.add(menu);
 
-        menuItem = new JRadioButtonMenuItem(pp.get("debugpainter", "Debug Style"));
+        menuItem = new JRadioButtonMenuItem(pp.get("debugpainter",
+                "Debug Style"));
         menuItem.setActionCommand(MenuBar.ACT_CMD_DEBUGPAINTER);
         menuItem.setMnemonic(KeyEvent.VK_T);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T,
@@ -173,7 +176,8 @@ public final class MenuBar extends JMenuBar
         menu.add(menuItem);
         this.add(menu);
 
-        menuItem = new JRadioButtonMenuItem(pp.get("imagepainter", "Image Style"));
+        menuItem = new JRadioButtonMenuItem(pp.get("imagepainter",
+                "Image Style"));
         menuItem.setActionCommand(MenuBar.ACT_CMD_IMAGEPAINTER);
         menuItem.setMnemonic(KeyEvent.VK_I);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I,
@@ -182,10 +186,22 @@ public final class MenuBar extends JMenuBar
         level_group.add(menuItem);
         menu.add(menuItem);
         this.add(menu);
-        
+
+        menuItem = new JRadioButtonMenuItem(pp.get("grayscalepainter",
+                "Grayscale Style"));
+        menuItem.setActionCommand(MenuBar.ACT_CMD_GRAYSCALEPAINTER);
+        menuItem.setMnemonic(KeyEvent.VK_G);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G,
+                ActionEvent.CTRL_MASK));
+        menuItem.addActionListener(ml);
+        level_group.add(menuItem);
+        menu.add(menuItem);
+        this.add(menu);
+
         menu.addSeparator();
 
-        menuItem = new JCheckBoxMenuItem(pp.get("antialiasing", "Anti-Aliasing"));
+        menuItem = new JCheckBoxMenuItem(
+                pp.get("antialiasing", "Anti-Aliasing"));
         menuItem.setActionCommand(MenuBar.ACT_CMD_ANTIALIASING);
         menuItem.setMnemonic(KeyEvent.VK_A);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A,
@@ -280,6 +296,11 @@ public final class MenuBar extends JMenuBar
             else if(evt.getActionCommand().equals(MenuBar.ACT_CMD_IMAGEPAINTER))
             {
                 this._board.setPainter(ImagePainter.getInstance());
+            }
+            else if(evt.getActionCommand().equals(
+                    MenuBar.ACT_CMD_GRAYSCALEPAINTER))
+            {
+                this._board.setPainter(GrayscalePainter.getInstance());
             }
             else if(evt.getActionCommand().equals(MenuBar.ACT_CMD_ANTIALIASING))
             {

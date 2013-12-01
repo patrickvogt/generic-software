@@ -18,7 +18,8 @@ import net.patrickvogt.pinkball.painter.AbstractPainter;
 import net.patrickvogt.pinkball.painter.IPainter;
 
 public final class DebugPainter extends AbstractPainter
-{protected static IPainter _instance = null;
+{
+    protected static IPainter _instance = null;
     private static final int _VECTOR_LENGTH_STRETCH = 50;
     private static final int _VECTOR_ARRAY_HEAD_SIZE = 4;
 
@@ -52,7 +53,7 @@ public final class DebugPainter extends AbstractPainter
         final int cy = __b.getCenterYAsInt();
         final float dx = __b.getDX() * DebugPainter._VECTOR_LENGTH_STRETCH;
         final float dy = __b.getDY() * DebugPainter._VECTOR_LENGTH_STRETCH;
-        float angle = (float)Math.atan2(dy, dx);
+        float angle = (float) Math.atan2(dy, dx);
         int length = (int) Math.sqrt(dx * dx + dy * dy);
 
         this._g.setColor(__b.getColor());
@@ -67,9 +68,12 @@ public final class DebugPainter extends AbstractPainter
         g.transform(at);
 
         g.drawLine(0, 0, length, 0);
-        g.fillPolygon(
-                new int[]{ length, length - DebugPainter._VECTOR_ARRAY_HEAD_SIZE, length - DebugPainter._VECTOR_ARRAY_HEAD_SIZE, length }, 
-                new int[]{ 0, -DebugPainter._VECTOR_ARRAY_HEAD_SIZE, DebugPainter._VECTOR_ARRAY_HEAD_SIZE, 0 }, 4);
+        g.fillPolygon(new int[]
+        { length, length - DebugPainter._VECTOR_ARRAY_HEAD_SIZE,
+                length - DebugPainter._VECTOR_ARRAY_HEAD_SIZE, length },
+                new int[]
+                { 0, -DebugPainter._VECTOR_ARRAY_HEAD_SIZE,
+                        DebugPainter._VECTOR_ARRAY_HEAD_SIZE, 0 }, 4);
 
     }
 
@@ -158,7 +162,8 @@ public final class DebugPainter extends AbstractPainter
         this._g.fillOval(x + width / 4, y + width / 4, width / 2, width / 2);
 
         this._g.setColor(Color.black);
-        this._g.drawRect(x_left+diameter/2, y_top+diameter/2, x_right-x_left, y_bottom-y_top);
+        this._g.drawRect(x_left + diameter / 2, y_top + diameter / 2, x_right
+                - x_left, y_bottom - y_top);
         this._g.setColor(Color.red);
         this._g.fillOval(x_left, y_top, diameter, diameter);
         this._g.fillOval(x_right, y_top, diameter, diameter);

@@ -16,22 +16,35 @@ import net.patrickvogt.pinkball.geom.SelectiveWall;
 import net.patrickvogt.pinkball.geom.ShrinkBlock;
 import net.patrickvogt.pinkball.geom.SolidBlock;
 
-public final class WireFramePainter extends AbstractPainter
+public final class GrayscalePainter extends AbstractPainter
 {
     protected static IPainter _instance = null;
 
-    private WireFramePainter()
+    private GrayscalePainter()
     {
         super();
     }
 
+    private final Color colourToGrayscale(final Color colour)
+    {
+        final int red = colour.getRed();
+        final int green = colour.getGreen();
+        final int blue = colour.getBlue();
+        final int gray = (int) (0.29f * red + 0.01f * green + 0.70f * blue);
+        // final int gray = (red+green+blue)/3;
+        // final int gray = (Math.max(Math.max(red,
+        // green),blue)+Math.min(Math.min(red, green),blue))/2;
+
+        return new Color(gray, gray, gray);
+    }
+
     public final static IPainter getInstance()
     {
-        if(null == WireFramePainter._instance)
+        if(null == GrayscalePainter._instance)
         {
-            WireFramePainter._instance = new WireFramePainter();
+            GrayscalePainter._instance = new GrayscalePainter();
         }
-        return WireFramePainter._instance;
+        return GrayscalePainter._instance;
     }
 
     @Override
@@ -47,7 +60,9 @@ public final class WireFramePainter extends AbstractPainter
         final int y = __b.getYAsInt();
         final int width = __b.getWidthAsInt();
 
-        this._g.setColor(__b.getColor());
+        this._g.setColor(colourToGrayscale(__b.getColor()));
+        this._g.fillOval(x, y, width, width);
+        this._g.setColor(Color.black);
         this._g.drawOval(x, y, width, width);
     }
 
@@ -66,10 +81,12 @@ public final class WireFramePainter extends AbstractPainter
         final int width_out = width + two_padding;
         final int height_out = height + two_padding;
 
-        this._g.setColor(__bh.getColor());
-        this._g.drawRect(x_out, y_out, width_out, height_out);
+        this._g.setColor(colourToGrayscale(__bh.getColor()));
+        this._g.fillRect(x_out, y_out, width_out, height_out);
         this._g.setColor(Color.black);
-        this._g.drawOval(x, y, width, height);
+        this._g.drawRect(x_out, y_out, width_out, height_out);
+
+        this._g.fillOval(x, y, width + 1, height + 1);
     }
 
     @Override
@@ -80,9 +97,13 @@ public final class WireFramePainter extends AbstractPainter
         final int width = __bub.getWidthAsInt();
         final int height = __bub.getHeightAsInt();
 
-        this._g.setColor(__bub.getColor());
-        this._g.drawRect(x, y, width, height);
+        this._g.setColor(colourToGrayscale(__bub.getColor()));
+        this._g.fillRect(x, y, width, height);
         this._g.setColor(Color.white);
+        this._g.fillOval(x, y, width, width);
+
+        this._g.setColor(Color.black);
+        this._g.drawRect(x, y, width, height);
         this._g.drawOval(x, y, width, width);
     }
 
@@ -102,9 +123,10 @@ public final class WireFramePainter extends AbstractPainter
         final Color c = __bb.getColor();
         final Color contour = (c == Color.black) ? Color.white : Color.black;
 
-        this._g.setColor(c);
-        this._g.drawRect(x, y, width, height);
+        this._g.setColor(colourToGrayscale(c));
+        this._g.fillRect(x, y, width, height);
         this._g.setColor(contour);
+        this._g.drawRect(x, y, width, height);
         this._g.drawLine(x_left, y_top, x_right, y_bottom);
         this._g.drawLine(x_left, y_bottom, x_right, y_top);
     }
@@ -126,17 +148,17 @@ public final class WireFramePainter extends AbstractPainter
         this._g.setColor(Color.gray);
         this._g.drawRect(x, y, width, height);
 
-        this._g.setColor(__oh.getColor());
-        this._g.drawOval(x + width / 4, y + width / 4, width / 2, width / 2);
+        this._g.setColor(colourToGrayscale(__oh.getColor()));
+        this._g.fillOval(x + width / 4, y + width / 4, width / 2, width / 2);
 
         this._g.setColor(Color.black);
         this._g.drawRect(x_left + diameter / 2, y_top + diameter / 2, x_right
                 - x_left, y_bottom - y_top);
-        this._g.setColor(Color.red);
-        this._g.drawOval(x_left, y_top, diameter, diameter);
-        this._g.drawOval(x_right, y_top, diameter, diameter);
-        this._g.drawOval(x_left, y_bottom, diameter, diameter);
-        this._g.drawOval(x_right, y_bottom, diameter, diameter);
+        this._g.setColor(colourToGrayscale(Color.red));
+        this._g.fillOval(x_left, y_top, diameter, diameter);
+        this._g.fillOval(x_right, y_top, diameter, diameter);
+        this._g.fillOval(x_left, y_bottom, diameter, diameter);
+        this._g.fillOval(x_right, y_bottom, diameter, diameter);
     }
 
     @Override
@@ -151,7 +173,7 @@ public final class WireFramePainter extends AbstractPainter
         __pl.getPointsAsIntArrays(xPoints, yPoints);
 
         this._g.setColor(Color.black);
-        g2d.setStroke(new BasicStroke(2.0f));
+        g2d.setStroke(new BasicStroke(4.0f));
         this._g.drawPolyline(xPoints, yPoints,
                 (xPoints.length > yPoints.length) ? yPoints.length
                         : xPoints.length);
@@ -171,10 +193,14 @@ public final class WireFramePainter extends AbstractPainter
         final int in_x = (width > height) ? (x + width / 4) : x;
         final int in_y = (width > height) ? y : (y + height / 4);
 
-        this._g.setColor(Color.darkGray);
-        this._g.drawRect(x, y, width, height);
+        this._g.setColor(Color.gray);
+        this._g.fillRect(x, y, width, height);
 
-        this._g.setColor(__sw.getColor());
+        this._g.setColor(colourToGrayscale(__sw.getColor()));
+        this._g.fillRect(in_x, in_y, in_width, in_height);
+
+        this._g.setColor(Color.black);
+        this._g.drawRect(x, y, width, height);
         this._g.drawRect(in_x, in_y, in_width, in_height);
     }
 
@@ -190,9 +216,13 @@ public final class WireFramePainter extends AbstractPainter
         final int in_y = y + width / 4;
         final int in_width = width / 2;
 
-        this._g.setColor(__sb.getColor());
-        this._g.drawRect(x, y, width, height);
+        this._g.setColor(colourToGrayscale(__sb.getColor()));
+        this._g.fillRect(x, y, width, height);
         this._g.setColor(Color.white);
+        this._g.fillOval(in_x, in_y, in_width, in_width);
+
+        this._g.setColor(Color.black);
+        this._g.drawRect(x, y, width, height);
         this._g.drawOval(in_x, in_y, in_width, in_width);
     }
 
@@ -204,7 +234,9 @@ public final class WireFramePainter extends AbstractPainter
         final int width = __sb.getWidthAsInt();
         final int height = __sb.getHeightAsInt();
 
-        this._g.setColor(__sb.getColor());
+        this._g.setColor(colourToGrayscale(__sb.getColor()));
+        this._g.fillRect(x, y, width, height);
+        this._g.setColor(Color.black);
         this._g.drawRect(x, y, width, height);
     }
 

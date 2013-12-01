@@ -17,7 +17,8 @@ import net.patrickvogt.pinkball.geom.ShrinkBlock;
 import net.patrickvogt.pinkball.geom.SolidBlock;
 
 public final class StandardPainter extends AbstractPainter
-{protected static IPainter _instance = null;
+{
+    protected static IPainter _instance = null;
 
     private StandardPainter()
     {

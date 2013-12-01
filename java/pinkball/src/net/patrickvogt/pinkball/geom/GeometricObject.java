@@ -61,8 +61,7 @@ public abstract class GeometricObject implements IPaintable, ITouchable
      *            die Farbe des zu erzeugenden Objekts
      * 
      */
-    public GeometricObject(Vector _position, Vector _dimension,
-            Color _color)
+    public GeometricObject(Vector _position, Vector _dimension, Color _color)
     {
         // this-Felder setzen
         this.position = _position;
@@ -113,79 +112,75 @@ public abstract class GeometricObject implements IPaintable, ITouchable
         return this.dimension.getYAsInt();
     }
 
-
     public Color getColor()
     {
         return this.color;
     }
-    
+
     public void setColor(Color _color)
     {
         this.color = _color;
     }
-    
+
     public abstract void paint(IPainter p);
 
-    public abstract GeometricObject handleCollision(GeometricObject that) throws GameOverException;
+    public abstract GeometricObject handleCollision(GeometricObject that)
+            throws GameOverException;
 
-
-    
     public void moveTo(int x, int y)
     {
-        this.position = new Vector(x,y);
+        this.position = new Vector(x, y);
     }
 
     public boolean hasWithin(Vector p)
     {
         return p.getX() >= this.position.getX()
-                && p.getX() <= this.position.getX()
-                        + this.dimension.getX()
+                && p.getX() <= this.position.getX() + this.dimension.getX()
                 && p.getY() >= this.position.getY()
-                && p.getY() <= (this.position.getY() + this.dimension
-                        .getY());
+                && p.getY() <= (this.position.getY() + this.dimension.getY());
     }
 
     private boolean isLeftOf(GeometricObject that)
     {
-        return this.position.getX() + this.dimension.getX() < that
-                .position.getX();
+        return this.position.getX() + this.dimension.getX() < that.position
+                .getX();
     }
 
     private boolean isTopOf(GeometricObject that)
     {
-        return this.position.getY() + this.dimension.getY() < that
-                .position.getY();
+        return this.position.getY() + this.dimension.getY() < that.position
+                .getY();
     }
 
     public boolean touches(GeometricObject that)
     {
-            // sind die Objekte uebereinander OR nebeneinander
-            return !this.isLeftOf(that) && !this.isTopOf(that) 
-                    && !that.isLeftOf(this) && !that.isTopOf(this);
+        // sind die Objekte uebereinander OR nebeneinander
+        return !this.isLeftOf(that) && !this.isTopOf(that)
+                && !that.isLeftOf(this) && !that.isTopOf(this);
     }
-    
+
     public Vector getCenter()
     {
-        return new Vector(getCenterX(),getCenterY());
+        return new Vector(getCenterX(), getCenterY());
     }
-    
+
     public float getCenterX()
     {
-        return this.position.getX()+this.dimension.getX()/2;
+        return this.position.getX() + this.dimension.getX() / 2;
     }
-    
+
     public float getCenterY()
     {
-        return this.position.getY()+this.dimension.getY()/2;
+        return this.position.getY() + this.dimension.getY() / 2;
     }
-    
+
     public int getCenterYAsInt()
     {
-        return (int)this.getCenterY();
+        return (int) this.getCenterY();
     }
 
     public int getCenterXAsInt()
     {
-        return (int)this.getCenterX();
+        return (int) this.getCenterX();
     }
 }

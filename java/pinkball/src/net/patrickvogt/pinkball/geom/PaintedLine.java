@@ -61,8 +61,8 @@ public class PaintedLine extends GeometricObject
     @Override
     public boolean touches(GeometricObject that)
     {
-        //TODO als Vektoren umschreiben
-        
+        // TODO als Vektoren umschreiben
+
         // ist that eine Kugel= (Nur Kugeln koennen sich im Spiel bewegen)
         if(that instanceof Ball)
         {

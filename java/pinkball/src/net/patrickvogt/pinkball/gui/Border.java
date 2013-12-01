@@ -33,8 +33,9 @@ public class Border extends JPanel
         this.myObjects = new LinkedList<GeometricObject>();
         for(int i = 0; i < max / min; i++)
         {
-            this.myObjects.add(new SolidBlock(_width > _height ? i * min : min_x,
-                    _width > _height ? min_y : i * min, min, min, Color.gray));
+            this.myObjects.add(new SolidBlock(_width > _height ? i * min
+                    : min_x, _width > _height ? min_y : i * min, min, min,
+                    Color.gray));
         }
     }
 

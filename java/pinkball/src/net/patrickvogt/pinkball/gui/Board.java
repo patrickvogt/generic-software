@@ -7,6 +7,7 @@ import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,15 +52,19 @@ public class Board extends JPanel
     private OutputHole _outputHole = null;
 
     private PaintedLine _currentLine = null;
-    
+
     private MouseClickAndMotionListener _mouseListener = null;
 
     IPainter _painter = null;
 
+    HeadUpDisplay _hud = null;
+
+    private long _startTime;
+
     public Board()
     {
         super();
-             
+
         this._painter = StandardPainter.getInstance();
         this._mouseListener = new MouseClickAndMotionListener();
 
@@ -69,13 +74,37 @@ public class Board extends JPanel
         this.addMouseMotionListener(this._mouseListener);
         this.addMouseListener(this._mouseListener);
     }
-    
+
+    public void setHud(HeadUpDisplay __hud)
+    {
+        this._hud = __hud;
+    }
+
+    public void updateTimeDisplay()
+    {
+        long now = Calendar.getInstance().getTimeInMillis();
+        long secondsPassed = (now - this._startTime) / 1000;
+        long minutesPassed = 0;
+        if(secondsPassed >= 60)
+        {
+            minutesPassed = secondsPassed / 60;
+            secondsPassed = secondsPassed - minutesPassed*60;
+        }
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(String.format("%02d", minutesPassed));
+        sb.append(":");
+        sb.append(String.format("%02d", secondsPassed));
+        this._hud.setTime(sb.toString());
+    }
+
     public void init()
     {
         // nulle den Score
         this._score = 0;
 
-        this._buffImg = this._gfxConf.createCompatibleImage(this._width, this._height);
+        this._buffImg = this._gfxConf.createCompatibleImage(this._width,
+                this._height);
         this._gImg = this._buffImg.createGraphics();
         this._painter.setGraphicsContext(this._gImg);
         this._painter.applyAntiAliasing();
@@ -91,19 +120,19 @@ public class Board extends JPanel
     {
         return (new Dimension(this._width, this._height));
     }
-    
-    @Override 
+
+    @Override
     public int getWidth()
     {
-     return _width;   
+        return _width;
     }
-    
-    @Override 
+
+    @Override
     public int getHeight()
     {
         return _height;
     }
-    
+
     private void checkBallBorderCollision()
     {
         for(int i = 0; i < this._releasedBalls.size(); i = i + 1)
@@ -113,11 +142,12 @@ public class Board extends JPanel
             that.checkCollisionOnBorder(this._width, this._height);
         }
     }
-    
-    private void checkBallObjectCollision(List<GeometricObject> __allToDelete) throws GameOverException
+
+    private void checkBallObjectCollision(List<GeometricObject> __allToDelete)
+            throws GameOverException
     {
         GeometricObject toDelete = null;
-        
+
         for(int i = 0; i < this._objects.size(); i = i + 1)
         {
             GeometricObject that = this._objects.get(i);
@@ -137,7 +167,7 @@ public class Board extends JPanel
             }
         }
     }
-    
+
     private void checkBallBallCollision() throws GameOverException
     {
         for(int i = 0; i < this._releasedBalls.size(); i = i + 1)
@@ -155,7 +185,7 @@ public class Board extends JPanel
             }
         }
     }
-    
+
     private void updateGameContent(List<GeometricObject> __allToDelete)
     {
         for(GeometricObject g : __allToDelete)
@@ -165,6 +195,7 @@ public class Board extends JPanel
                 if(Color.gray != g.getColor())
                 {
                     this._score = this._score + Constants.SCORE_UNIT;
+                    this._hud.setScore(this._score);
                 }
                 this._releasedBalls.remove(g);
             }
@@ -182,17 +213,16 @@ public class Board extends JPanel
         this.checkBallBorderCollision();
 
         this.checkBallObjectCollision(allToDelete);
-        
+
         this.checkBallBallCollision();
 
-        
         if(allToDelete.contains(this._currentLine))
         {
             this._mouseListener.resetIsDragged();
         }
 
         this.updateGameContent(allToDelete);
-        
+
         allToDelete = null;
 
         this.moveObjects();
@@ -204,6 +234,7 @@ public class Board extends JPanel
         {
             this.setLevel(this._currentLevel + 1);
         }
+        this.updateTimeDisplay();
     }
 
     public void setLevel(final int __newLevel)
@@ -226,6 +257,9 @@ public class Board extends JPanel
             this._height = level.getHeight();
             this.init();
         }
+        this._startTime = Calendar.getInstance().getTimeInMillis();
+        if(null!=_hud)
+            {_hud.setScore(0);}
     }
 
     /**
@@ -263,6 +297,7 @@ public class Board extends JPanel
                             this._outputHole.getYAsInt());
                     // fuege die Kugel dem SPielfeld hinzu
                     this._releasedBalls.add(releaseThis);
+                    this._waitForRelease = 1;
                 }
             }
             // releaseZeit hochzaehlen
@@ -310,8 +345,9 @@ public class Board extends JPanel
         }
 
         g.drawImage(_buffImg, 0, 0, this);
+
+        this._hud.repaint();
     }
-    
 
     public final void setPainter(IPainter instance)
     {
