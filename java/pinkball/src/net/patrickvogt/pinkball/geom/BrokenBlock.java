@@ -53,60 +53,25 @@ public class BrokenBlock extends GeometricObject {
 	@Override
 	public GeometricObject handleCollision(GeometricObject that)  {
 		//ist that eine Kugel? (nur Kugeln koennen sich im Spiel bewegen)
-		if(that instanceof Ball) {
+		
 			//feststellen, ob die Kugel mit einer horizontalen oder mit einer vertikalen
 			//Seite kollidiert ist
 			double diffX = that.getCenterX()-this.getCenterX();
 	       	double diffY = that.getCenterY()-this.getCenterY();
 	       	
-	       	if(Math.max(Math.abs(diffX), Math.abs(diffY))==Math.abs(diffX)) {
-	       		//Kugel kollidiert mit einer vertikalen Seite der Wand
-	       		if(diffX>0 && that.speed.getX()<0) {
-	       			//that.getSpeed().getDX()<0 soll dafuer sorgen, dass sich die Kugel
-	       			//komplett aus dem this-Objekt herausbewegt
-	       			
-	       			//Kugel kollidiert mit rechter Seite
-	       			
-	       			//Geschwindigkeit in x-Richtung umdrehen
-	       		 that.speed = new Vector(-that.speed.getX(), that.speed.getY());
-	       		}
-	       		else if(diffX<0 && that.speed.getX()>0) {
-	       			//that.getSpeed().getDX()>0 soll dafuer sorgen, dass sich die Kugel
-	       			//komplett aus dem this-Objekt herausbewegt
-	       			
-	       			//Kugel kollidiert mit linker Seite
-	       			
-	       			//Geschwindigkeit in x-Richtung umdrehen
-	       		 that.speed = new Vector(-that.speed.getX(), that.speed.getY());
-	       		}
+	       	if(Math.abs(diffX) > Math.abs(diffY)) {
+	       		that.speed.invertX();
 	       	}
 	       	else {
-	       		//Kugel kollidiert mit einer horizontalen Seite der Wand
-	       		if(diffY>0 && that.speed.getY()<0) {
-	       			//that.getSpeed().getDY()<0 soll dafuer sorgen, dass sich die Kugel
-	       			//komplett aus dem this-Objekt herausbewegt
-	       			
-	       			//Kugel kollidiert mit der unteren Seite
-	       			
-	       			//Geschwindigkeit in y-Richtung umdrehen
-	       		 that.speed = new Vector(that.speed.getX(), -that.speed.getY());
-	       		}
-	       		else if(diffY<0 && that.speed.getY()>0) {
-	       			//that.getSpeed().getDY()>0 soll dafuer sorgen, dass sich die Kugel
-	       			//komplett aus dem this-Objekt herausbewegt
-	       			
-	       			//Kugel kollidiert mit der oberen Seite
-	       			
-	       			//Geschwindigkeit in y-Richtung umdrehen
-	       		    that.speed = new Vector(that.speed.getX(), -that.speed.getY());
-	       		}
+	       		that.speed.invertY();
+	       		
 	       	}
 		
 	       	//Haben Kugel und BrokenBlock die gleiche Farbe?
 			if(this.getColor()==Color.GRAY || this.getColor()==that.getColor()) {
 				return this;
 			}
-		}
+		
 		return null;
 	}
 }

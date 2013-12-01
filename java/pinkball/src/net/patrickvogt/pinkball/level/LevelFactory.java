@@ -30,40 +30,45 @@ import net.patrickvogt.pinkball.util.Constants;
 
 public final class LevelFactory
 {
-    private static final String NODE_BALL = "ball";
-    private static final String NODE_OUTPUT_HOLE = "output-hole";
-    private static final String NODE_BLACK_HOLE = "black-hole";
-    private static final String NODE_BROKEN_BLOCK = "broken-block";
-    private static final String NODE_SOLID_BLOCK = "solid-block";
-    private static final String NODE_SELECTIVE_WALL = "selective-wall";
-    private static final String NODE_BLOW_UP_BLOCK = "blow-up-block";
-    private static final String NODE_SHRINK_BLOCK = "shrink-block";
+    private static final String _NODE_BALL = "ball";
+    private static final String _NODE_OUTPUT_HOLE = "output-hole";
+    private static final String _NODE_BLACK_HOLE = "black-hole";
+    private static final String _NODE_BROKEN_BLOCK = "broken-block";
+    private static final String _NODE_SOLID_BLOCK = "solid-block";
+    private static final String _NODE_SELECTIVE_WALL = "selective-wall";
+    private static final String _NODE_BLOW_UP_BLOCK = "blow-up-block";
+    private static final String _NODE_SHRINK_BLOCK = "shrink-block";
+    private static final String _NODE_LEVEL = "level";
 
-    private static final String ATTRIBUTE_POSITION = "position";
-    private static final String ATTRIBUTE_DIAMETER = "diameter";
-    private static final String ATTRIBUTE_WIDTH = "width";
-    private static final String ATTRIBUTE_HEIGHT = "height";
-    private static final String ATTRIBUTE_COLOUR = "colour";
+    private static final String _ATTRIBUTE_POSITION = "position";
+    private static final String _ATTRIBUTE_DIAMETER = "diameter";
+    private static final String _ATTRIBUTE_WIDTH = "width";
+    private static final String _ATTRIBUTE_HEIGHT = "height";
+    private static final String _ATTRIBUTE_COLOUR = "colour";
 
-    private static final int X_INDEX = 0;
-    private static final int Y_INDEX = 1;
+    private static final int _X_INDEX = 0;
+    private static final int _Y_INDEX = 1;
 
-    private static Map<String, Color> colour_map = null;
+    private static Map<String, Color> _colour_map = null;
     private static final int _GRID_DIMENSION = Constants.GRID_DIMENSION;
 
     static
     {
-        colour_map = new TreeMap<String, Color>();
+        _colour_map = new TreeMap<String, Color>();
 
-        colour_map.put("blue", Color.blue);
-        colour_map.put("orange", Color.orange);
+        _colour_map.put("blue", Color.blue);
+        _colour_map.put("orange", Color.orange);
+        _colour_map.put("red", Color.red);
     }
 
     public static final class Level
     {
-        private List<GeometricObject> _level_content;
-        private List<Ball> _balls;
-        private OutputHole _outputHole;
+        private List<GeometricObject> _level_content = null;;
+        private List<Ball> _balls = null;
+        private OutputHole _outputHole = null;
+        
+        private int _width = 0;
+        private int _height = 0;
 
         public Level()
         {
@@ -71,19 +76,19 @@ public final class LevelFactory
             this._balls = new LinkedList<Ball>();
         }
 
-        public final void add(GeometricObject go)
+        public final void add(final GeometricObject __go)
         {
-            if(go instanceof Ball)
+            if(__go instanceof Ball)
             {
-                this._balls.add((Ball) go);
+                this._balls.add((Ball) __go);
             }
-            else if(go instanceof OutputHole)
+            else if(__go instanceof OutputHole)
             {
-                this._outputHole = (OutputHole) go;
+                this._outputHole = (OutputHole) __go;
             }
             else
             {
-                this._level_content.add(go);
+                this._level_content.add(__go);
             }
         }
 
@@ -101,6 +106,26 @@ public final class LevelFactory
         {
             return this._balls;
         }
+        
+        public final int getWidth()
+        {
+            return this._width;
+        }
+        
+        public final int getHeight()
+        {
+            return this._height;
+        }
+        
+        final void setWidth(final int __width)
+        {
+            this._width = __width;
+        }
+        
+        final void setHeight(final int __height)
+        {
+            this._height = __height;
+        }
     }
 
     private LevelFactory()
@@ -108,65 +133,67 @@ public final class LevelFactory
         super();
     }
 
-    private static final float parseCoordinate(final Node n, int index)
+    private static final float parseCoordinate(final Node __n, final int __index)
     {
-        final String positionString = n.getAttributes()
-                .getNamedItem(LevelFactory.ATTRIBUTE_POSITION).getNodeValue();
+        final String positionString = __n.getAttributes()
+                .getNamedItem(LevelFactory._ATTRIBUTE_POSITION).getNodeValue();
 
         final String trimmedString = positionString.replace('(', ' ')
                 .replace(')', ' ').trim();
         final String[] coords = trimmedString.split(",");
 
-        return Float.parseFloat(coords[index]) * LevelFactory._GRID_DIMENSION;
+        return Float.parseFloat(coords[__index]) * LevelFactory._GRID_DIMENSION;
     }
 
-    private static final float parsePositionX(final Node n)
+    private static final float parsePositionX(final Node __n)
     {
-        return parseCoordinate(n, LevelFactory.X_INDEX);
+        return parseCoordinate(__n, LevelFactory._X_INDEX);
     }
 
-    private static final float parsePositionY(final Node n)
+    private static final float parsePositionY(final Node __n)
     {
-        return parseCoordinate(n, LevelFactory.Y_INDEX);
+        return parseCoordinate(__n, LevelFactory._Y_INDEX);
     }
 
-    private static final float parseWidth(final Node n)
+    private static final float parseWidth(final Node __n)
     {
-        final String widthString = n.getAttributes()
-                .getNamedItem(LevelFactory.ATTRIBUTE_WIDTH).getNodeValue();
+        final String widthString = __n.getAttributes()
+                .getNamedItem(LevelFactory._ATTRIBUTE_WIDTH).getNodeValue();
 
         return Float.parseFloat(widthString.trim())
                 * LevelFactory._GRID_DIMENSION;
     }
 
-    private static final float parseHeight(final Node n)
+    private static final float parseHeight(final Node __n)
     {
-        final String heightString = n.getAttributes()
-                .getNamedItem(LevelFactory.ATTRIBUTE_HEIGHT).getNodeValue();
+        final String heightString = __n.getAttributes()
+                .getNamedItem(LevelFactory._ATTRIBUTE_HEIGHT).getNodeValue();
 
         return Float.parseFloat(heightString.trim())
                 * LevelFactory._GRID_DIMENSION;
     }
 
-    private static final float parseDiameter(final Node n)
+    private static final float parseDiameter(final Node __n)
     {
-        final String radiusString = n.getAttributes()
-                .getNamedItem(ATTRIBUTE_DIAMETER).getNodeValue();
+        final String radiusString = __n.getAttributes()
+                .getNamedItem(_ATTRIBUTE_DIAMETER).getNodeValue();
 
         return Float.parseFloat(radiusString.trim())
                 * LevelFactory._GRID_DIMENSION;
     }
 
-    private static final Color parseColour(final Node n)
+    private static final Color parseColour(final Node __n)
     {
-        final String colourString = n.getAttributes()
-                .getNamedItem(ATTRIBUTE_COLOUR).getNodeValue();
+        final String colourString = __n.getAttributes()
+                .getNamedItem(LevelFactory._ATTRIBUTE_COLOUR).getNodeValue();
+        
+        final Color colour = _colour_map.get(colourString.trim());
 
-        return colour_map.get(colourString.trim());
+        return null == colour ? Color.gray : colour;
     }
 
-    private static final void handleNode(final Node n,
-            final LevelFactory.Level level)
+    private static final void handleNode(final Node __n,
+            final LevelFactory.Level __level)
     {
         float pos_x = 0.0f;
         float pos_y = 0.0f;
@@ -175,129 +202,136 @@ public final class LevelFactory
         float height = 0.0f;
         Color colour = null;
 
-        if(n.getNodeName().equals(LevelFactory.NODE_BALL))
+        if(__n.getNodeName().equals(LevelFactory._NODE_LEVEL))
         {
-            diameter = LevelFactory.parseDiameter(n);
-            colour = LevelFactory.parseColour(n);
-            level.add(new Ball(diameter, colour));
+            width = LevelFactory.parseWidth(__n);
+            height = LevelFactory.parseHeight(__n);
+            __level.setWidth((int)width);
+            __level.setHeight((int)height);
         }
-        else if(n.getNodeName().equals(LevelFactory.NODE_OUTPUT_HOLE))
+        else if(__n.getNodeName().equals(LevelFactory._NODE_BALL))
         {
-            pos_x = LevelFactory.parsePositionX(n);
-            pos_y = LevelFactory.parsePositionY(n);
-            width = LevelFactory.parseWidth(n);
-            height = LevelFactory.parseHeight(n);
-
-            level.add(new OutputHole(pos_x, pos_y, width, height));
+            diameter = LevelFactory.parseDiameter(__n);
+            colour = LevelFactory.parseColour(__n);
+            __level.add(new Ball(diameter, colour));
         }
-        else if(n.getNodeName().equals(LevelFactory.NODE_BLACK_HOLE))
+        else if(__n.getNodeName().equals(LevelFactory._NODE_OUTPUT_HOLE))
         {
-            pos_x = LevelFactory.parsePositionX(n);
-            pos_y = LevelFactory.parsePositionY(n);
-            width = LevelFactory.parseWidth(n);
-            height = LevelFactory.parseHeight(n);
-            colour = LevelFactory.parseColour(n);
+            pos_x = LevelFactory.parsePositionX(__n);
+            pos_y = LevelFactory.parsePositionY(__n);
+            width = LevelFactory.parseWidth(__n);
+            height = LevelFactory.parseHeight(__n);
 
-            level.add(new BlackHole(pos_x, pos_y, width, height, colour));
+            __level.add(new OutputHole(pos_x, pos_y, width, height));
         }
-        else if(n.getNodeName().equals(LevelFactory.NODE_SELECTIVE_WALL))
+        else if(__n.getNodeName().equals(LevelFactory._NODE_BLACK_HOLE))
         {
-            pos_x = LevelFactory.parsePositionX(n);
-            pos_y = LevelFactory.parsePositionY(n);
-            width = LevelFactory.parseWidth(n);
-            height = LevelFactory.parseHeight(n);
-            colour = LevelFactory.parseColour(n);
+            pos_x = LevelFactory.parsePositionX(__n);
+            pos_y = LevelFactory.parsePositionY(__n);
+            width = LevelFactory.parseWidth(__n);
+            height = LevelFactory.parseHeight(__n);
+            colour = LevelFactory.parseColour(__n);
 
-            level.add(new SelectiveWall(pos_x, pos_y, width, height, colour));
+            __level.add(new BlackHole(pos_x, pos_y, width, height, colour));
         }
-        else if(n.getNodeName().equals(LevelFactory.NODE_BLOW_UP_BLOCK))
+        else if(__n.getNodeName().equals(LevelFactory._NODE_SELECTIVE_WALL))
         {
-            pos_x = LevelFactory.parsePositionX(n);
-            pos_y = LevelFactory.parsePositionY(n);
-            width = LevelFactory.parseWidth(n);
-            height = LevelFactory.parseHeight(n);
-            colour = LevelFactory.parseColour(n);
+            pos_x = LevelFactory.parsePositionX(__n);
+            pos_y = LevelFactory.parsePositionY(__n);
+            width = LevelFactory.parseWidth(__n);
+            height = LevelFactory.parseHeight(__n);
+            colour = LevelFactory.parseColour(__n);
 
-            level.add(new BlowUpBlock(pos_x, pos_y, width, height, colour));
+            __level.add(new SelectiveWall(pos_x, pos_y, width, height, colour));
         }
-        else if(n.getNodeName().equals(LevelFactory.NODE_SHRINK_BLOCK))
+        else if(__n.getNodeName().equals(LevelFactory._NODE_BLOW_UP_BLOCK))
         {
-            pos_x = LevelFactory.parsePositionX(n);
-            pos_y = LevelFactory.parsePositionY(n);
-            width = LevelFactory.parseWidth(n);
-            height = LevelFactory.parseHeight(n);
-            colour = LevelFactory.parseColour(n);
+            pos_x = LevelFactory.parsePositionX(__n);
+            pos_y = LevelFactory.parsePositionY(__n);
+            width = LevelFactory.parseWidth(__n);
+            height = LevelFactory.parseHeight(__n);
+            colour = LevelFactory.parseColour(__n);
 
-            level.add(new ShrinkBlock(pos_x, pos_y, width, height, colour));
+            __level.add(new BlowUpBlock(pos_x, pos_y, width, height, colour));
         }
-        else if(n.getNodeName().equals(LevelFactory.NODE_SOLID_BLOCK))
+        else if(__n.getNodeName().equals(LevelFactory._NODE_SHRINK_BLOCK))
         {
-            pos_x = LevelFactory.parsePositionX(n);
-            pos_y = LevelFactory.parsePositionY(n);
-            width = LevelFactory.parseWidth(n);
-            height = LevelFactory.parseHeight(n);
-            colour = LevelFactory.parseColour(n);
+            pos_x = LevelFactory.parsePositionX(__n);
+            pos_y = LevelFactory.parsePositionY(__n);
+            width = LevelFactory.parseWidth(__n);
+            height = LevelFactory.parseHeight(__n);
+            colour = LevelFactory.parseColour(__n);
 
-            level.add(new SolidBlock(pos_x, pos_y, width, height, colour));
+            __level.add(new ShrinkBlock(pos_x, pos_y, width, height, colour));
         }
-        else if(n.getNodeName().equals(LevelFactory.NODE_BROKEN_BLOCK))
+        else if(__n.getNodeName().equals(LevelFactory._NODE_SOLID_BLOCK))
         {
-            pos_x = LevelFactory.parsePositionX(n);
-            pos_y = LevelFactory.parsePositionY(n);
-            width = LevelFactory.parseWidth(n);
-            height = LevelFactory.parseHeight(n);
-            colour = LevelFactory.parseColour(n);
+            pos_x = LevelFactory.parsePositionX(__n);
+            pos_y = LevelFactory.parsePositionY(__n);
+            width = LevelFactory.parseWidth(__n);
+            height = LevelFactory.parseHeight(__n);
+            colour = LevelFactory.parseColour(__n);
 
-            level.add(new BrokenBlock(pos_x, pos_y, width, height, colour));
+            __level.add(new SolidBlock(pos_x, pos_y, width, height, colour));
+        }
+        else if(__n.getNodeName().equals(LevelFactory._NODE_BROKEN_BLOCK))
+        {
+            pos_x = LevelFactory.parsePositionX(__n);
+            pos_y = LevelFactory.parsePositionY(__n);
+            width = LevelFactory.parseWidth(__n);
+            height = LevelFactory.parseHeight(__n);
+            colour = LevelFactory.parseColour(__n);
+
+            __level.add(new BrokenBlock(pos_x, pos_y, width, height, colour));
         }
     }
 
-    private static final void traverseXMLTree(final Node n,
-            final LevelFactory.Level level)
+    private static final void traverseXMLTree(final Node __n,
+            final LevelFactory.Level __level)
     {
-        handleNode(n, level);
+        handleNode(__n, __level);
 
-        final NodeList children = n.getChildNodes();
+        final NodeList children = __n.getChildNodes();
 
         for(int i = 0; i < children.getLength(); i = i + 1)
         {
-            traverseXMLTree(children.item(i), level);
+            traverseXMLTree(children.item(i), __level);
         }
     }
 
-    private static final void parseXML(final InputStream is,
-            final LevelFactory.Level level)
+    private static final void parseXML(final InputStream __is,
+            final LevelFactory.Level __level)
     {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         try
         {
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document d = db.parse(is);
+            final DocumentBuilder db = dbf.newDocumentBuilder();
+            final Document d = db.parse(__is);
 
-            traverseXMLTree(d, level);
+            traverseXMLTree(d, __level);
         }
         catch(final ParserConfigurationException ex)
         {
             ex.printStackTrace();
         }
-        catch(SAXException ex)
+        catch(final SAXException ex)
         {
             ex.printStackTrace();
         }
-        catch(IOException ex)
+        catch(final IOException ex)
         {
             ex.printStackTrace();
         }
     }
 
-    public static final LevelFactory.Level parseLevel(final String xmlPath)
+    public static final LevelFactory.Level parseLevel(final String __xmlPath)
     {
         try
         {
             final LevelFactory.Level level = new LevelFactory.Level();
 
             final InputStream is = LevelFactory.class
-                    .getResourceAsStream(xmlPath);
+                    .getResourceAsStream(__xmlPath);
 
             LevelFactory.parseXML(is, level);
 

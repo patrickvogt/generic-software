@@ -31,32 +31,18 @@ public class BlackHole extends GeometricObject {
 				//Distanz bzw. Betrag des Vektors bestimmen
 				double d = Math.sqrt(c.getX()*c.getX()+c.getY()*c.getY());
 				
-				//liegt die Kugel schon im Black Hole?
-				if(d < 3*this.dimension.getX()/8+that.dimension.getX()/2) {
-					//WENN ja DANN beruehren sich Kugel und BlackHole
-					return(true);
-				}
-				else {
-					//ANSONSTEN beruehren sie sich nicht
-					return(false);
-				}
+				return d < 3*this.dimension.getX()/8+that.dimension.getX()/2;
 			}
-			else {
-				//die beiden Objekte beruehren sich nicht
-				return(false);
-			}
+			return false;
 		}
-		else {
-			//die beiden Objekte beruehren sich nicht
-			return(false);
-		}
+		return false;
 	}
 
 	@Override
 	public GeometricObject handleCollision(GeometricObject that) throws GameOverException  {
 		//ist that eine Kugel? (Nur Kugeln koennen sich im Spiel bewegen)
 		//AND passt die Kugel ueberhauot in dieses schwarze Loch
-		if(that instanceof Ball && this.getWidth() >= that.getWidth()) {
+		if(this.getWidth() >= that.getWidth()) {
 			//Attribut isInBlackHole in Kugel setzen, um zu verhindern, dass die Kugeln 
 			//innerhalb des schwarzen Lochs abprallen
 			if(!((Ball)that).getIsInBalckHole()) {
@@ -68,7 +54,7 @@ public class BlackHole extends GeometricObject {
 			        -0.2f*(that.getCenterY()-this.getCenterY()));
 			
 			//Durchmesser der Kugeln verkleinern -> Effekt, dass die Kugel eingezogen wird, sich wegbewegt
-       		if(((Ball)that).getDiameter()>0.5f*this.dimension.getX()) {
+       		if(((Ball)that).getDiameter()>this.dimension.getX()/2) {
 				((Ball)that).setDiameter(((Ball)that).getDiameter()*0.9f);
        		}
        		
@@ -82,9 +68,7 @@ public class BlackHole extends GeometricObject {
 	       		if(this.getColor()!=Color.GRAY && that.getColor()!=Color.GRAY && that.getColor()!=this.getColor()) {
        				throw new GameOverException();
        			}
-
-       				return that;
-
+	       		return that;
 	       	}
 		}
 		return null;

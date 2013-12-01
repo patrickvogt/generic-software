@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.Stroke;
 
 import net.patrickvogt.pinkball.geom.Ball;
@@ -17,10 +16,8 @@ import net.patrickvogt.pinkball.geom.SelectiveWall;
 import net.patrickvogt.pinkball.geom.ShrinkBlock;
 import net.patrickvogt.pinkball.geom.SolidBlock;
 
-public final class StandardPainter implements IPainter
-{
-    private static IPainter _instance = null;
-    private Graphics _g = null;
+public final class StandardPainter extends AbstractPainter
+{protected static IPainter _instance = null;
 
     private StandardPainter()
     {
@@ -40,9 +37,6 @@ public final class StandardPainter implements IPainter
     public final void setGraphicsContext(final Graphics __g)
     {
         this._g = __g;
-        ((Graphics2D)this._g).setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING, 
-                RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
     @Override
@@ -78,7 +72,7 @@ public final class StandardPainter implements IPainter
         this._g.setColor(Color.black);
         this._g.drawRect(x_out, y_out, width_out, height_out);
 
-        this._g.fillOval(x, y, width+1, height+1);
+        this._g.fillOval(x, y, width + 1, height + 1);
     }
 
     @Override
@@ -144,7 +138,8 @@ public final class StandardPainter implements IPainter
         this._g.fillOval(x + width / 4, y + width / 4, width / 2, width / 2);
 
         this._g.setColor(Color.black);
-        this._g.drawRect(x_left+diameter/2, y_top+diameter/2, x_right-x_left, y_bottom-y_top);
+        this._g.drawRect(x_left + diameter / 2, y_top + diameter / 2, x_right
+                - x_left, y_bottom - y_top);
         this._g.setColor(Color.red);
         this._g.fillOval(x_left, y_top, diameter, diameter);
         this._g.fillOval(x_right, y_top, diameter, diameter);

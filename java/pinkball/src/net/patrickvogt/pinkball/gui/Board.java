@@ -21,92 +21,65 @@ import net.patrickvogt.pinkball.geom.PaintedLine;
 import net.patrickvogt.pinkball.level.LevelFactory;
 import net.patrickvogt.pinkball.painter.IPainter;
 import net.patrickvogt.pinkball.painter.StandardPainter;
-import net.patrickvogt.pinkball.test.DebugPainter;
+import net.patrickvogt.pinkball.util.Constants;
 
 public class Board extends JPanel
 {
+    private static final long serialVersionUID = 1L;
 
-    private final GraphicsConfiguration gfxConf = GraphicsEnvironment
+    private final GraphicsConfiguration _gfxConf = GraphicsEnvironment
             .getLocalGraphicsEnvironment().getDefaultScreenDevice()
             .getDefaultConfiguration();
 
-    private BufferedImage offImg;
+    private BufferedImage _buffImg = null;
 
-    private Graphics g2;
+    private Graphics _gImg = null;
 
-    private static final long serialVersionUID = 1L;
+    private int _width = 0;
+    private int _height = 0;
 
-    private final int WIDTH;
+    private int _score = 0;
 
-    private final int HEIGHT;
+    private int _currentLevel = 1;
 
-    private final int gridWidth = 20;
+    private int _waitForRelease = 0;
 
-    /**
-     * beschreibt die aktuelle Punktzahl des Spielers
-     */
-    private int myScore = 0;
+    private java.util.List<GeometricObject> _objects = null;
 
-    /**
-     * beschreibt, in welchem Level sich der SPieler gerade befindet
-     */
-    private int currentLevel = 1;
-
-    private final boolean isBackgroundOn = true;
-
-    private int releaseWait = 0;
-
-    private GeometricObject myBeginning;
-
-    private java.util.List<GeometricObject> myObjects;
-
-    private List<Ball> _balls;
+    private List<Ball> _balls = null;
     private List<Ball> _releasedBalls = new LinkedList<Ball>();
-    private OutputHole _outputHole;
+    private OutputHole _outputHole = null;
 
-    public static java.util.List<GeometricObject> destroyThat = new LinkedList<GeometricObject>();
+    private PaintedLine _currentLine = null;
+    
+    private MouseClickAndMotionListener _mouseListener = null;
 
-    private PaintedLine myCurrentLine;
-
-    IPainter _p = null;
-
-    MyMouseMotionListener ml = null;
-
-    public void init()
-    {
-        // nulle den Score
-        this.myScore = 0;
-
-        this._releasedBalls.clear();
-    }
+    IPainter _painter = null;
 
     public Board()
     {
         super();
+             
+        this._painter = StandardPainter.getInstance();
+        this._mouseListener = new MouseClickAndMotionListener();
 
-        // this-Felder setzen
-        this.WIDTH = 800;
-        this.HEIGHT = 600;
-        offImg = gfxConf.createCompatibleImage(this.WIDTH, this.HEIGHT);
-        g2 = offImg.createGraphics();
-        _p = StandardPainter.getInstance();
-        // _p = StandardPainter.getInstance();
-        _p.setGraphicsContext(g2);
-        // this.myLastPaintedLine=new PaintedLine(this.WIDTH, this.HEIGHT);
-
-        LevelFactory.Level level = LevelFactory
-                .parseLevel("/levels/level1.xml");
-
-        this.myObjects = level.getLevelContent();
-        this._balls = level.getBalls();
-        this._outputHole = level.getOutputHole();
-        this.init();
-
-        ml = new MyMouseMotionListener();
+        this.setLevel(1);
 
         // MouseListener und MouseMotionListener dem Board hinzufuegen
-        this.addMouseMotionListener(ml);
-        this.addMouseListener(ml);
+        this.addMouseMotionListener(this._mouseListener);
+        this.addMouseListener(this._mouseListener);
+    }
+    
+    public void init()
+    {
+        // nulle den Score
+        this._score = 0;
+
+        this._buffImg = this._gfxConf.createCompatibleImage(this._width, this._height);
+        this._gImg = this._buffImg.createGraphics();
+        this._painter.setGraphicsContext(this._gImg);
+
+        this._releasedBalls.clear();
     }
 
     /**
@@ -115,23 +88,26 @@ public class Board extends JPanel
     @Override
     public Dimension getPreferredSize()
     {
-        return (new Dimension(this.WIDTH, this.HEIGHT));
+        return (new Dimension(this._width, this._height));
     }
-
-    public void gameLoop() throws GameOverException
+    
+    private void checkBallBorderCollision()
     {
-        GeometricObject toDelete = null;
-
         for(int i = 0; i < this._releasedBalls.size(); i = i + 1)
         {
             Ball that = this._releasedBalls.get(i);
 
-            that.checkCollisionOnBorder(WIDTH, HEIGHT);
+            that.checkCollisionOnBorder(this._width, this._height);
         }
-
-        for(int i = 0; i < this.myObjects.size(); i = i + 1)
+    }
+    
+    private void checkBallObjectCollision(List<GeometricObject> __allToDelete) throws GameOverException
+    {
+        GeometricObject toDelete = null;
+        
+        for(int i = 0; i < this._objects.size(); i = i + 1)
         {
-            GeometricObject that = this.myObjects.get(i);
+            GeometricObject that = this._objects.get(i);
 
             for(int j = 0; j < this._releasedBalls.size(); j = j + 1)
             {
@@ -142,12 +118,15 @@ public class Board extends JPanel
                     toDelete = that.handleCollision(go);
                     if(null != toDelete)
                     {
-                        destroyThat.add(toDelete);
+                        __allToDelete.add(toDelete);
                     }
                 }
             }
         }
-
+    }
+    
+    private void checkBallBallCollision() throws GameOverException
+    {
         for(int i = 0; i < this._releasedBalls.size(); i = i + 1)
         {
             GeometricObject that = this._releasedBalls.get(i);
@@ -162,28 +141,46 @@ public class Board extends JPanel
                 }
             }
         }
-
-        if(this.destroyThat.contains(this.myCurrentLine))
-        {
-            this.ml.resetIsDragged();
-        }
-
-        for(GeometricObject g : this.destroyThat)
+    }
+    
+    private void updateGameContent(List<GeometricObject> __allToDelete)
+    {
+        for(GeometricObject g : __allToDelete)
         {
             if(this._releasedBalls.contains(g))
             {
                 if(Color.gray != g.getColor())
                 {
-                    // increase points
+                    this._score = this._score + Constants.SCORE_UNIT;
                 }
                 this._releasedBalls.remove(g);
             }
-            else if(this.myObjects.contains(g))
+            else if(this._objects.contains(g))
             {
-                this.myObjects.remove(g);
+                this._objects.remove(g);
             }
         }
-        this.destroyThat.clear();
+    }
+
+    public void gameLoop() throws GameOverException
+    {
+        List<GeometricObject> allToDelete = new LinkedList<GeometricObject>();
+
+        this.checkBallBorderCollision();
+
+        this.checkBallObjectCollision(allToDelete);
+        
+        this.checkBallBallCollision();
+
+        
+        if(allToDelete.contains(this._currentLine))
+        {
+            this._mouseListener.resetIsDragged();
+        }
+
+        this.updateGameContent(allToDelete);
+        
+        allToDelete = null;
 
         this.moveObjects();
         this.repaint();
@@ -192,7 +189,7 @@ public class Board extends JPanel
 
         if(0 == this._releasedBalls.size() && null == this._balls)
         {
-            this.setLevel(this.currentLevel + 1);
+            this.setLevel(this._currentLevel + 1);
         }
     }
 
@@ -200,16 +197,22 @@ public class Board extends JPanel
     {
         final StringBuffer xmlPath = new StringBuffer("/levels/level");
 
-        this.currentLevel = __newLevel;
+        this._currentLevel = __newLevel;
 
-        xmlPath.append(this.currentLevel);
+        xmlPath.append(this._currentLevel);
         xmlPath.append(".xml");
 
         LevelFactory.Level level = LevelFactory.parseLevel(xmlPath.toString());
-        this.myObjects = level.getLevelContent();
-        this._balls = level.getBalls();
-        this._outputHole = level.getOutputHole();
-        this.init();
+
+        if(null != level)
+        {
+            this._objects = level.getLevelContent();
+            this._balls = level.getBalls();
+            this._outputHole = level.getOutputHole();
+            this._width = level.getWidth();
+            this._height = level.getHeight();
+            this.init();
+        }
     }
 
     /**
@@ -233,7 +236,7 @@ public class Board extends JPanel
                 // AND ist zwischen der letzten Kugel-'Freilassung' schon genug
                 // Zeit vergangen
                 if(!(_outputHole.isBlocked(this._releasedBalls))
-                        && releaseWait % 70 == 0)
+                        && this._waitForRelease % 70 == 0)
                 {
                     // WENN ja DANN speichere dir die naechste Kugel aus der
                     // 'myMoveableObjectsToRelease'-
@@ -250,7 +253,7 @@ public class Board extends JPanel
                 }
             }
             // releaseZeit hochzaehlen
-            this.releaseWait++;
+            this._waitForRelease = this._waitForRelease + 1;
         }
     }
 
@@ -267,38 +270,51 @@ public class Board extends JPanel
     {
         super.paintComponent(g);
 
-        g2.setColor(Color.LIGHT_GRAY);
-        g2.fillRect(0, 0, this.WIDTH, this.HEIGHT);
-        if(this.isBackgroundOn)
+        _gImg.setColor(Color.lightGray);
+        _gImg.fillRect(0, 0, this._width, this._height);
+
+        _gImg.setColor(Color.GRAY);
+        for(int i = Constants.GRID_DIMENSION; i < this._height; i = i
+                + Constants.GRID_DIMENSION)
         {
-            g2.setColor(Color.GRAY);
-            for(int i = this.gridWidth; i < this.HEIGHT; i = i + this.gridWidth)
-            {
-                g2.drawLine(0, i, this.WIDTH, i);
-            }
-            for(int j = this.gridWidth; j < this.WIDTH; j = j + this.gridWidth)
-            {
-                g2.drawLine(j, 0, j, this.HEIGHT);
-            }
+            _gImg.drawLine(0, i, this._width, i);
+        }
+        for(int j = Constants.GRID_DIMENSION; j < this._width; j = j
+                + Constants.GRID_DIMENSION)
+        {
+            _gImg.drawLine(j, 0, j, this._height);
         }
 
-        for(GeometricObject that : this.myObjects)
+        for(GeometricObject that : this._objects)
         {
-            that.paint(_p);
+            that.paint(_painter);
         }
 
-        this._outputHole.paint(_p);
+        this._outputHole.paint(_painter);
         for(GeometricObject that : this._releasedBalls)
         {
-            that.paint(_p);
+            that.paint(_painter);
         }
 
-        g.drawImage(offImg, 0, 0, this);
+        g.drawImage(_buffImg, 0, 0, this);
+    }
+    
+
+    public final void setPainter(IPainter instance)
+    {
+        _painter = instance;
+        _painter.setGraphicsContext(_gImg);
+        _painter.applyAntiAliasing();
     }
 
-    private class MyMouseMotionListener extends MouseInputAdapter
+    public final void toggleAntiAliasing()
     {
+        _painter.toggleAntiAliasing();
+        _painter.applyAntiAliasing();
+    }
 
+    private final class MouseClickAndMotionListener extends MouseInputAdapter
+    {
         private boolean is_dragged = false;
 
         @Override
@@ -306,13 +322,13 @@ public class Board extends JPanel
         {
             if(!is_dragged)
             {
-                myCurrentLine = new PaintedLine();
-                Board.this.myObjects.add(myCurrentLine);
+                _currentLine = new PaintedLine();
+                Board.this._objects.add(_currentLine);
                 is_dragged = true;
             }
             else
             {
-                myCurrentLine.addPoint(evt.getX(), evt.getY());
+                _currentLine.addPoint(evt.getX(), evt.getY());
             }
         }
 
@@ -326,11 +342,5 @@ public class Board extends JPanel
         {
             this.resetIsDragged();
         }
-    }
-
-    public void setPainter(IPainter instance)
-    {
-        _p = instance;
-        _p.setGraphicsContext(g2);
     }
 }

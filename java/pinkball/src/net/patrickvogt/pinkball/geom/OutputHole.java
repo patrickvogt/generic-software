@@ -58,7 +58,7 @@ public class OutputHole extends GeometricObject {
 				}
 			}
 		
-		return(_isBlocked);
+		return _isBlocked;
 	}
 
 

@@ -2,15 +2,15 @@
 <level width="40" height="30">
     <balls>
         <ball diameter="1" colour="blue" />
-        <ball diameter="1" colour="orange" />
+        <ball diameter="1" colour="red" />
         <ball diameter="1" colour="blue" />
-        <ball diameter="1" colour="orange" />
+        <ball diameter="1" colour="red" />
         <ball diameter="1" colour="blue" />
-        <ball diameter="1" colour="orange" />
+        <ball diameter="1" colour="red" />
     </balls>
     <level-content>
         <output-hole position="(1,1)" width="1" height="1" />
-        <black-hole position="(36,6)" width="1" height="1" colour="orange" />
+        <black-hole position="(36,6)" width="1" height="1" colour="red" />
         <black-hole position="(36,23)" width="1" height="1" colour="blue" />
     </level-content>
 </level>

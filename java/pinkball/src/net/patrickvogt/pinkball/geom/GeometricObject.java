@@ -73,29 +73,6 @@ public abstract class GeometricObject implements IPaintable, ITouchable
         this.speed = new Vector(0.0f, 0.0f);
     }
 
-    /**
-     * erzeugt eine Instanz von <code>GeometricObjekt</code>
-     * 
-     * @param _x
-     *            die x-Position auf dem Spielfeld
-     * 
-     * @param _y
-     *            die y-Position auf dem Spielfeld
-     * 
-     * @param _width
-     *            die Weite des Objekts
-     * 
-     * @param _height
-     *            die Hoehe des Objekts
-     * 
-     */
-    public GeometricObject(float _x, float _y, float _width, float _height)
-    {
-        // oberen Konstrukor aufrufen
-        this(new Vector(_x, _y), new Vector(_width, _height),
-                Color.GRAY);
-    }
-
     public float getX()
     {
         return this.position.getX();
@@ -136,10 +113,6 @@ public abstract class GeometricObject implements IPaintable, ITouchable
         return this.dimension.getYAsInt();
     }
 
-    public void setDimension(Vector _myDimension)
-    {
-        this.dimension = _myDimension;
-    }
 
     public Color getColor()
     {
@@ -155,10 +128,7 @@ public abstract class GeometricObject implements IPaintable, ITouchable
 
     public abstract GeometricObject handleCollision(GeometricObject that) throws GameOverException;
 
-    public void moveTo(Vector _myPosition)
-    {
-        this.position = _myPosition;
-    }
+
     
     public void moveTo(int x, int y)
     {

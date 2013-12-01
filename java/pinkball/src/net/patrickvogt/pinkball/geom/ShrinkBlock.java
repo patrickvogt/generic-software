@@ -49,8 +49,7 @@ public class ShrinkBlock extends GeometricObject {
 	 */
 	@Override
 	public GeometricObject handleCollision(GeometricObject that) {
-		//is that eine Kugel? (nur Kugeln koennen sich im Spiel bewegen)
-		if(that instanceof Ball) {
+		
 			//haben Kugel und ShrinkingBlock die gleiche Farbe?
 			//(Grau gilt im Spiel als neutrale Farbe und kann alle Kugeln schrumpfen)
 			if(this.getColor()==Color.GRAY || this.getColor()==that.getColor()) {
@@ -60,7 +59,7 @@ public class ShrinkBlock extends GeometricObject {
 					((Ball)that).setDiameter(((Ball)that).getDiameter()*0.99f);
 				}
 			}
-		}
+		
 		return null;
 	}
 }

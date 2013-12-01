@@ -12,6 +12,13 @@ level3_menu_item = Level 3
 level4_menu_item = Level 4
 level5_menu_item = Level 5
 
+options_menu = Optionen
+standardpainter = Standard-Stil
+wireframepainter = Gitternetz-Stil
+imagepainter = Bilder-Stil
+debugpainter = Analyse-Stil
+antialiasing = Kantenglättung
+
 help_menu = Hilfe
 about_menu_item = Über
 

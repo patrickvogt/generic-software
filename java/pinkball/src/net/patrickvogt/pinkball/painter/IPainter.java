@@ -24,4 +24,6 @@ public interface IPainter
     public void paint(final SelectiveWall __sw);
     public void paint(final ShrinkBlock __sb);
     public void paint(final SolidBlock __sb);
+    public void toggleAntiAliasing();
+    public void applyAntiAliasing();
 }

@@ -34,7 +34,7 @@ public class Ball extends GeometricObject implements IMoveable
 
     public void setDiameter(float _diameter)
     {
-        this.setDimension(new Vector(_diameter, _diameter));
+        this.dimension = new Vector(_diameter, _diameter);
     }
 
     public float getRadius()
@@ -85,6 +85,7 @@ public class Ball extends GeometricObject implements IMoveable
 
             if(null != centerDistanceVector)
             {
+                //http://www.vobarian.com/collisions/
                 Vector n = new Vector(centerDistanceVector);
                 n.normalize();
                 

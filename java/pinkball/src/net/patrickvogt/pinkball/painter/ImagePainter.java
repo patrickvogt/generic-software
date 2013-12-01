@@ -19,11 +19,8 @@ import net.patrickvogt.pinkball.geom.SelectiveWall;
 import net.patrickvogt.pinkball.geom.ShrinkBlock;
 import net.patrickvogt.pinkball.geom.SolidBlock;
 
-public final class ImagePainter implements IPainter
-{   
-    private static IPainter _instance = null;
-    private Graphics _g = null;
-    
+public final class ImagePainter extends AbstractPainter
+{   protected static IPainter _instance = null;
     private BufferedImage _blue_ball_img = null;
     
     private ImagePainter()
@@ -32,7 +29,7 @@ public final class ImagePainter implements IPainter
         
         try {
             this._blue_ball_img = ImageIO.read(this.getClass().getResourceAsStream("/images/ball.jpg"));  
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             ex.printStackTrace();
         }
     }

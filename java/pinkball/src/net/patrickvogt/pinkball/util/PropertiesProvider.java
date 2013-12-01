@@ -6,6 +6,8 @@ import java.util.Properties;
 
 public final class PropertiesProvider
 {
+    private static final String LANG_DE = "de_DE";
+    
     private static PropertiesProvider _instance = null;
     private Properties _properties = null;
 
@@ -14,7 +16,7 @@ public final class PropertiesProvider
         try
         {
             String source_path = "";
-            if(Locale.getDefault().toString().equals("de_DE"))
+            if(Locale.getDefault().toString().equals(PropertiesProvider.LANG_DE))
             {
                 source_path = "/langs/deutsch.lang"; 
             }

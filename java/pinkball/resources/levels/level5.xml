@@ -16,62 +16,62 @@
         <shrink-block position="(5,14)" width="1" height="1" colour="blue"/>
         <shrink-block position="(34,14)" width="1" height="1" colour="blue"/>
         
-        <solid-block position="(18,13)" width="1" height="1" colour="orange" />
-        <solid-block position="(18,14)" width="1" height="1" colour="orange" />
-        <solid-block position="(18,15)" width="1" height="1" colour="orange" />
-        <solid-block position="(18,16)" width="1" height="1" colour="orange" />
+        <solid-block position="(18,13)" width="1" height="1" colour="red" />
+        <solid-block position="(18,14)" width="1" height="1" colour="red" />
+        <solid-block position="(18,15)" width="1" height="1" colour="red" />
+        <solid-block position="(18,16)" width="1" height="1" colour="red" />
         
-        <solid-block position="(21,13)" width="1" height="1" colour="orange" />
-        <solid-block position="(21,14)" width="1" height="1" colour="orange" />
-        <solid-block position="(21,15)" width="1" height="1" colour="orange" />
-        <solid-block position="(21,16)" width="1" height="1" colour="orange" />
+        <solid-block position="(21,13)" width="1" height="1" colour="red" />
+        <solid-block position="(21,14)" width="1" height="1" colour="red" />
+        <solid-block position="(21,15)" width="1" height="1" colour="red" />
+        <solid-block position="(21,16)" width="1" height="1" colour="red" />
         
-        <solid-block position="(17,12)" width="1" height="1" colour="orange" />
-        <solid-block position="(16,11)" width="1" height="1" colour="orange" />
-        <solid-block position="(15,10)" width="1" height="1" colour="orange" />
-        <solid-block position="(14,9)" width="1" height="1" colour="orange" />
-        <solid-block position="(13,8)" width="1" height="1" colour="orange" />
-        <solid-block position="(12,7)" width="1" height="1" colour="orange" />
-        <solid-block position="(11,6)" width="1" height="1" colour="orange" />
-        <solid-block position="(10,5)" width="1" height="1" colour="orange" />
-        <solid-block position="(9,4)" width="1" height="1" colour="orange" />
-        <solid-block position="(8,3)" width="1" height="1" colour="orange" />
-        <solid-block position="(7,2)" width="1" height="1" colour="orange" />
+        <solid-block position="(17,12)" width="1" height="1" colour="red" />
+        <solid-block position="(16,11)" width="1" height="1" colour="red" />
+        <solid-block position="(15,10)" width="1" height="1" colour="red" />
+        <solid-block position="(14,9)" width="1" height="1" colour="red" />
+        <solid-block position="(13,8)" width="1" height="1" colour="red" />
+        <solid-block position="(12,7)" width="1" height="1" colour="red" />
+        <solid-block position="(11,6)" width="1" height="1" colour="red" />
+        <solid-block position="(10,5)" width="1" height="1" colour="red" />
+        <solid-block position="(9,4)" width="1" height="1" colour="red" />
+        <solid-block position="(8,3)" width="1" height="1" colour="red" />
+        <solid-block position="(7,2)" width="1" height="1" colour="red" />
         
-        <solid-block position="(17,17)" width="1" height="1" colour="orange" />
-        <solid-block position="(16,18)" width="1" height="1" colour="orange" />
-        <solid-block position="(15,19)" width="1" height="1" colour="orange" />
-        <solid-block position="(14,20)" width="1" height="1" colour="orange" />
-        <solid-block position="(13,21)" width="1" height="1" colour="orange" />
-        <solid-block position="(12,22)" width="1" height="1" colour="orange" />
-        <solid-block position="(11,23)" width="1" height="1" colour="orange" />
-        <solid-block position="(10,24)" width="1" height="1" colour="orange" />
-        <solid-block position="(9,25)" width="1" height="1" colour="orange" />
-        <solid-block position="(8,26)" width="1" height="1" colour="orange" />
-        <solid-block position="(7,27)" width="1" height="1" colour="orange" />
+        <solid-block position="(17,17)" width="1" height="1" colour="red" />
+        <solid-block position="(16,18)" width="1" height="1" colour="red" />
+        <solid-block position="(15,19)" width="1" height="1" colour="red" />
+        <solid-block position="(14,20)" width="1" height="1" colour="red" />
+        <solid-block position="(13,21)" width="1" height="1" colour="red" />
+        <solid-block position="(12,22)" width="1" height="1" colour="red" />
+        <solid-block position="(11,23)" width="1" height="1" colour="red" />
+        <solid-block position="(10,24)" width="1" height="1" colour="red" />
+        <solid-block position="(9,25)" width="1" height="1" colour="red" />
+        <solid-block position="(8,26)" width="1" height="1" colour="red" />
+        <solid-block position="(7,27)" width="1" height="1" colour="red" />
         
-        <solid-block position="(22,12)" width="1" height="1" colour="orange" />
-        <solid-block position="(23,11)" width="1" height="1" colour="orange" />
-        <solid-block position="(24,10)" width="1" height="1" colour="orange" />
-        <solid-block position="(25,9)" width="1" height="1" colour="orange" />
-        <solid-block position="(26,8)" width="1" height="1" colour="orange" />
-        <solid-block position="(27,7)" width="1" height="1" colour="orange" />
-        <solid-block position="(28,6)" width="1" height="1" colour="orange" />
-        <solid-block position="(29,5)" width="1" height="1" colour="orange" />
-        <solid-block position="(30,4)" width="1" height="1" colour="orange" />
-        <solid-block position="(31,3)" width="1" height="1" colour="orange" />
-        <solid-block position="(32,2)" width="1" height="1" colour="orange" />
+        <solid-block position="(22,12)" width="1" height="1" colour="red" />
+        <solid-block position="(23,11)" width="1" height="1" colour="red" />
+        <solid-block position="(24,10)" width="1" height="1" colour="red" />
+        <solid-block position="(25,9)" width="1" height="1" colour="red" />
+        <solid-block position="(26,8)" width="1" height="1" colour="red" />
+        <solid-block position="(27,7)" width="1" height="1" colour="red" />
+        <solid-block position="(28,6)" width="1" height="1" colour="red" />
+        <solid-block position="(29,5)" width="1" height="1" colour="red" />
+        <solid-block position="(30,4)" width="1" height="1" colour="red" />
+        <solid-block position="(31,3)" width="1" height="1" colour="red" />
+        <solid-block position="(32,2)" width="1" height="1" colour="red" />
         
-        <solid-block position="(22,17)" width="1" height="1" colour="orange" />
-        <solid-block position="(23,18)" width="1" height="1" colour="orange" />
-        <solid-block position="(24,19)" width="1" height="1" colour="orange" />
-        <solid-block position="(25,20)" width="1" height="1" colour="orange" />
-        <solid-block position="(26,21)" width="1" height="1" colour="orange" />
-        <solid-block position="(27,22)" width="1" height="1" colour="orange" />
-        <solid-block position="(28,23)" width="1" height="1" colour="orange" />
-        <solid-block position="(29,24)" width="1" height="1" colour="orange" />
-        <solid-block position="(30,25)" width="1" height="1" colour="orange" />
-        <solid-block position="(31,26)" width="1" height="1" colour="orange" />
-        <solid-block position="(32,27)" width="1" height="1" colour="orange" />
+        <solid-block position="(22,17)" width="1" height="1" colour="red" />
+        <solid-block position="(23,18)" width="1" height="1" colour="red" />
+        <solid-block position="(24,19)" width="1" height="1" colour="red" />
+        <solid-block position="(25,20)" width="1" height="1" colour="red" />
+        <solid-block position="(26,21)" width="1" height="1" colour="red" />
+        <solid-block position="(27,22)" width="1" height="1" colour="red" />
+        <solid-block position="(28,23)" width="1" height="1" colour="red" />
+        <solid-block position="(29,24)" width="1" height="1" colour="red" />
+        <solid-block position="(30,25)" width="1" height="1" colour="red" />
+        <solid-block position="(31,26)" width="1" height="1" colour="red" />
+        <solid-block position="(32,27)" width="1" height="1" colour="red" />
     </level-content>
 </level>

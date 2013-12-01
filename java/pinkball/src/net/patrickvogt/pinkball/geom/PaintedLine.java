@@ -1,9 +1,9 @@
 package net.patrickvogt.pinkball.geom;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.patrickvogt.pinkball.gui.Board;
 import net.patrickvogt.pinkball.painter.IPainter;
 import net.patrickvogt.pinkball.vector.Vector;
 
@@ -16,19 +16,13 @@ public class PaintedLine extends GeometricObject
      */
     private List<Vector> line = new ArrayList<Vector>();
 
-    // /**
-    // * speichert den Beruehrpunkt zwischen Linie und Kugel
-    // * (die wie vielte Position/Koordinate innerhab der Linie)
-    // */
-    private int lastTouchPoint;
-
     private Vector touchSegmentStart = null;
     private Vector touchSegmentEnd = null;
 
     public PaintedLine()
     {
         // PSEUDO-GeometricObject erzeugen
-        super(0.0f, 0.0f, 0.0f, 0.0f);
+        super(new Vector(0.0f, 0.0f), new Vector(0.0f, 0.0f), Color.black);
 
     }
 
@@ -69,7 +63,7 @@ public class PaintedLine extends GeometricObject
     {
         // ist that eine Kugel= (Nur Kugeln koennen sich im Spiel bewegen)
         if(that instanceof Ball)
-        {   
+        {
             for(int i = 0; i < (this.line.size() - 1); i = i + 1)
             {
                 // http://stackoverflow.com/questions/1073336/circle-line-collision-detection
@@ -100,124 +94,10 @@ public class PaintedLine extends GeometricObject
                     double t2 = (-b + discriminant) / (2 * a);
 
                     if((t1 >= 0 && t1 <= 1) || (t2 >= 0 && t2 <= 1))
-                    {    
-                        // http://mathworld.wolfram.com/Reflection.html
-                        double nx = -dy;
-                        double ny = dx;
-                        
-                        if(this.line.size() > 0 && that.hasWithin(this.line.get(0)))
-                        {
-                           Vector v = this.line.get(0);
-                           Vector w = new Vector(that.getCenterX(), that.getCenterY());
-                           float vx = that.speed.getX();
-                           float vy = that.speed.getY();
-                           float that_length = that.speed.getLength();
-                           
-                           Vector s = new Vector(v.getX()-w.getX(), v.getY()-w.getY());
-                           
-                           nx = this.line.get(1).getX()-this.line.get(0).getX();
-                           ny = this.line.get(1).getY()-this.line.get(0).getY();
-                           
-                           double n_length = Math.sqrt(nx * nx + ny * ny);
+                    {
+                        touchSegmentStart = c_i;
+                        touchSegmentEnd = c_i_1;
 
-                           nx = nx / n_length;
-                           ny = ny / n_length;
-
-                           double dot_v_n = s.getX() * nx
-                                   + s.getY() * ny;
-                           
-//                           if(-0.05 < dot_v_n && dot_v_n < 0.05)
-//                           {
-//                               if(Math.abs(v.getX()-w.getX()) > Math.abs(v.getY()-w.getY()))
-//                               {
-//                                   s = new Speed(-s.getDX(), s.getDY());
-//                               }
-//                               else
-//                               {
-//                                   s = new Speed(s.getDX(), -s.getDY());
-//                               }
-//                           }
-
-                           double delta_vx = 2 * dot_v_n * nx;
-                           double delta_vy = 2 * dot_v_n * ny;
-
-                           that.speed.sub(s);
-                           that.speed.normalize();
-                           that.speed.mult(that_length);
-
-                           
-//                           that.setSpeed(new Speed(vx, vy));
-                           ((Ball) that).move();
-                           Board.destroyThat.add(this);
-                           return true;
-                           
-                        }
-                        if(this.line.size() > 0 && that.hasWithin(this.line.get(this.line.size()-1)))
-                        {
-                            Vector v = this.line.get(this.line.size()-1);
-                            Vector w = new Vector(that.getCenterX(), that.getCenterY());
-                            float vx = that.speed.getX();
-                            float vy = that.speed.getY();
-                            float that_length = that.speed.getLength();
-                            
-                            Vector s = new Vector(v.getX()-w.getX(), v.getY()-w.getY());
-                            
-                            nx = this.line.get(this.line.size()-1).getX()-this.line.get(this.line.size()-2).getX();
-                            ny = this.line.get(this.line.size()-1).getY()-this.line.get(this.line.size()-2).getY();
-                            
-                            double n_length = Math.sqrt(nx * nx + ny * ny);
-
-                            nx = nx / n_length;
-                            ny = ny / n_length;
-
-                            double dot_v_n = s.getX() * nx
-                                    + s.getY() * ny;
-                            
-//                            if(-0.05 < dot_v_n && dot_v_n < 0.05)
-//                            {
-//                                if(Math.abs(v.getX()-w.getX()) > Math.abs(v.getY()-w.getY()))
-//                                {
-//                                    s = new Speed(-s.getDX(), s.getDY());
-//                                }
-//                                else
-//                                {
-//                                    s = new Speed(s.getDX(), -s.getDY());
-//                                }
-//                            }
-
-                            double delta_vx = 2 * dot_v_n * nx;
-                            double delta_vy = 2 * dot_v_n * ny;
-
-                            that.speed.sub(s);
-                            that.speed.normalize();
-                            that.speed.mult(that_length);
-
-                            
-//                            that.setSpeed(new Speed(vx, vy));
-                            ((Ball) that).move();
-                            Board.destroyThat.add(this);
-                            return true;
-                        }
-
-                        double n_length = Math.sqrt(nx * nx + ny * ny);
-
-                        nx = nx / n_length;
-                        ny = ny / n_length;
-
-                        double dot_v_n = that.speed.getX() * nx
-                                + that.speed.getY() * ny;
-
-                        double delta_vx = 2 * dot_v_n * nx;
-                        double delta_vy = 2 * dot_v_n * ny;
-
-                        that.speed = new Vector((float) (that.speed
-                                .getX() - delta_vx), (float) (that.speed
-                                .getY() - delta_vy));
-
-                        ((Ball) that).move();
-                        
-                        Board.destroyThat.add(this);
-                        
                         return true;
                     }
 
@@ -235,7 +115,7 @@ public class PaintedLine extends GeometricObject
      * 
      * @param that
      *            das Objekt, welches das this-Objekt (die Linie) beruehrt
-     * @return 
+     * @return
      * 
      * @throws DestroyThatException
      *             wenn die Linie mit einer Kugel kollidiert ist und nun die
@@ -245,7 +125,73 @@ public class PaintedLine extends GeometricObject
     @Override
     public GeometricObject handleCollision(GeometricObject that)
     {
-        return null;
+        // http://mathworld.wolfram.com/Reflection.html
+        boolean endpointCollision = false;
+        float that_length = that.speed.getLength();
+
+        double nx = 0.0;
+        double ny = 0.0;
+
+        Vector s = null;
+        Vector t = null;
+        Vector u = null;
+        Vector v = null;
+
+        if(this.line.size() > 0 && that.hasWithin(this.line.get(0)))
+        {
+            endpointCollision = true;
+            t = this.line.get(0);
+            u = this.line.get(1);
+            v = this.line.get(0);
+        }
+        else if(this.line.size() > 0
+                && that.hasWithin(this.line.get(this.line.size() - 1)))
+        {
+            endpointCollision = true;
+            t = this.line.get(this.line.size() - 2);
+            u = this.line.get(this.line.size() - 1);
+            v = this.line.get(this.line.size() - 1);
+        }
+
+        if(endpointCollision)
+        {
+            nx = u.getX() - t.getX();
+            ny = u.getY() - t.getY();
+        }
+        else
+        {
+            nx = -(touchSegmentEnd.getY() - touchSegmentStart.getY());
+            ny = touchSegmentEnd.getX() - touchSegmentStart.getX();
+
+        }
+
+        double n_length = Math.sqrt(nx * nx + ny * ny);
+
+        nx = nx / n_length;
+        ny = ny / n_length;
+
+        if(endpointCollision)
+        {
+            Vector w = new Vector(that.getCenterX(), that.getCenterY());
+            s = new Vector(v.getX() - w.getX(), v.getY() - w.getY());
+        }
+        else
+        {
+            double dot_v_n = that.speed.getX() * nx + that.speed.getY() * ny;
+
+            double delta_vx = 2 * dot_v_n * nx;
+            double delta_vy = 2 * dot_v_n * ny;
+
+            s = new Vector((float) delta_vx, (float) delta_vy);
+        }
+
+        that.speed.sub(s);
+        that.speed.normalize();
+        that.speed.mult(that_length);
+
+        ((Ball) that).move();
+
+        return this;
 
     }
 

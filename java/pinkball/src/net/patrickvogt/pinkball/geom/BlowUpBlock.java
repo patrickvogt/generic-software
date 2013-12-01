@@ -3,6 +3,7 @@ package net.patrickvogt.pinkball.geom;
 import java.awt.Color;
 
 import net.patrickvogt.pinkball.painter.IPainter;
+import net.patrickvogt.pinkball.util.Constants;
 import net.patrickvogt.pinkball.vector.Vector;
 
 public class BlowUpBlock extends GeometricObject {
@@ -42,7 +43,7 @@ public class BlowUpBlock extends GeometricObject {
 				//(das anderthalbfache des BlowUpBlocks)
 				if(((Ball)that).getDiameter()<1.5*this.getWidth()) {
 					//WENN ja DANN vergoessere den Durchmesser der Kugel
-					((Ball)that).setDiameter(((Ball)that).getDiameter()*1.01f);
+					((Ball)that).setDiameter(((Ball)that).getDiameter()*Constants.BLOW_UP_BLOCK_DECREASE_SIZE);
 				}
 			}
 		}

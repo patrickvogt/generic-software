@@ -14,13 +14,11 @@ import net.patrickvogt.pinkball.geom.PaintedLine;
 import net.patrickvogt.pinkball.geom.SelectiveWall;
 import net.patrickvogt.pinkball.geom.ShrinkBlock;
 import net.patrickvogt.pinkball.geom.SolidBlock;
+import net.patrickvogt.pinkball.painter.AbstractPainter;
 import net.patrickvogt.pinkball.painter.IPainter;
 
-public final class DebugPainter implements IPainter
-{
-    private static IPainter _instance = null;
-    private Graphics _g = null;
-
+public final class DebugPainter extends AbstractPainter
+{protected static IPainter _instance = null;
     private static final int _VECTOR_LENGTH_STRETCH = 50;
     private static final int _VECTOR_ARRAY_HEAD_SIZE = 4;
 
@@ -61,6 +59,7 @@ public final class DebugPainter implements IPainter
         this._g.fillOval(x, y, width, width);
         this._g.setColor(Color.black);
         this._g.drawOval(x, y, width, width);
+        this._g.drawRect(x, y, width, width);
 
         Graphics2D g = (Graphics2D) this._g.create();
         AffineTransform at = AffineTransform.getTranslateInstance(cx, cy);
@@ -158,6 +157,8 @@ public final class DebugPainter implements IPainter
         this._g.setColor(__oh.getColor());
         this._g.fillOval(x + width / 4, y + width / 4, width / 2, width / 2);
 
+        this._g.setColor(Color.black);
+        this._g.drawRect(x_left+diameter/2, y_top+diameter/2, x_right-x_left, y_bottom-y_top);
         this._g.setColor(Color.red);
         this._g.fillOval(x_left, y_top, diameter, diameter);
         this._g.fillOval(x_right, y_top, diameter, diameter);
