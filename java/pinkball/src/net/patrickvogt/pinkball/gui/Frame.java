@@ -1,5 +1,6 @@
 package net.patrickvogt.pinkball.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -25,6 +26,13 @@ public class Frame extends JFrame
         super("PInkBall");
         // FrameContent (Level, Board, Timer, Score) intialisieren
         this._board = new Board();
+        
+        this.setLayout(new BorderLayout());
+        this.add(this._board, BorderLayout.CENTER);
+        this.add(new HeadUpDisplay(this._board.getWidth()+2*Constants.GRID_DIMENSION,Constants.GRID_DIMENSION), BorderLayout.NORTH);
+        this.add(new Border(Constants.GRID_DIMENSION,this._board.getHeight()), BorderLayout.EAST);
+        this.add(new Border(this._board.getWidth()+2*Constants.GRID_DIMENSION,Constants.GRID_DIMENSION), BorderLayout.SOUTH);
+        this.add(new Border(Constants.GRID_DIMENSION,this._board.getHeight()), BorderLayout.WEST);
 
         // this.hud = new HeadUpDisplay(this.WIDTH+2*this.borderStoneWidth,
         // this.borderStoneWidth, this.delay);
@@ -35,8 +43,6 @@ public class Frame extends JFrame
         
         // fuege dem Frame meine MenueLeiste hinzu
         this.setJMenuBar(new MenuBar(this, this._board));
-
-        this.add(this._board);
 
         // Groesse soll nicht veraenderbar sein
         this.setResizable(false);

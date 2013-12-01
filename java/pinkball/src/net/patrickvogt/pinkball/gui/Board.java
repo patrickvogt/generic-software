@@ -78,6 +78,7 @@ public class Board extends JPanel
         this._buffImg = this._gfxConf.createCompatibleImage(this._width, this._height);
         this._gImg = this._buffImg.createGraphics();
         this._painter.setGraphicsContext(this._gImg);
+        this._painter.applyAntiAliasing();
 
         this._releasedBalls.clear();
     }
@@ -89,6 +90,18 @@ public class Board extends JPanel
     public Dimension getPreferredSize()
     {
         return (new Dimension(this._width, this._height));
+    }
+    
+    @Override 
+    public int getWidth()
+    {
+     return _width;   
+    }
+    
+    @Override 
+    public int getHeight()
+    {
+        return _height;
     }
     
     private void checkBallBorderCollision()

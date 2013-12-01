@@ -158,8 +158,8 @@ public class Ball extends GeometricObject implements IMoveable
             if(super.touches(that) && !this.getIsInBalckHole()
                     && !((Ball) that).getIsInBalckHole())
             {
-                float xx = that.getX()-this.getX();
-                float yy = that.getY()-this.getY();
+                float xx = that.getCenterX()-this.getCenterX();
+                float yy = that.getCenterY()-this.getCenterY();
                 float rr = this.getRadius()
                         + ((Ball) that).getRadius();
 
