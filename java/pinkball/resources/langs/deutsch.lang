@@ -1,32 +1,53 @@
 # Deutsche Sprache
-main_menu = Spiel
-new_menu_item = Neues Spiel
-pause_menu_item = Spiel pausieren
+
+about_menu_item = \u00DCber
+
+about_title = \u00C3\u0153ber
+
+antialiasing = Kantengl\u00E4ttung
+
+author_label = Autor
+
+debugpainter = Analyse-Stil
+
+demo_menu_item = Demo
+
+description_label = Beschreibung
+
 exit_menu_item = Beenden
 
-level_menu = Level
-demo_menu_item = Demo
-level1_menu_item = Level 1
-level2_menu_item = Level 2
-level3_menu_item = Level 3
-level4_menu_item = Level 4
-level5_menu_item = Level 5
-
-options_menu = Optionen
-standardpainter = Standard-Stil
-wireframepainter = Gitternetz-Stil
-imagepainter = Bilder-Stil
-debugpainter = Analyse-Stil
-grayscalepainter = Graustufen-Stil
-antialiasing = Kantenglättung
-
-help_menu = Hilfe
-about_menu_item = Über
-
-game_over_title = Spielende
 game_over_msg = Ein Ball ist in ein Loch der falschen Farbe gerollt.
 
-about_title = Über
-author_label = Autor
+game_over_title = Spielende
+
+grayscalepainter = Graustufen-Stil
+
+help_menu = Hilfe
+
+imagepainter = Bilder-Stil
+
+level1_menu_item = Level 1
+
+level2_menu_item = Level 2
+
+level3_menu_item = Level 3
+
+level4_menu_item = Level 4
+
+level5_menu_item = Level 5
+
+level_menu = Level
+
+main_menu = Spiel
+
+new_menu_item = Neues Spiel
+
+options_menu = Optionen
+
+pause_menu_item = Spiel pausieren
+
+standardpainter = Standard-Stil
+
 website_label = Webseite
-description_label = Beschreibung
+
+wireframepainter = Gitternetz-Stil

@@ -180,7 +180,7 @@ public final class DebugPainter extends AbstractPainter
 
         __pl.getPointsAsIntArrays(xPoints, yPoints);
 
-        this._g.setColor(Color.black);
+        this._g.setColor(__pl.getColor());
 
         this._g.drawPolyline(xPoints, yPoints,
                 (xPoints.length > yPoints.length) ? yPoints.length

@@ -19,10 +19,10 @@ public class PaintedLine extends GeometricObject
     private Vector touchSegmentStart = null;
     private Vector touchSegmentEnd = null;
 
-    public PaintedLine()
+    public PaintedLine(Color colour)
     {
         // PSEUDO-GeometricObject erzeugen
-        super(new Vector(0.0f, 0.0f), new Vector(0.0f, 0.0f), Color.black);
+        super(new Vector(0.0f, 0.0f), new Vector(0.0f, 0.0f), colour);
 
     }
 
@@ -64,8 +64,8 @@ public class PaintedLine extends GeometricObject
         // TODO als Vektoren umschreiben
 
         // ist that eine Kugel= (Nur Kugeln koennen sich im Spiel bewegen)
-        if(that instanceof Ball)
-        {
+        if(that instanceof Ball && (that.getColor()==this.getColor() || this.getColor()==Color.black))
+        {   
             for(int i = 0; i < (this.line.size() - 1); i = i + 1)
             {
                 // http://stackoverflow.com/questions/1073336/circle-line-collision-detection

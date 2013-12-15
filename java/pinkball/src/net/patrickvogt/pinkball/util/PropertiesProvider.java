@@ -7,6 +7,7 @@ import java.util.Properties;
 public final class PropertiesProvider
 {
     private static final String LANG_DE = "de_DE";
+    private static final String LANG_ZH = "zh_CN";
 
     private static PropertiesProvider _instance = null;
     private Properties _properties = null;
@@ -16,10 +17,15 @@ public final class PropertiesProvider
         try
         {
             String source_path = "";
-            if(Locale.getDefault().toString()
-                    .equals(PropertiesProvider.LANG_DE))
+            
+            String locale = Locale.getDefault().toString();
+            if(locale.equals(PropertiesProvider.LANG_DE))
             {
                 source_path = "/langs/deutsch.lang";
+            }
+            else if(locale.equals(PropertiesProvider.LANG_ZH))
+            {
+                source_path = "/langs/chinese.lang";
             }
             final InputStream stream = this.getClass().getResourceAsStream(
                     source_path);

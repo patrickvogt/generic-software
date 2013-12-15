@@ -371,7 +371,7 @@ public class Board extends JPanel
         {
             if(!is_dragged)
             {
-                _currentLine = new PaintedLine();
+                _currentLine = new PaintedLine(Board.this._hud.getLineColour());
                 Board.this._objects.add(_currentLine);
                 is_dragged = true;
             }

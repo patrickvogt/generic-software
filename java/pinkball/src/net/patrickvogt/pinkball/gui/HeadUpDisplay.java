@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
 import javax.swing.JPanel;
@@ -32,6 +34,10 @@ public class HeadUpDisplay extends JPanel
     private int WIDTH;
     private int HEIGHT;
     private int _score = 0;
+    private Color _lineColour = Color.black;
+    private static final int BLACK_COLOUR_STONE = 19;
+    private static final int BLUE_COLOUR_STONE = 20;
+    private static final int RED_COLOUR_STONE = 21;
 
     private java.util.List<GeometricObject> myObjects;
 
@@ -55,6 +61,12 @@ public class HeadUpDisplay extends JPanel
                     : min_x, _width > _height ? min_y : i * min, min, min,
                     Color.gray));
         }
+        
+        this.myObjects.get(HeadUpDisplay.BLACK_COLOUR_STONE).setColor(Color.black);
+        this.myObjects.get(HeadUpDisplay.BLUE_COLOUR_STONE).setColor(Color.blue);
+        this.myObjects.get(HeadUpDisplay.RED_COLOUR_STONE).setColor(Color.red);
+        
+        this.addMouseListener(new MouseClickListener());
     }
 
     @Override
@@ -107,9 +119,35 @@ public class HeadUpDisplay extends JPanel
     {
         this._score = __score;
     }
+    
+    public final Color getLineColour()
+    {
+        return this._lineColour;
+    }
 
     public void setTime(final String time)
     {
         this._time = time;
+    }
+    
+    private final class MouseClickListener extends MouseAdapter
+    {
+        @Override
+        public void mousePressed(MouseEvent evt)
+        {
+            int colour = evt.getX()/HeadUpDisplay.this.HEIGHT;
+            switch(colour)
+            {
+                case HeadUpDisplay.BLACK_COLOUR_STONE:
+                    HeadUpDisplay.this._lineColour = Color.black;
+                    break;
+                case HeadUpDisplay.BLUE_COLOUR_STONE:
+                    HeadUpDisplay.this._lineColour = Color.blue;
+                    break;
+                case HeadUpDisplay.RED_COLOUR_STONE:
+                    HeadUpDisplay.this._lineColour = Color.red;
+                    break;
+            }
+        }
     }
 }
