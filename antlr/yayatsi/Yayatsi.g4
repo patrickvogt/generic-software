@@ -2,38 +2,53 @@ grammar Yayatsi;
 import CommonLexerRules;
 
 root: 
-    tmtype EXPR_END
-    program_header EXPR_END
+    program_header 
     program_body
-    run EXPR_END
-;
-
-tmtype: 
-    OTDTM_START
+    run
 ;
 
 program_header:
     PRG_START
-    (SET_BEGIN program_attrs SET_END)?
+    (ATTRS_BEGIN program_attrs ATTRS_END)?
+    EXPR_END
 ;
 
 program_body:
-    states EXPR_END
-    tape_alphabet EXPR_END
-    input_alphabet EXPR_END
-    initial_state EXPR_END
-    final_states EXPR_END
-    transition_function EXPR_END
+    states
+    initial_state
+    final_states
+    tape_alphabet
+    transition_function
 ;
 
 run:
     RUN_START
-    (SET_BEGIN run_attrs SET_END)?
-
+    (ATTRS_BEGIN run_attrs ATTRS_END)?
+    EXPR_END
 ;
 
 program_attrs:
-    
+   (    nondeterministic
+   |    probabilistic
+   |    oracle
+   |    tapes
+   )* 
+;
+
+nondeterministic:
+    PLUS NONDETERMINISTIC ATTR_SEPARATOR BOOLEAN_OPTION
+;
+
+probabilistic:
+    PLUS PROBABILISTIC ATTR_SEPARATOR BOOLEAN_OPTION
+;
+
+oracle:
+    PLUS ORACLE ATTR_SEPARATOR NO_ORACLE
+;
+
+tapes:
+    PLUS TAPES SET_ASSIGN SET_BEGIN DEFAULT_TAPE SET_END
 ;
 
 run_attrs:
@@ -46,6 +61,7 @@ states:
     SET_BEGIN
     IDENTIFIER (COMMA IDENTIFIER)*
     SET_END
+    EXPR_END
 ;
 
 tape_alphabet:
@@ -54,20 +70,14 @@ tape_alphabet:
     SET_BEGIN
     (TAPE_ALPH_SYMBOL) (COMMA (TAPE_ALPH_SYMBOL|BLANK_SYMBOL))*
     SET_END
-;
-
-input_alphabet:
-    INPUT_ALPH_DEF
-    SET_ASSIGN
-    SET_BEGIN
-    (TAPE_ALPH_SYMBOL) (COMMA TAPE_ALPH_SYMBOL)*
-    SET_END
+    EXPR_END
 ;
 
 initial_state:
     INIT_STATE_DEF
-    SET_ASSIGN
+    ATTR_SEPARATOR
     IDENTIFIER
+    EXPR_END
 ;
 
 final_states:
@@ -76,18 +86,24 @@ final_states:
     SET_BEGIN
     IDENTIFIER (COMMA IDENTIFIER)*
     SET_END
+    EXPR_END
 ;
 
 transition_function:
     TRANS_FUNC_DEF
     SET_ASSIGN  
     SET_BEGIN
-    (trans_func_line) (TRANS_FUNC_LS trans_func_line)*
+    (trans_func_line)+
     SET_END
+    EXPR_END
 ;
 
 trans_func_line:
+    PLUS
     TRANS_FUNC_STATE ATTR_SEPARATOR IDENTIFIER COMMA
-    TRANS_FUNC_READ ATTR_SEPARATOR TAPE_ALPH_SYMBOL COMMA
+    TRANS_FUNC_READ ATTR_SEPARATOR TAPE_ALPH_SYMBOL
+    TRANS_FUNC_TO
+    TRANS_FUNC_STATE ATTR_SEPARATOR IDENTIFIER COMMA
+    TRANS_FUNC_WRITE ATTR_SEPARATOR TAPE_ALPH_SYMBOL COMMA
     TRANS_FUNC_SHIFT ATTR_SEPARATOR TRANS_FUNC_MOV
 ;
