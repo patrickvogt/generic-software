@@ -1,7 +1,7 @@
 prg
 [
     +tapes := {\default}
-    +nondeterministic: false    
+    +nondeterministic: true    
     +probabilistic: false 
     +oracle: \none 
 ].
@@ -25,7 +25,8 @@ transition_function :=
 {
     -- state must be not contained in final_states.
     +state: s1, read: '1' -> state: s2, write: '0', shift: left 
-    +state: s1, read: '0' -> state: s1, write: '1', shift: nop  
+    +state: s1, read: '0' -> state: s1, write: '1', shift: nop
+    +state: s1, read: '0' -> state: s1, write: '0', shift: nop    
 }.
 
 run
