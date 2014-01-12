@@ -25,7 +25,7 @@ oracle_alphabet := {'0', '1', \blank}.
 -- can be partial
 transition_function :=
 {
-    -- state must be not contained in final_states.
+    -- state must not be contained in final_states.
     +state: s1, read(\default): '1' -> state: s2, write(\default): '0', shift(\default): left 
     +state: s1, read(\oracle): '0' -> state: s1, write(\oracle): '1', shift(\oracle): nop 
     +state: s1, read: '0' -> state: \question, write: '2', shift: nop

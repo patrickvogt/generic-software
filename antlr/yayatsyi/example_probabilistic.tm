@@ -23,7 +23,7 @@ tape_alphabet := {'0', '1', \blank}.
 -- can be partial
 transition_function :=
 {
-    -- state must be not contained in final_states.
+    -- state must not be contained in final_states.
     +state: s1, read: '1' -> state: s2, write: '0', shift: left (p=1/2)
     +state: s1, read: '1' -> state: s2, write: '1', shift: left (p=1/2)
     +state: s1, read: '0' -> state: s1, write: '1', shift: nop  (p=1)
