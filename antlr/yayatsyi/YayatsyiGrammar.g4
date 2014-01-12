@@ -1,6 +1,6 @@
-grammar YayatsiGrammar;
+grammar YayatsyiGrammar;
 // import the lexer grammar
-import YayatsiLexerGrammar;
+import YayatsyiLexerGrammar;
 
 // the grammar begins here
 root: 

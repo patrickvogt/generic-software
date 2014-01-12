@@ -6,7 +6,7 @@ prg
     +oracle: \none 
 ].
 
--- example for an one tape deterministic turing machine
+-- example for an one tape non-deterministic turing machine
 
 -- must be finite and non empty
 states := {s1, s2}.

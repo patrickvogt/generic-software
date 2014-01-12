@@ -1,4 +1,4 @@
-lexer grammar YayatsiLexerRules;
+lexer grammar YayatsyiLexerRules;
 
 // Generic Part
 fragment

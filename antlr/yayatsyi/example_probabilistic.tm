@@ -2,11 +2,11 @@ prg
 [
     +tapes := {\default}
     +nondeterministic: true    
-    +probabilistic: true
+    +probabilistic: true -- probabilistic implies non-deterministic
     +oracle: \none 
 ].
 
--- example for an one tape deterministic turing machine
+-- example for an one tape probabilistic turing machine
 
 -- must be finite and non empty
 states := {s1, s2}.
