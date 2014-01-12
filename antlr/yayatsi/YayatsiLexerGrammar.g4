@@ -1,17 +1,23 @@
 lexer grammar YayatsiLexerRules;
 
 // Generic Part
+fragment
 LINE_COMMENT_BEGIN              : '--'                                                      ; // The beginning of a comment line
-LINE_COMMENT                    : LINE_COMMENT_BEGIN ~[\r\n]*? '\r'?'\n' -> channel(HIDDEN) ; // A line comment
+LINE_COMMENT                    : LINE_COMMENT_BEGIN .*? '\r'?'\n' -> channel(HIDDEN) ; // A line comment
 
-BOOLEAN_OPTION                  : (TRUE_OPTION | FALSE_OPTION)                              ; // Boolean option to specify some features of the turing machine
+fragment
 TRUE_OPTION                     : 'true'                                                    ; // Option to enable some features of the turing machine
+fragment
 FALSE_OPTION                    : 'false'                                                   ; // Option to disable some features of the turing machine
+BOOLEAN_OPTION                  : (TRUE_OPTION | FALSE_OPTION)                              ; // Boolean option to specify some features of the turing machine
 
-SHIFT_OPTION                    : (LEFT_OPTION | NOP_OPTION | RIGHT_OPTION)                 ; // Option to specify the shift of the tape head
+fragment
 LEFT_OPTION                     : 'left'                                                    ; // Move tape head one element to the left
+fragment
 RIGHT_OPTION                    : 'right'                                                   ; // Move tape head one element to the right 
+fragment
 NOP_OPTION                      : 'nop'                                                     ; // Don't move tape head
+SHIFT_OPTION                    : (LEFT_OPTION | NOP_OPTION | RIGHT_OPTION)                 ; // Option to specify the shift of the tape head
 
 BLANK_SYMBOL                    : PROGRAM_DIRECTIVE 'blank'                                 ; // The blank symbol [of the tape(s)]
 DEFAULT_TAPE                    : PROGRAM_DIRECTIVE 'default'                               ; // The default tape of the turing machine
@@ -45,8 +51,6 @@ LINE_BEGINNING                  : '+'                                           
 TRANSITION_FUNCTION_TO          : '->'                                                      ; // Transition Function to the new tuple (state, write, shift)
 STRING_DELIMITER                : '\''                                                      ; // used to delimit a string from the other parts
 COMMA                           : ','                                                       ; // A comma
-SET_ELEMENT_DELIMITER           : COMMA                                                     ; // Separates several elements within a set
-TRANSITION_FUNCTION_DELIMITER   : COMMA                                                     ; // Separates several elements within a transition function line
 
 // NTM Part
 NONDETERMINISTIC_OPTION         : 'nondeterministic'                                        ; // Option to specify that the turing machine is nondeterministic

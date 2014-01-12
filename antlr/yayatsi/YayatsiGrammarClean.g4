@@ -2,15 +2,6 @@ grammar YayatsiGrammar;
 // import the lexer grammar
 import YayatsiLexerGrammar;
 
-@header {
-  import java.util.List;
-  import java.util.LinkedList;
-}
-
-@members {
-  List<String> states_list = new LinkedList<String>();  
-}
-
 // the grammar begins here
 root: 
     // first the program header, then the program body, then the run part
@@ -85,24 +76,7 @@ states:
     STATES_DEFINITION
     SET_ASSIGNMENT
     SET_BEGINNING
-    (possible_states (COMMA possible_states)* 
-        {
-            try
-            {
-                int i=0;
-                do
-                {
-                    states_list.add(_localctx.possible_states(i).IDENTIFIER().getText());
-                    i++;
-                }
-                while(true);
-            }
-            catch(Exception ex)
-            {
-        
-            }
-        }
-    )
+    possible_states (COMMA possible_states)*
     SET_END
     EXPRESSION_DELIMITER
 ;
@@ -180,13 +154,7 @@ transition_function_state_to:
 ;
 
 transition_function_state:
-    TRANSITION_FUNCTION_STATE ELEMENT_ASSIGNMENT possible_states 
-    {
-        if(!states_list.contains(_localctx.possible_states().IDENTIFIER().getText()))
-        {
-            throw new RuntimeException();
-        }
-    }         
+    TRANSITION_FUNCTION_STATE ELEMENT_ASSIGNMENT possible_states
 ;
 transition_function_read:
     TRANSITION_FUNCTION_READ tape_argument? ELEMENT_ASSIGNMENT (TAPE_ALPHABET_SYMBOL | BLANK_SYMBOL)
