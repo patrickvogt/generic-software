@@ -11,6 +11,8 @@ Note: The grammar will only roughly check the syntax of the DSL. There are at le
   + A visitor which translates the Turing machine into a Java file (which simulates the Turing machine).
   
 Test with (environment setup as in 'The Definitive ANTLR 4 Reference' by Terence Parr):
+``` 
 $: antlr4 YayatsyiGrammar.g4
 $: javac *.java
 $: grun YayatsyiGrammar root -gui <Testfile>.tm
+```
