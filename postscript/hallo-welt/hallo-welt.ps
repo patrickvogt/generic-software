@@ -1,0 +1,12 @@
+%!PS-Adobe-2.0
+
+% Program for 6 Hello World Banners
+
+/n 6 def % n := 6
+
+/OCRA 30 selectfont % Schriftart auswaehlen
+
+1 1 n { % for i=1; i<=n; i=i+1
+    100 mul 10 exch moveto % springe nach x=10 y=(loop-index * 100) (Info: x=0 y=0 ist linke untere Ecke) 
+    (Hallo Welt) show % gib Zeichenkette an aktueller Position aus
+} for
