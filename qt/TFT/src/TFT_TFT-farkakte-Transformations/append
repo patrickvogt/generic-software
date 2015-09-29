@@ -1,0 +1,5 @@
+INCLUDEPATH += . include
+
+QT += xml
+QT += widgets
+QT += printsupport
