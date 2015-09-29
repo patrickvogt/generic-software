@@ -1,0 +1,22 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+	<qresource>
+		<file>images/caligari_splash.png</file>
+		<file>images/config_color.png</file>
+		<file>images/edit_redo.png</file>
+		<file>images/edit_undo.png</file>
+		<file>images/file_new_circle.png</file>
+		<file>images/file_new_heptagon.png</file>
+		<file>images/file_new_polygon.png</file>
+		<file>images/file_new_rectangle.png</file>
+		<file>images/file_new_square.png</file>
+		<file>images/file_open-xml.png</file>
+		<file>images/file_print.png</file>
+		<file>images/file_quit.png</file>
+		<file>images/file_save-svg.png</file>
+		<file>images/file_save-xml.png</file>
+		<file>images/help_about.png</file>
+		<file>images/help_about-qt.png</file>
+		<file>lang_de.qm</file>
+	</qresource>
+</RCC>

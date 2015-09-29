@@ -1,0 +1,15 @@
+#DEPENDPATH += . \
+#              include/geom \
+#              include/gui \
+#              include/util \
+#              include/xml \
+#              src/geom \
+#              src/gui \
+#              src/main \
+#              src/util \
+#              src/xml
+#INCLUDEPATH += . include/geom include/util include/gui include/xml
+
+QT += xml
+QT += widgets
+QT += printsupport
