@@ -1,4 +1,4 @@
-#! /bin/sh
+qmake#! /bin/sh
 
 # Aufraeumen
 make clean
