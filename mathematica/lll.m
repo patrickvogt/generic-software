@@ -12,7 +12,7 @@
 *)
 
 (* EINGABEDATEN *)
-(* base: Basis eines Gitters L mit b_1,...,b_n als Zeilenvektoren *)
+(* base: Basis eines Gitters L mit b_ 1,...,b_n als Zeilenvektoren *)
 LLL[base_] := Module[
     {basecopy, bi, bi1, bj, gsbase, i, j, myii1, myij, n, oi, oi1, oj},
 
@@ -30,7 +30,7 @@ LLL[base_] := Module[
     gsbase = List[];
 
     (* VERARBEITUNG *)
-    (* der erste Basisvektor b_1 wird uebernommen *)
+    (* der erste Basisvektor b_ 1 wird uebernommen *)
     AppendTo[gsbase, basecopy[[1]]];
 
     (* Solange i kleiner gleich der Anzahl der Basisvektoren ist *)
@@ -96,7 +96,7 @@ LLL[base_] := Module[
         basecopy = ReplacePart[basecopy, i -> bi];
     
         (*
-            bis hierhin ist fuer die Basisvektoren b_1,...,b_i die 
+            bis hierhin ist fuer die Basisvektoren b_ 1,...,b_i die 
             Laengenreduziertheit sichergestellt. Jetzt muss noch die 
             Lovasz-Eigenschaft ueberprueft werden 
         *)
@@ -148,7 +148,6 @@ LLL[base_] := Module[
     basecopy
     
 ]; (* End Module *)
-
 
 
 baseA =
