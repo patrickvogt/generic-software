@@ -169,12 +169,3 @@ baseA =
 
 
 LLL[baseA] == LatticeReduce[baseA]
-
-
-
-(* ::InheritFromParent:: *)
-(**)
-
-
-(* ::InheritFromParent:: *)
-(**)
