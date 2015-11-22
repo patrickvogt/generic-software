@@ -169,7 +169,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>..\..\notepad++\trunk\PowerEditor\bin\plugins\NppPluginDemo_Debug.dll</OutputFile>
+      <OutputFile>$(OutDir)NppPluginDemo_Debug.dll</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)NppPluginDemo.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
