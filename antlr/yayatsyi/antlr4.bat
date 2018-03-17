@@ -1,0 +1,1 @@
+java -cp .;antlr-4.1-complete.jar;%CLASSPATH% org.antlr.v4.Tool %*

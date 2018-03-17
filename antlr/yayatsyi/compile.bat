@@ -1,0 +1,1 @@
+javac -cp .;antlr-4.1-complete.jar;%CLASSPATH% Hello*.java

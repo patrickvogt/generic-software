@@ -1,0 +1,1 @@
+java -cp .;antlr-4.1-complete.jar org.antlr.v4.runtime.misc.TestRig Hello root -trace

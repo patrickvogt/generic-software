@@ -374,3 +374,47 @@
 /qt/TFT/src/TFT_TFT-farkakte-Transformations/release/moc_ZoomSlider.o
 /qt/TFT/src/TFT_TFT-farkakte-Transformations/release/qrc_resources.cpp
 /qt/TFT/src/TFT_TFT-farkakte-Transformations/release/qrc_resources.o
+ANSI Debug
+ANSI Release
+Unicode Debug
+Unicode Release
+/antlr/yayatsyi/Test.class
+/antlr/yayatsyi/YayatsyiGrammarBaseListener.class
+/antlr/yayatsyi/YayatsyiGrammarLexer.class
+/antlr/yayatsyi/YayatsyiGrammarLexer.tokens
+/antlr/yayatsyi/YayatsyiGrammarListener.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Final_statesContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Generic_alphabetContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Initial_stateContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$NondeterministicContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$OracleContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Oracle_alphabetContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Possible_statesContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Possible_tape_alphabet_symbolContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Possible_tapesContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$ProbabilisticContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$ProbabilityContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Program_attrsContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Program_bodyContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Program_headerContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Read_onlyContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$RootContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$RunContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Run_attrsContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$StatesContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Tape_alphabetContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Tape_argumentContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$TapesContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Trans_func_lineContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Trans_func_line_attrsContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Trans_func_line_attrs_optionContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Transition_functionContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Transition_function_readContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Transition_function_shiftContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Transition_function_stateContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Transition_function_state_fromContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Transition_function_state_toContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser$Transition_function_writeContext.class
+/antlr/yayatsyi/YayatsyiGrammarParser.class
+/antlr/yayatsyi/tm/bin/tm/TM$To.class
+/antlr/yayatsyi/tm/bin/tm/TM.class
